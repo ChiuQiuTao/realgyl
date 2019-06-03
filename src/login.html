@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="icon" href="../public/favicon.ico">
+</head>
+
+<body>
+    <div class="background">
+        <canvas id="canvas" width="980" height="626"></canvas>
+    </div>
+
+    <div class="content">
+        <div class="dialog">
+            <div class="title">安全追溯与供应链协同平台</div>
+            <div class="input">
+                <input type="text" class="login-use" placeholder="请输入账号">
+            </div>
+            <div class="input">
+                <input type="password" class="login-pass" placeholder="请输入密码">
+            </div>
+            <div class="code">
+                <input type="text" placeholder="请输入验证码" class="login-tex">
+                <div id="v_container">
+                    <canvas id="verifyCanvas" width="135" height="40" style="cursor: pointer;"></canvas>
+                </div>
+            </div>
+            <div class="password">
+                <div class="password-r">
+                    <a href="../src/registered1.html" class="remmber">注册账号</a>
+                </div>
+                <div class="password-f">
+                    <a href="../src/forget.html">忘记密码</a>
+                </div>
+
+            </div>
+            <button class="login">登录</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script type="text/javascript" src="../js/common/jquery.min.js"></script>
+<script src="../js/login.js"></script>
+<script src="../js/common/api.js"></script>
+<script src="../js/common/code.js"></script>
+<script src="../public/dist/layui.js"></script>
+<script>
+    var verifyCode = new GVerify("v_container");
+    layui.use('layer', function() {
+        var $ = layui.jquery,
+            layer = layui.layer;
+
+        //点击登录
+        $(".login").click(function() {
+            events();
+            return
+        })
+
+        /*键盘enter登录*/
+        $(document).keydown(function(event) {
+            if (event.keyCode == 13) {
+                events();
+            };
+            return;
+        });
+
+        /*是否存在企业id*/
+        function getUser() {
+            noAjax('user/getUser', {}, "GET").done(function(resp) {
+
+                if (resp.enterpriseId && resp.enterpriseId != "") {
+                    window.location.href = "../index.html";
+                    var idss = resp.enterpriseId;
+                    localStorage.setItem("enterpriseId", idss);
+                } else {
+                    window.location.href = "./company.html";
+                }
+                return
+            }).fail(function(err) {
+                console.log(err, "dsd");
+                return
+            });
+        }
+        /*事件*/
+        function events() {
+            if (verify($(".login-use"), "请输入用户名!")) {
+
+                if ($(".login-pass").val() == "") {
+                    alerts("请输入密码！")
+                } else {
+                    if ($(".login-tex").val() == "") {
+                        alerts("请输入验证码！");
+                    } else {
+                        var tex = verifyCode.options.code;
+                        if ($(".login-tex").val().toLowerCase() != tex.toLowerCase()) {
+                            alerts("请输入正确的验证码！");
+                            return
+                        }
+
+                        handleAjax('login', {
+                            username: $(".login-use").val(),
+                            password: $(".login-pass").val()
+                        }).done(function(resp) {
+                            console.log(resp);
+                            // window.location.href = "./company.html";
+                            getUser();
+                        }).fail(function(err) {
+                            console.log(err)
+                            if (err.status == "400") {
+                                layer.msg('账号与密码不正确', {
+                                    icon: 5,
+                                    time: 2000
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+
+        /*验证*/
+        function verify(eles, tex) {
+            var str = eles.val().trim();
+            if (str.length == 0) {
+                alerts(tex)
+                eles.val("");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    });
+</script>

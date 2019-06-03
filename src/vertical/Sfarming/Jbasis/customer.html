@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>产品信息</title>
+    <script src="../../../../js/module/jquery-3.4.1.min.js"></script>
+    
+    <style>
+        .select {
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-tab layui-tab-brief"  lay-filter="tabs">
+    <ul class="layui-tab-title">
+        <li>企业客户</li>
+        <li>个人客户</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item">
+            <form class="layui-form" action="">
+                <div class="select common">
+                    <div class="select-con">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">企业名称:</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="productName1" search-type="productName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">营业执照号:</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="barcode1" search-type="barcode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="select-btn">
+                            <div class="layui-bg-green comquery " lay-event="search">查询</div>
+                            <div class="layui-bg-green comquery " lay-event="reset">重置</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="common-padding">
+                <table class="layui-hide" id="testdome1" lay-filter="testdome1"></table>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form" action="">
+                <div class="select common">
+                    <div class="select-con">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">姓名:</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="productName2" search-type="productName2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">身份证号:</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="barcode2" search-type="barcode2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="select-btn">
+                            <div class="layui-bg-green comquery " lay-event="search">查询</div>
+                            <div class="layui-bg-green comquery " lay-event="reset">重置</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="common-padding">
+                <table class="layui-hide" id="testdome2" lay-filter="testdome2"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- 头部 -->
+<script type="text/html" id="toolbarinter1">
+    <div class="layui-btn-container ">
+        <button class="layui-btn  layui-btn-sm colors" lay-event="add"><i class="layui-icon"></i></i>添加</button>
+        <button class="layui-btn  layui-btn-sm colors" lay-event="update"><i class="layui-icon"></i>编辑</button>
+        <button class="layui-btn  layui-btn-sm colors" lay-event="delete"><i class="layui-icon"></i>删除</button>
+    </div>
+</script>
+<script>
+    layui.config({
+        base: '../../../../js/module/'
+    }).use(['Services', 'jquery','element'], function() {
+        var $ = layui.jquery
+            ,element = layui.element,
+            Services = layui.Services;
+        var dataType = "cuism_grkh",dataType2 = "cuism_grkhx";
+        var clos1 = [[
+            {type: 'checkbox',  fixed: 'left'}
+            ,{field:'qymc', title: '企业名称',templet: function(data){
+                    return JSON.parse(data.context).qymc
+                }}
+            ,{field:'yyzzh', title: '营业执照号',templet: function(data){
+                    return JSON.parse(data.context).yyzz
+                }}
+            ,{field:'lxr', title: '联系人',templet: function(data){
+                    return JSON.parse(data.context).lxr
+                }}
+            ,{field:'lxdh', title: '联系电话' ,templet: function(data){
+                    return JSON.parse(data.context).lxdh
+                }}
+            ,{field:'classify', title: '审批状态', templet: function(data){
+                    return "未审批"
+                }}
+        ]]
+        var clos2 = [[
+            {type: 'checkbox',  fixed: 'left'}
+            ,{field:'qymc', title: '姓名',templet: function(data){
+                    return JSON.parse(data.context).xm
+                }}
+            ,{field:'yyzzh', title: '身份证号',templet: function(data){
+                    return JSON.parse(data.context).sfzh
+                }}
+            ,{field:'lxdh', title: '联系电话' ,templet: function(data){
+                    return JSON.parse(data.context).lxdh
+                }}
+            ,{field:'classify', title: '审批状态', templet: function(data){
+                    return "未审批"
+                }}
+        ]]
+        createTable({
+            tableId:"testdome1",
+            toolbar:"#toolbarinter1",
+            saveUrl:"./dialog/customerDialog.html",
+            dataType:dataType,
+            cols:clos1,
+        });
+
+        function createTable(parame) {
+            new Services({
+                baseURL: baseaip,
+                tableId: parame.tableId,
+                toolbar: parame.toolbar,
+                serachUrl: "dictionaries/query",
+                getUrl: "dictionaries/get",
+                delUrl: "dictionaries/delete",
+                updUrl: "plant/updateNcpxx",
+                saveUrl: parame.saveUrl,
+                deleteField: "id",
+                dataType: parame.dataType,
+                parameter: {
+                    keyword: '',
+                    type: parame.dataType
+                },
+                cols:parame.cols,
+            });
+        }
+
+        $("ul>li:first").click();
+
+        element.on('tab(tabs)', function(data){
+            $(this).text() === "企业供应商" ? (function () {
+                createTable({
+                    tableId:"testdome1",
+                    toolbar:"#toolbarinter1",
+                    saveUrl:"./dialog/customerDialog.html",
+                    dataType:dataType,
+                    cols:clos1,
+                });
+            })():(function () {
+                createTable({
+                    tableId:"testdome2",
+                    toolbar:"#toolbarinter1",
+                    saveUrl:"./dialog/customerDialogR.html",
+                    dataType:dataType2,
+                    cols:clos2,
+                });
+            })();
+        });
+
+
+    });
+</script>
+
+</html>

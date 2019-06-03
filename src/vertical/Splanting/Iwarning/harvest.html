@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>农产品采收预警</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../public/font/iconfont.css">
+    <link rel="stylesheet" href="../../../../css/twocss/commit.css">
+</head>
+
+<body>
+    <form class="layui-form" action="">
+
+        <div class="select common">
+            <div class="select-title">查询条件</div>
+
+            <div class="select-con">
+
+                <div class="layui-form-item">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:105px;">预计采收日期:</label>
+                            <input type="text" class="layui-input" id="date1">
+                            <div style="margin:0 10px;">至</div>
+                            <input type="text" class="layui-input" id="date2">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:105px;">基地:</label>
+                        <div class="layui-input-inline">
+                            <select class="bases" lay-filter="basesa">
+                                <option value="">请选择</option>
+                           </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:105px;">地块:</label>
+                        <div class="layui-input-inline">
+                            <select class="plot" lay-filter="plots">
+                                <option value="">请选择</option>
+                           </select>
+                        </div>
+                    </div>
+                </div> -->
+
+
+                <div class="select-btn">
+                    <div class="layui-bg-green comquery  Rawquery ">查询</div>
+                    <div class="layui-bg-green comquery  reset ">重置</div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="common-padding">
+        <table class="layui-hide" id="test" lay-filter="testdome"></table>
+    </div>
+</body>
+
+
+
+<script src="../../../../js/common/jquery.min.js"></script>
+<script src="../../../../js/common/api.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['table', "laydate", "form", "layer"], function() {
+        var $ = layui.jquery,
+            table = layui.table,
+            form = layui.form,
+            layer = layui.layer,
+            datelist = {},
+            laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#date1' //指定元素 
+        });
+        laydate.render({
+            elem: '#date2' //指定元素
+        });
+
+
+
+        //获取列表
+        var tableIns = table.render({
+            elem: '#test',
+            url: baseaip + "plant/yjxx/cstx",
+            method: "GET",
+            where: {},
+            headers: {
+                Authorization: "Bearer" + " " + sessions
+            },
+            request: {
+                pageName: "page",
+                limitName: "limit"
+            },
+            limits: [10, 20],
+            parseData: function(res) {
+                //res 即为原始返回的数据
+                console.log(res);
+                return {
+                    code: res.code, //解析接口状态
+                    msg: res.msg, //解析提示文本
+                    totalNum: res.data.totalElements, //解析数据长度
+                    lists: res.data.content //解析数据列表
+                };
+            },
+            toolbar: "#toolbarinter",
+            response: {
+                statusName: "code", //数据状态的字段名称，默认：code
+                statusCode: 200, //成功的状态码，默认：0
+                msgName: "msg", //状态信息的字段名称，默认：msg
+                countName: "totalNum", //数据总数的字段名称，默认：count
+                dataName: "lists" //数据列表的字段名称，默认：data
+            },
+            cellMinWidth: 80,
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['prev', 'page', 'next', 'skip', 'count'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    ,
+                groups: 5 //只显示 1 个连续页码
+                    ,
+                first: true //不显示首页
+                    ,
+                last: true //不显示尾页
+                    ,
+                prev: "下一页",
+                next: "上一页",
+                theme: "#c81623",
+            },
+            // height: 'full-20',//满高
+            cols: [
+                [{
+                    title: "编号",
+                    type: "numbers",
+                    align: "center",
+                    fixed: "left"
+                }, {
+                    field: 'basename',
+                    title: '基地',
+                    minWidth: 120,
+                    align: "center",
+                }, {
+                    field: 'landname',
+                    title: "地块",
+                    minWidth: 120,
+                    align: "center",
+                }, {
+                    field: 'productname',
+                    title: "农产品名称",
+                    minWidth: 120,
+                    align: "center",
+                }, {
+                    field: 'createdate',
+                    title: '预计采收日期',
+                    minWidth: 120,
+                    align: "center",
+                    templet: function(d) {
+                        var numv = null;
+                        if (d.createdate == "" || d.createdate == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.createdate = layui.util.toDateString(d.createdate, 'yyyy-MM-dd');
+                        }
+                        return numv
+                    },
+                }, {
+                    field: 'status',
+                    title: '状态',
+                    minWidth: 120,
+                    align: "center",
+                    templet: function(d) {
+                        var num = null;
+                        // console.log(d.testresult)
+                        if (d.status == "1") {
+                            num = "已过采收期"
+                            return num
+                        }
+                        if (d.status == "2") {
+                            num = "未采收"
+                            return num
+                        }
+                        if (d.status == "3") {
+                            num = "已采收"
+                            return num
+                        }
+                    }
+                }]
+            ]
+        });
+
+        ss();
+
+        function ss() {
+            //基地
+            Theoldcuiway("plant/jdxxs", {
+                sysType: "1",
+                landName: ""
+            }, "GET").done(function(resp) {
+                console.log(resp)
+                $(".bases").children().remove();
+                $(".bases").append(new Option("---请选择---", ""));
+                $.each(resp.data.content, function(v, item) {
+                    $(".bases").append(new Option(item.landname, item.id));
+                });
+                layui.form.render("select");
+                return;
+            }).fail(function(err) {
+                console.log(err);
+            });
+
+            //地块
+            form.on("select(basesa)", function(data) {
+                datelist.baseId = data.value;
+                Theoldcuiway("plant/getDk", {
+                        id: data.value
+                    }, "GET").done(function(resp) {
+                        console.log(resp)
+                        $(".plot").children().remove();
+                        $(".plot").append(new Option("---请选择---", ""));
+                        $.each(resp.data, function(index, item) {
+                            $(".plot").append(new Option(item.landname, item.id)); // 下拉菜单里添加元素
+                        });
+                        layui.form.render("select");
+                        return;
+                    })
+                    .fail(function(err) {
+                        console.log(err);
+                    });
+                return;
+            });
+
+        }
+
+
+
+        //获取地块
+        form.on("select(plots)", function(data) {
+            console.log(data.value)
+            datelist.landId = data.value;
+            return;
+        });
+
+
+        /*查询*/
+        $(".Rawquery").click(function() {
+            if ($("#date1").val() == "" && $("#date2").val() == "" && $(".plot").val() == "" && $(".bases").val() == "") {
+                layer.msg("请输入查询条件！", {
+                    time: 1000,
+                    offset: "t"
+                });
+                return;
+            }
+            if ($("#date1").val() != "") {
+                if ($("#date2").val() == "") {
+                    layer.msg("请选择时间段！", {
+                        time: 1000,
+                        offset: "t"
+                    });
+                    return;
+                }
+            }
+
+            if ($("#date2").val() != "") {
+                if ($("#date1").val() == "") {
+                    layer.msg("请选择时间段！", {
+                        time: 1000,
+                        offset: "t"
+                    });
+                    return;
+                }
+            }
+
+            datelist.startDate = new Date($("#date1").val());
+            datelist.endDate = new Date($("#date2").val());
+
+            console.log(datelist);
+
+            tableIns.reload({
+                where: datelist,
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ["prev", "page", "next", "skip", "count"]
+                }
+            });
+        });
+
+        /*重置*/
+        $(".reset").click(function() {
+            $("#date1").val("");
+            $("#date2").val("");
+            ss();
+            $(".plot").children().remove();
+            $(".plot").append(new Option("---请选择---", ""));
+            tableIns.reload({
+                where: {
+
+                },
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ["prev", "page", "next", "skip", "count"]
+                }
+            });
+        });
+
+
+
+    })
+</script>
+
+</html>

@@ -1,0 +1,142 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+        <title>环境数据查询</title>
+        <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+        <link rel="stylesheet" href="../../../../public/font/iconfont.css">
+        <link rel="stylesheet" href="../../../../css/twocss/commit.css">
+    </head>
+
+    <body>
+    <form class="layui-form" action="">
+
+        <div class="select common">
+            <div class="select-title">查询条件</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:90px;">测量内容:</label>
+                        <div class="layui-input-inline">
+                            <select name="a" lay-verify="" id='a' search-type="a">
+                                <option value="">----请选择----</option>
+                                <option value="一氧化碳">一氧化碳</option>
+                                <option value="二氧化碳">二氧化碳</option>
+                                <option value="PM10">PM10</option>
+                                <option value="PM2.5">PM2.5</option>
+                                <option value="环境温度">环境温度</option>
+                                <option value="环境湿度">环境湿度</option>
+                                <option value="土壤PH值">土壤PH值</option>
+                                <option value="水质PH值">水质PH值</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">企业名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="b" class="layui-input" search-type="b">
+                        </div>
+                    </div>
+                </div>
+                <div class="select-btn">
+                    <div class="layui-bg-green comquery" lay-event="search">查询</div>
+                    <div class="layui-bg-green comquery" lay-event="reset">重置</div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="common-padding">
+        <table class="layui-hide" id="hjsjdata" lay-filter="hjsjdata"></table>
+    </div>
+
+    </body>
+    <!-- 头部 -->
+    <script type="text/html" id="toolbarinter">
+        <div class="layui-btn-container ">
+            <button class="layui-btn  layui-btn-sm colors" lay-event="add"><i class="layui-icon"></i></i>添加</button>
+            <button class="layui-btn  layui-btn-sm colors" lay-event="update"><i class="layui-icon"></i>编辑</button>
+            <button class="layui-btn  layui-btn-sm colors" lay-event="delete"><i class="layui-icon"></i>删除</button>
+        </div>
+    </script>
+
+    <!-- 里面的查看 -->
+    <script type="text/html" id="More">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    </script>
+
+    <script src="../../../../js/common/jquery.min.js"></script>
+    <script src="../../../../js/common/api.js"></script>
+    <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+    <script>
+        layui.config({
+            base: '../../../../js/module/'
+        }).use(['Services', 'jquery'], function () {
+            var $ = layui.jquery;
+
+            var dataType = 'hjsjdata';
+            var services = new layui.Services({
+                baseURL: baseaip,
+                tableId: "hjsjdata",
+                toolbar: "#toolbarinter",
+                serachUrl: "dictionaries/query",
+                getUrl: "dictionaries/get",
+                delUrl: "dictionaries/delete",
+                updUrl: "plant/updateNcpxx",
+                saveUrl: "./dialog/newdata.html",
+                deleteField: "id",
+                dataType: dataType,
+                parameter: {
+                    keyword: '',
+                    type: dataType
+                },
+                cols: [[
+                    {type: 'checkbox', fixed: 'left'},
+                    {
+                        field: 'a', title: '测量内容', templet: function (data) {
+                            return (JSON.parse(data.context)).a
+                        }
+                    },
+                    {
+                        field: 'b', title: '企业名称', templet: function (data) {
+                            return (JSON.parse(data.context)).b
+                        }
+                    },
+                    {
+                        field: 'c', title: '基地', templet: function (data) {
+                            return (JSON.parse(data.context)).c
+                        }
+                    },
+                    {
+                        field: 'd', title: '地块', templet: function (data) {
+                            return (JSON.parse(data.context)).d
+                        }
+                    },
+                    {
+                        field: 'e', title: '传感器', templet: function (data) {
+                            return (JSON.parse(data.context)).e
+                        }
+                    },
+                    {
+                        field: 'f', title: '测量时间', templet: function (data) {
+                            return (JSON.parse(data.context)).f
+                        }
+                    },
+                    {
+                        field: 'f', title: '监测结果', templet: function (data) {
+                            return (JSON.parse(data.context)).g
+                        }
+                    },
+                ]],
+            });
+        });
+    </script>
+
+    </html>

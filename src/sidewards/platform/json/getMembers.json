@@ -1,0 +1,14 @@
+{
+  "code": 0
+  ,"msg": ""
+  ,"data": {
+    "owner": {
+      "username": "客服一"
+      ,"id": "100001"
+      ,"avatar": "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
+      ,"sign": "这些客服"
+    }
+    ,"members": 12
+    ,"list": []
+  }
+}

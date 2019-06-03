@@ -1,0 +1,35 @@
+{
+  "code": 0
+  ,"msg": ""
+  ,"data": {
+    "mine": {
+      "username": "我"
+      ,"id": "100000"
+      ,"status": "online"
+      ,"sign": "Hello world"
+      ,"avatar": "http://cdn.firstlinkapp.com/upload/2016_6/1465575923433_33812.jpg"
+    }
+    ,"friend": [{
+      "groupname": "客服"
+      ,"id": 1
+      ,"online": 2
+      ,"list": [{
+        "username": "客服一号"
+        ,"id": "100001"
+        ,"avatar": "http://tp1.sinaimg.cn/1571889140/180/40030060651/1"
+        ,"sign": "专业客服"
+      },{
+        "username": "客服二号"
+        ,"id": "108101"
+        ,"avatar": "http://tva3.sinaimg.cn/crop.0.0.512.512.180/8693225ajw8f2rt20ptykj20e80e8weu.jpg"
+        ,"sign": "专业客服"
+      }]
+    },{
+      "groupname": "客服"
+      ,"id": 2
+      ,"online": 3
+      
+    }]
+    ,"group": []
+  }
+}

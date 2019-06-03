@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>新增</title>
+    <link rel="stylesheet" href="../../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../../css/twocss/commit.css">
+    <link rel="stylesheet" href="../../../../../css/twocss/H/processing.css">
+</head>
+
+<body>
+    <div class="select common">
+        <form class="layui-form" action="">
+            <div class="select-title" style="height:40px;line-height:40px;">
+                基本信息
+            </div>
+
+            <div class="basis-h">
+                <div class="mess-pronew">
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">生产日期:</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="temis">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">产品条码:</label>
+                            <div class="layui-input-inline">
+                                <p class="tiaoma"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">生产重量:</label>
+                            <div class="layui-input-inline" style="display: flex;align-items: center;">
+                                <input type="text" class="layui-input  weights">(<i>kg</i>)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">仓库名称:</label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="wareh" class="warehouses">
+                                    <option value="">---请选择---</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mess-pronew">
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline ">
+                            <label class="layui-form-label" style="width:95px;">产品名称:</label>
+                            <div class="layui-input-inline ">
+                                <select lay-filter="selec" class="selectfilters">
+                                    <option value="">---请选择---</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">生产批次:</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input batchs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">保质期:</label>
+                            <div class="layui-input-inline">
+                                <p class="baoj"></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">二级仓库名称:</label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="Level2" class="Level2warehouse">
+                                    <option value="">---请选择---</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="mess-pronew">
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">负责人:</label>
+                            <div class="layui-input-inline">
+                                <select lay-filter="heads" class="headpeople">
+                                    <option value="">---请选择---</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:95px;">生产数量:</label>
+                            <div class="layui-input-inline" style="display: flex;align-items: center;">
+                                <input type="text" class="layui-input  numsnums">(<span class="nums">袋</span>)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="select-title" style="height:30px;line-height:30px;margin-top: 10px;border-bottom-color:#c9c9c9;">
+                配料信息
+            </div>
+            <div class="ingredients-newp"></div>
+
+        </form>
+        <div class="layui-btn-group" style="width: 100%;display: flex;justify-content: center;margin-top: 10px;">
+            <button class="layui-btn  saves"><i class="layui-icon">&#xe674;</i>保存</button>
+            <button class="layui-btn huifan"><i class="layui-icon">&#xe65c;</i>返回</button>
+        </div>
+    </div>
+</body>
+
+
+<!-- 配料信息 -->
+<script type="text/html" id="ingredientsdemo">
+    <table class="layui-table" style="margin: 0;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>原辅料名称</th>
+                <th>库存重量(kg)</th>
+                <th>使用重量(kg)</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{each list}}
+            <tr>
+                <td style="textAlign: center;">{{$index}}</td>
+                <td class="names">{{$value.productName}}</td>
+                <td>{{$value.stockNum}}</td>
+                <td class="usetexts"> <input type="text" class="layui-input useof" style="display:none;"></td>
+                <td>
+                    <div class="btns layui-bg-green " id="inputbtns">
+                        输入使用量
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+
+<script src="../../../../../js/common/jquery.min.js"></script>
+<script src="../../../../../js/common/api.js"></script>
+<script src="../../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../../js/common/template-web.js"></script>
+
+</html>
+<script>
+    layui.use(['table', "layer", "form", "laydate", "util"], function() {
+        var $ = layui.jquery,
+            table = layui.table,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            form = layui.form,
+            util = layui.util,
+            projectobj = {},
+            listss = null;
+        //时间选择    
+        laydate.render({
+            elem: '#temis',
+            show: true,
+            done: function(value) {
+                var batch = value
+                projectobj.orderdate = batch + " " + "00:00:00";
+                batch = batch.split("-");
+                batch = batch.join("");
+                $(".batchs").val(batch);
+            }
+        });
+
+        //产品名称
+        handleAjax('OrdProcessing/getProcessingName', {}, "GET").done(function(resp) {
+            console.log(resp)
+            $.each(resp.list, function(index, item) {
+                $('.selectfilters').append(new Option(item.productName, item.productId)); // 下拉菜单里添加元素
+            });
+            layui.form.render("select");
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        //产品名称选中
+        form.on('select(selec)', function(data) {
+            var hh = $(this).text();
+            //配料信息
+            handleAjax('OrdProcessing/getProcessingMaterial', {
+                productid: data.value
+            }, "GET").done(function(resp) {
+                console.log(resp)
+                listss = resp.list;
+                var htmls = template("ingredientsdemo", resp);
+                $(".ingredients-newp").html(htmls);
+                btnt(); //操作输入使用量
+            }).fail(function(err) {
+                console.log(err)
+            });
+            //保质期||条码
+            handleAjax('OrdProcessing/getProcessingName', {
+                productid: data.value
+            }, "GET").done(function(resp) {
+
+                $.each(resp.list, function(index, item) {
+                    if (item.productName == hh) {
+                        $(".tiaoma").text(item.barCode);
+                        $(".baoj").text(item.lifeDate + item.lifeDateUnit);
+                        $(".nums").text(item.unit);
+                        projectobj.productname = item.productName;
+                        projectobj.productid = item.productId;
+                        projectobj.barcode = item.barCode;
+                        projectobj.lifedate = item.lifeDate;
+                        projectobj.lifedateunit = item.lifeDateUnit;
+                        projectobj.unit = item.unit;
+                    }
+                });
+            }).fail(function(err) {
+                console.log(err)
+
+            });
+            return
+        })
+
+
+        //负责人
+        noAjax('user/getUser', {}, "GET").done(function(resp) {
+
+            $('.headpeople').append(new Option(resp.realName, resp.realName)); // 下拉菜单里添加元素
+            layui.form.render("select");
+
+        }).fail(function(err) {
+            console.log(err)
+
+        });
+
+
+        //仓库名称
+        var dataresps = null;
+        handleAjax('OrdProcessing/getBasStorage', {}, "GET").done(function(resp) {
+            console.log(resp);
+            dataresps = resp;
+            $.each(resp.list, function(index, item) {
+                $('.warehouses').append(new Option(item.storagename, item.id));
+            });
+            layui.form.render("select");
+            return;
+        }).fail(function(err) {
+            console.log(err)
+
+        });
+
+
+        //仓库选中
+        form.on('select(wareh)', function(data) {
+            var elees = $(this).text();
+            projectobj.storagename = elees;
+            projectobj.storageid = data.value;
+            $(".Level2warehouse").empty();
+            $('.Level2warehouse').append(new Option("---请选择---", ""));
+
+            $.each(dataresps.list, function(index, item) {
+                if (item.childNodes != null) {
+                    if (item.childNodes.length > 0 && elees == item.storagename) {
+                        $.each(item.childNodes, function(i, items) {
+                            $('.Level2warehouse').append(new Option(items.storagename, items.id));
+                        })
+                    }
+                }
+            });
+
+            layui.form.render("select");
+            return
+        })
+
+
+        //二级仓库选中
+        form.on('select(Level2)', function(data) {
+            var elq = $(this).text();
+            projectobj.areaid = data.value;
+            projectobj.areaname = elq;
+            return
+        })
+
+
+        //新增
+        $(".saves").click(function() {
+            if ($("#temis").val() == "") {
+                alerts("请输选择-时间！");
+                return
+            }
+            if ($(".selectfilters").val() == "") {
+                alerts("请输选择-产品名称！");
+                return
+            }
+            if ($(".batchs").val() == "") {
+                alerts("请输入-产品批次！");
+                return
+            }
+            if ($(".weights").val() == "") {
+                alerts("请输入-生产重量！");
+                return
+            }
+            if ($(".numsnums").val() == "") {
+                alerts("请输入-生产数量！");
+                return
+            }
+            if ($(".headpeople").val() == "") {
+                alerts("请选择-负责人！");
+                return
+            }
+            if ($(".warehouses").val() == "") {
+                alerts("请选择-仓库名称！");
+                return
+            }
+
+            for (var i = 0; i < $(".usetexts").children().length; i++) {
+                if ($(".usetexts").children()[i].value == "") {
+                    alerts("请输入-使用量！");
+                    return
+                }
+            }
+
+            projectobj.batch = $(".batchs").val();
+            projectobj.weight = $(".weights").val();
+            projectobj.num = $(".numsnums").val();
+
+
+
+            /*删除某个字段*/
+            // for (var i in listss) {
+            //     delete listss[i].productName;
+            //     delete listss[i].stockNum;
+            // }
+
+            var userofs = document.querySelectorAll('.useof');
+            console.log(userofs);
+            for (var i = 0; i < userofs.length; i++) {
+                listss[i]['num'] = userofs[i].value;
+                listss[i]['productId'] = listss[i].productId;
+            }
+
+            projectobj.list = listss;
+
+            //是否存在二级仓库
+            if (projectobj.areaid) {
+
+            } else {
+                projectobj.areaid = "";
+                projectobj.areaname = "";
+            }
+
+            projectobj = JSON.stringify(projectobj);
+
+
+            $.ajax({
+                url: base + "OrdProcessing/addOrdProcessing",
+                type: "post",
+                dataType: "json",
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer" + " " + sessions);
+                },
+                data: projectobj,
+                async: false,
+                contentType: "application/json;charset=utf-8",
+                success: function(re) {
+                    console.log(re)
+                    if (re.code == 10000) {
+
+                        layer.msg("添加成功", {
+                            icon: 1
+                        });
+                    }
+                    setTimeout(function() {
+                        window.location.href = "../../Hmonitoring/processing.html"
+                    }, 1000)
+                },
+                error: function(ee) {
+                    console.log(ee);
+                }
+            })
+        })
+
+
+        //验证重量
+        $(".weights").blur(function() {
+            var reg = /^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|^[1-9]\d*$/;
+            if (!reg.test($(".weights").val())) {
+                alerts("请正确输入重量!");
+                $(this).val("");
+                return
+            }
+        })
+
+
+        //验证数量
+        $(".numsnums").blur(function() {
+            var reg = /^[1-9]\d*$/;
+            if (!reg.test($(".numsnums").val())) {
+                alerts("请正确输入数量!");
+                $(this).val("");
+                return
+            }
+        })
+
+
+
+        //使用量
+        function btnt() {
+            var ssu = null;
+            $(".btns").click(function() {
+                $(this).parent().prev().children().css("display", "block");
+                ssu = $(this).parent().prev().prev().text();
+            })
+
+            $(".usetexts>input").blur(function() {
+                var reg = /^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|^[1-9]\d*$/;
+                if (!reg.test($(this).val())) {
+                    alerts("请正确输入使用量!");
+                    $(this).val("");
+                    return
+                }
+
+                if (Number(ssu) < Number($(this).val())) {
+                    alerts("输入量超库存!")
+                    $(this).val("");
+                }
+            })
+
+        }
+
+
+        //返回
+        $(".huifan").click(function() {
+            window.location.href = "../../Hmonitoring/processing.html";
+        })
+
+    })
+</script>

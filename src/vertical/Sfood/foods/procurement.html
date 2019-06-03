@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>商品采购</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../public/font/iconfont.css">
+    <link rel="stylesheet" href="../../../../css/twocss/commit.css">
+</head>
+
+<body>
+    <form class="layui-form" action="">
+        <div class="select common">
+            <div class="select-title">查询条件</div>
+
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:80px">供应商名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="gysmc" search-type="gysmc">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">采购单号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="cgdh" search-type="cgdh">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="select-btn">
+                    <div class="layui-bg-green comquery " lay-event="search">查询</div>
+                    <div class="layui-bg-green comquery " lay-event="reset">重置</div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="common-padding">
+        <table class="layui-hide" id="spspcg" lay-filter="spspcg"></table>
+    </div>
+
+</body>
+<!-- 头部 -->
+<script type="text/html" id="toolbarinter">
+    <div class="layui-btn-container ">
+        <button class="layui-btn  layui-btn-sm colors" lay-event="add"><i class="layui-icon"></i></i>添加</button>
+        <button class="layui-btn  layui-btn-sm colors" lay-event="update"><i class="layui-icon"></i>编辑</button>
+        <button class="layui-btn  layui-btn-sm colors" lay-event="delete"><i class="layui-icon"></i>删除</button>
+    </div>
+</script>
+
+<!-- 里面的查看 -->
+<script type="text/html" id="More">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+
+<script src="../../../../js/common/jquery.min.js"></script>
+<script src="../../../../js/common/api.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.config({
+        base: '../../../../js/module/'
+    }).use(['Services','jquery'],function () {
+        var $  = layui.jquery;
+
+        var dataType = "spspcg";
+        var services = new layui.Services({
+            baseURL:baseaip,
+            tableId:"spspcg",
+            toolbar:"#toolbarinter",
+            serachUrl:"dictionaries/query",
+            getUrl:"dictionaries/get",
+            delUrl:"dictionaries/delete",
+            updUrl:"plant/updateNcpxx",
+            saveUrl:"./dialog/addProcurement.html",
+            deleteField:"id",
+            dataType:dataType,
+            parameter:{
+                keyword:'',
+                type:dataType
+            },
+            cols:[[
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'cgrq', sort: true, title: '采购日期',templet:function (data) {
+                        return (JSON.parse(data.context)).cgrq
+                    }},
+                {field: 'cgdh', sort: true, title: '采购单号',templet:function (data) {
+                        return (JSON.parse(data.context)).cgdh
+                    }},
+                {field: 'gyslx', sort: true, title: '供应商类型',templet:function (data) {
+                        return (JSON.parse(data.context)).gyslx
+                    }},
+
+                {field: 'gysmc', sort: true, title: '供应商名称',templet:function (data) {
+                        return (JSON.parse(data.context)).gysmc
+                    }},
+            ]],
+        });
+    });
+</script>
+</html>
