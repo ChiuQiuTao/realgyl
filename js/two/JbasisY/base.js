@@ -64,11 +64,10 @@
             //获取列表
             var tableIns = table.render({
                 elem: "#test",
-                url: baseaip + "plant/jdxxs",
+                url: baseaip + "breed/bases",
                 method: "GET",
                 where: {
-                sysType: "2",
-                landName: landName
+                    baseName:''
                 },
                 headers: {
                 Authorization: "Bearer" + " " + sessions
