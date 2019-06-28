@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -7,233 +7,439 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>商品信息</title>
     <link rel="stylesheet" href="../../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../../public/font/iconfont.css">
+    <link rel="stylesheet" href="../../../../../css/twocss/Jbasis/supplierDialog.css">
+    <link rel="stylesheet" href="../../../../../css/twocss/Jbasis/shangpingxx.css">
 </head>
 
 <body>
 
-    <blockquote class="layui-elem-quote layui-text">
-        商品信息
-    </blockquote>
-    <form class="layui-form" action="" lay-filter="example" id="example">
-
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">商品名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="productname" class="layui-input" id="productname">
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title">商品信息</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   ming" name="productname" placeholder="输入商品名称">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">商品条码</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="barcode" class="layui-input">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品条码:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   tiao" placeholder="输入商品条码" name="barcode">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">商品类别</label>
-                <div class="layui-input-inline">
-                    <select name="productclass">
-                    <option value="4">商品信息</option>
-                    <option value="3">畜禽产品 </option>
-                    <option value="2">畜禽</option>
-                    <option value="1">农产品</option>
-                </select>
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">规格型号</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="specifications" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">保质期</label>
-                <div class="layui-input-inline" style="width: 80px;">
-                    <input type="number" name="lifedate" class="layui-input">
-                </div>
-                <div class="layui-input-inline" style="width: 100px;">
-                    <select name="lifedateunit" width="100">
-                    <option value="年">年</option>
-                    <option value="月">月</option>
-                    <option value="日">日</option>
-                </select>
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">单位</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="unit" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">商品重量</label>
-                <div class="layui-input-inline" style="width: 162px;">
-                    <input type="text" name="weight" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">KG</div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">采购价</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="purchaseprice" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">销售价</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="sellingprice" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">产地</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="foodaddress" class="layui-input">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">许可证号</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="foodcode" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">企业名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="foodcreate_name" class="layui-input">
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">生产日期</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="scrq" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">过期日期</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="gqrq" class="layui-input">
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">库存数量</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="kcsl" class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-inline">
-                <label class="layui-form-label">保质期</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="bzq" class="layui-input">
-                </div>
-            </div>
-
-        </div>
 
 
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">保质期:</label>
+                        <div class="layui-input-inline" style="display: flex;">
+                            <input type="number" class="layui-input input-d bao" name="lifedate">
+                            <select name="shas" lay-filter="shas" style="width: 60px;" class="bao1">  
+                                <option value="年">年</option>
+                                <option value="月">月</option>
+                                <option value="日">日</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                <button type="reset" class="layui-btn cancels">取消</button>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品类别:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   lei" placeholder="商品类别" name="producttype">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">规格:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  gui" placeholder="输入规格" name="specifications">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品单位:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  dan" placeholder="输入商品单位" name="unit">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品重量(kg):</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  zhong" placeholder="输入商品重量" name="weight">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">采购价:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  jia" placeholder="输入采购价" name="purchaseprice">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">采购价:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  " placeholder="输入采购价">
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">销售价:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  xiao" placeholder="输入销售价" name="sellingprice">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">产地:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  chang" placeholder="输入产地" name="factoryaddr">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">品牌:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  ping" placeholder="输入品牌" name="brand">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否散装:</label>
+                        <div class="layui-input-inline " style="width: 66px;">
+                            <select name="shiss" lay-filter="shiss" class="shi">
+                                    <option value="是">是</option>
+                                    <option value="否">否</option>
+                                </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">生产企业:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  sheng" placeholder="生产企业" name="enterprisecode">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">生产许可证号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  hao" placeholder="生产许可证号" name="factorylicence">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">适宜区域:</label>
+                        <div class="layui-input-inline">
+                            <textarea class="layui-input input-d  shihe" placeholder="适宜区域" name="area"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">使用限制:</label>
+                        <div class="layui-input-inline">
+                            <textarea class="layui-input input-d  shiyong" placeholder="使用限制" name="limitremark"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">预警信息:</label>
+                        <div class="layui-input-inline  waits">
+                            <input type="number" class="layui-input input-d  mia" placeholder="最小库存" name="minstock">
+                            <label class="warning1">箱</label>
+                        </div>
+                        <div class="layui-input-inline  waits">
+                            <input type="number" class="layui-input input-d  mix" placeholder="最大库存" name="maxstock">
+                            <label class="warning2">箱</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">企业图片:</label>
+                        <div class="layui-input-inline">
+                            <div class="layui-upload" style="display:flex;align-items: center;">
+                                <button type="button" class="layui-btn layui-btn-normal" id="selectImg">选择文件</button>
+                                <div class="layui-upload-list">
+                                    <img class="layui-upload-img" id="showimg" style="width:80px;height:38px;margin-left: 15px;border: 1px solid #fff;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="select-btn">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
             </div>
         </div>
     </form>
+
 </body>
-<script src="../../../../../js/module/jquery-3.4.1.min.js"></script>
-<script src="../../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../../js/common/jquery.min.js"></script>
 <script src="../../../../../js/common/api.js"></script>
-<script type="text/javascript">
-    var dataId = null;
-    layui.config({
-        base: '../../../../../js/module/'
-    }).use(['Tool', 'form', 'layedit', 'laydate', "serviceTools"], function() {
-        layui.Tool.init();
-        var form = layui.form,
-            layer = layui.layer,
-            layedit = layui.layedit,
-            laydate = layui.laydate,
-            serviceTools = layui.serviceTools;
-        //监听提交
-        form.on('submit(demo1)', function(data) {
-            var type = localStorage.getItem("type");
-            if (type === null) {
-                alert("数据类型不能为空")
-            } else {
-                var zd = {
-                    id: dataId === null ? "" : dataId,
-                    type: type,
-                    context: JSON.stringify(data.field),
-                    keyword: data.field.productname + "|" + data.field.barcode
-                }
-                serviceTools.EditOrSaveOrDelete({
-                    parame: zd,
-                    url: baseaip + "dictionaries/saveOrUpdate",
-                    callback: (function() {
-                        window.history.back(-2);
-                    })()
-                })
-
-            }
-            return false;
-        });
-
-        // console.info(location.href.split("?")[1])
-        getHrefId();
-
-    });
-
-    function getHrefId() {
-        var loc = location.href;
-        console.log(loc);
-        var url = loc.split("?")[1];
-        console.log(url);
-        if (url && url != '') {
-            var para = url.split("&");
-            var len = para.length;
-            var res = {};
-            var arr = [];
-            for (var i = 0; i < len; i++) {
-                arr = para[i].split("=");
-                res[arr[0]] = arr[1];
-            }
-            dataId = res.id;
-            var dataJson = localStorage.getItem([res.id]);
-            dataJson != null && dataJson.trim().length > 0 ? (function() {
-                data = JSON.parse(dataJson);
-                setForm(data);
-            })() : "";
-
-        } else {
-
-        }
-
-    }
-
-    function setForm(data) {
-        layui.use(['form'], function() {
-            console.log(data);
-            console.log('data');
-
-            layui.form.val('example', JSON.parse(data.context));
-        })
-    }
-</script>
+<script src="../../../../../public/dist/layui.js" charset="utf-8"></script>
 
 </html>
+
+
+<script>
+    layui.use(['table', "layer", "upload", "form"], function() {
+        var $ = layui.jquery,
+            table = layui.table,
+            layer = layui.layer,
+            form = layui.form,
+            datelist = {},
+            upload = layui.upload;
+
+        //上传图片
+        var uploadInst = upload.render({
+            elem: '#selectImg',
+            url: base + 'common/upload',
+            method: "post",
+            data: {
+                file: "企业图片",
+            },
+            headers: {
+                Authorization: "Bearer" + " " + sessions
+            },
+            done: function(res) {
+                console.log(res)
+                $("#showimg").attr("src", res.list[0])
+            },
+            error: function() {
+                //请求异常回调
+            }
+        });
+
+        //年
+        form.on('select(shas)', function(data) {
+            datelist.lifedateunit = data.value;
+            return
+        })
+
+        //是
+        form.on('select(shiss)', function(data) {
+            datelist.issanzhuang = data.value;
+            return
+        })
+
+
+        //判断是新增还是修改
+        var urls = window.location.search;
+        if (urls.substring(4) != "") {
+            console.log(urls.substring(4))
+            var ds = {
+                id: urls.substring(4)
+            }
+            handleAjax("shop/getShopproductList", ds, "GET").done(function(resp) {
+                console.log(resp.pageBean.lists[0])
+                layui.form.val('example', resp.pageBean.lists[0]);
+                $(".warning1").text(resp.pageBean.lists[0].unit);
+                $(".warning2").text(resp.pageBean.lists[0].unit);
+                $("#showimg").attr("src", resp.pageBean.lists[0].picturepath);
+                $("select[name='shiss']").val(resp.pageBean.lists[0].issanzhuang);
+                $("select[name='shas']").val(resp.pageBean.lists[0].lifedateunit);
+                layui.form.render('select');
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
+        }
+
+
+        //规格
+        $(".gui").blur(function() {
+            $(".warning2").text($(this).val());
+            $(".warning1").text($(this).val());
+        })
+
+
+        //确定
+        $("#queding").click(function() {
+
+
+            if ($(".ming").val() == "") {
+                alerts("请输入商品名称");
+                return
+            }
+            if ($(".tiao").val() == "") {
+                alerts("请输入商品条码");
+                return
+            }
+            if ($(".bao").val() == "") {
+                alerts("请输入保质期");
+                return
+            }
+            if ($(".lei").val() == "") {
+                alerts("请输入商品类别");
+                return
+            }
+            if ($(".gui").val() == "") {
+                alerts("请输入规格");
+                return
+            }
+
+            if ($(".dan").val() == "") {
+                alerts("请输入商品单位");
+                return
+            }
+            if ($(".zhong").val() == "") {
+                alerts("请输入商品重量");
+                return
+            }
+            if ($(".jia").val() == "") {
+                alerts("请输入采购价");
+                return
+            }
+            if ($(".xiao").val() == "") {
+                alerts("请输入销售价");
+                return
+            }
+            if ($(".chang").val() == "") {
+                alerts("请输入产地");
+                return
+            }
+            if ($(".ping").val() == "") {
+                alerts("请输入品牌");
+                return
+            }
+            if ($(".sheng").val() == "") {
+                alerts("请输入生产企业");
+                return
+            }
+            if ($(".hao").val() == "") {
+                alerts("请输入生产许可证号");
+                return
+            }
+            if ($(".shihe").val() == "") {
+                alerts("请输入适宜区域");
+                return
+            }
+            if ($(".shiyong").val() == "") {
+                alerts("请输入使用限制");
+                return
+            }
+            if ($(".mia").val() == "") {
+                alerts("请输入最小库存");
+                return
+            }
+            if ($(".mix").val() == "") {
+                alerts("请输入最大库存");
+                return
+            }
+
+            if ($("#showimg")[0].src == "") {
+                alerts("请选择图片");
+                return
+            }
+
+            console.log(datelist)
+            datelist.productname = $(".ming").val();
+            datelist.barcode = $(".tiao").val();
+            datelist.producttype = $(".lei").val();
+            datelist.specifications = $(".gui").val();
+            datelist.lifedate = $(".bao").val();
+            datelist.lifedateunit = $(".bao1").val();
+            datelist.unit = $(".dan").val();
+            datelist.weight = $(".zhong").val();
+
+            datelist.purchaseprice = $(".jia").val();
+            datelist.sellingprice = $(".xiao").val();
+            datelist.factoryaddr = $(".chang").val();
+            datelist.issanzhuang = $(".shi").val();
+
+            datelist.brand = $(".ping").val()
+            datelist.enterprisecode = $(".sheng").val()
+            datelist.factorylicence = $(".hao").val()
+            datelist.area = $(".shihe").val()
+
+            datelist.limitremark = $(".shiyong").val()
+            datelist.minstock = $(".mix").val()
+            datelist.maxstock = $(".mix").val()
+            datelist.picturepath = $("#showimg").attr("src");
+
+
+            if (urls != "") {
+                //编辑
+                datelist.reason = "";
+                datelist.id = urls.substring(4);
+                handleAjax("shop/updateShopproduct", datelist, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../product.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            } else {
+                //新增
+                handleAjax("shop/addShopproduct", datelist, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../product.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            }
+
+        })
+
+        //返回
+        $(".cancels").click(function() {
+            window.location.href = "../product.html";
+        })
+
+    })
+</script>

@@ -1,6 +1,7 @@
 .two-in-logo {
-    font-size: 22px !important;
+    font-size: 18px !important;
     width: 180px !important;
+    font-weight: 700;
 }
 
 .layui-layout-admin .layui-side {
@@ -129,6 +130,7 @@
 .layui-nav-tree .layui-nav-bar {
     background-color: rgba(0, 0, 0, 0);
 }
-.layui-nav-tree .nav-show{
-    display: none ;
+
+.layui-nav-tree .nav-show {
+    display: none;
 }

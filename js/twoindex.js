@@ -705,7 +705,7 @@ var menudata = [{
                 title: "供应商信息",
                 type: "5"
             }, {
-                url: "../vertical/Sfarming/Jbasis/customer.html",
+                url: "../vertical/Sfood/Jbasis/customer.html",
                 title: "客户信息",
                 type: "5"
             },
