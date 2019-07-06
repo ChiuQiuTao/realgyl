@@ -1,0 +1,44 @@
+.xingsd {
+    width: 100%;
+    height: 20px
+}
+
+.xingsd>th {
+    text-align: center;
+    font-weight: 400;
+}
+
+.conditions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.conditions>div {
+    padding: 0 10px 10px 20px;
+}
+
+.tiaojian>p {
+    padding: 10px 20px;
+}
+
+.doeas {
+    padding: 10px;
+}
+
+.shul,
+.zhongl {
+    width: 120px;
+    height: 25px;
+}
+
+.xingsd>th,
+.datalang>tr>td {
+    padding: 0px 6px;
+}
+
+.trsd {
+    padding: 10px 0;
+    background: #ffffff;
+    height: 43px;
+}

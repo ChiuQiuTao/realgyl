@@ -1,0 +1,18 @@
+.layui-select-title {
+    width: 60px;
+}
+
+.waits {
+    display: flex;
+    align-content: center;
+}
+
+.warning1,
+.warning2 {
+    padding: 10px;
+}
+
+.mia,
+.mix {
+    width: 100px !important;
+}

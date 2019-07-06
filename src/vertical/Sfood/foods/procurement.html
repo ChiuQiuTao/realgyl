@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -13,47 +13,59 @@
 
 <body>
     <form class="layui-form" action="">
+
         <div class="select common">
             <div class="select-title">查询条件</div>
 
             <div class="select-con">
+
                 <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label" style="width:80px">供应商名称:</label>
-                        <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="gysmc" search-type="gysmc">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">采购日期:</label>
+                            <input type="text" class="layui-input" id="date1">
+                            <div style="margin:0 10px;">至</div>
+                            <input type="text" class="layui-input" id="date2">
                         </div>
                     </div>
                 </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width:95px;">供应商名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input   Suppliername">
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">采购单号:</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="cgdh" search-type="cgdh">
+                            <input type="text" class="layui-input   Purchaseorder">
                         </div>
                     </div>
                 </div>
 
                 <div class="select-btn">
-                    <div class="layui-bg-green comquery " lay-event="search">查询</div>
-                    <div class="layui-bg-green comquery " lay-event="reset">重置</div>
+                    <div class="layui-bg-green comquery   Rawquery">查询</div>
+                    <div class="layui-bg-green comquery  reset">重置</div>
                 </div>
             </div>
         </div>
     </form>
 
     <div class="common-padding">
-        <table class="layui-hide" id="spspcg" lay-filter="spspcg"></table>
+        <table class="layui-hide" id="testdone" lay-filter="testdome"></table>
     </div>
-
 </body>
 <!-- 头部 -->
 <script type="text/html" id="toolbarinter">
     <div class="layui-btn-container ">
         <button class="layui-btn  layui-btn-sm colors" lay-event="add"><i class="layui-icon"></i></i>添加</button>
-        <button class="layui-btn  layui-btn-sm colors" lay-event="update"><i class="layui-icon"></i>编辑</button>
-        <button class="layui-btn  layui-btn-sm colors" lay-event="delete"><i class="layui-icon"></i>删除</button>
     </div>
 </script>
 
@@ -62,49 +74,358 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
 </script>
 
+
+<!-- 查看的内容 -->
+<script type="text/html" id="contentquery">
+    <div class="select common">
+
+        <div class="select-title" style="border-bottom:0px;background-color: #f3f3f3;">
+            基本信息
+        </div>
+        {{each list}}
+        <ul class="basis-h">
+
+            <li>
+                <label>录入日期:</label>
+                <p>{{$value.createon}}</p>
+            </li>
+            <li>
+                <label>供应商名称:</label>
+                <p>{{$value.supplyname}}</p>
+            </li>
+            <li>
+                <label>采购日期:</label>
+                <p>{{$value.orderdate}}</p>
+            </li>
+            <li>
+                <label>供应商类型:</label> {{if $value.supplytype=="2"}}
+                <p>企业供应商</p>
+                {{else}}
+                <p>个人供应商</p>
+                {{/if}}
+            </li>
+            <li>
+                <label>负责人:</label>
+                <p>{{$value.person}}</p>
+            </li>
+            <li>
+                <label>是否进口:</label>
+                <p>{{$value.isjk}}</p>
+            </li>
+            <li>
+                <label>采购单号:</label>
+                <p style="width: 190px;">{{$value.ordercode}} </p>
+            </li>
+
+        </ul>
+        <div style="padding:10px  0  0 10px;">采购产品</div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>原辅料类别</th>
+                    <th>原辅料名称</th>
+                    <th>原辅料规格</th>
+                    <th>生产日期</th>
+                    <th>批次</th>
+                    <th>保质期</th>
+                    <th>仓库名称</th>
+                    <th>二级仓库名称</th>
+                    <th>重量(KG)</th>
+                    <th>单价(元)</th>
+                    <th>金额(元)</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {{each $value.listss}}
+                <tr>
+                    <td style="text-align: center;">{{$index}}</td>
+                    <td style="text-align: center;">{{$value.producttype}}</td>
+                    <td style="text-align: center;">{{$value.productname}}</td>
+                    <td style="text-align: center;">{{$value.specifications}}</td>
+                    <td style="text-align: center;">{{$value.factorydate}}</td>
+                    <td style="text-align: center;">{{$value.batch}}</td>
+                    <td style="text-align: center;">{{$value.lifedate}}/{{$value.lifedateunit}}</td>
+                    <td style="text-align: center;">{{$value.storage}}</td>
+                    <td style="text-align: center;">{{$value.area}}</td>
+                    <td style="text-align: center;">{{$value.weight}}</td>
+                    <td style="text-align: center;">{{$value.price}}</td>
+                    <td style="text-align: center;">{{$value.amount}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{/each}}
+    </div>
+
+</script>
+
 <script src="../../../../js/common/jquery.min.js"></script>
 <script src="../../../../js/common/api.js"></script>
 <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
-
+<script src="../../../../js/common/template-web.js"></script>
 <script>
-    layui.config({
-        base: '../../../../js/module/'
-    }).use(['Services','jquery'],function () {
-        var $  = layui.jquery;
+    layui.use(['table', "layer", "laydate", "util"], function() {
+        var $ = layui.jquery,
+            table = layui.table,
+            util = layui.util,
+            layer = layui.layer,
+            datelist = {},
+            laydate = layui.laydate;
 
-        var dataType = "spspcg";
-        var services = new layui.Services({
-            baseURL:baseaip,
-            tableId:"spspcg",
-            toolbar:"#toolbarinter",
-            serachUrl:"dictionaries/query",
-            getUrl:"dictionaries/get",
-            delUrl:"dictionaries/delete",
-            updUrl:"plant/updateNcpxx",
-            saveUrl:"./dialog/addProcurement.html",
-            deleteField:"id",
-            dataType:dataType,
-            parameter:{
-                keyword:'',
-                type:dataType
-            },
-            cols:[[
-                {type: 'checkbox', fixed: 'left'},
-                {field: 'cgrq', sort: true, title: '采购日期',templet:function (data) {
-                        return (JSON.parse(data.context)).cgrq
-                    }},
-                {field: 'cgdh', sort: true, title: '采购单号',templet:function (data) {
-                        return (JSON.parse(data.context)).cgdh
-                    }},
-                {field: 'gyslx', sort: true, title: '供应商类型',templet:function (data) {
-                        return (JSON.parse(data.context)).gyslx
-                    }},
 
-                {field: 'gysmc', sort: true, title: '供应商名称',templet:function (data) {
-                        return (JSON.parse(data.context)).gysmc
-                    }},
-            ]],
+        /*时间*/
+        laydate.render({
+            elem: '#date1',
+            done: function(value) {
+                datelist.orderdateq = value + " " + "00:00:00";
+            }
         });
-    });
+        laydate.render({
+            elem: '#date2',
+            done: function(value) {
+                datelist.orderdateh = value + " " + "00:00:00";
+            }
+        });
+
+
+        //监听头部监听
+        table.on('toolbar(testdome)', function(obj) {
+            var checkStatus = table.checkStatus(obj.config.id),
+                data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'add':
+                    window.location.href = "./dialog/addProcurement.html";
+                    break;
+            };
+        });
+
+        //监听表格里面按钮
+        table.on('tool(testdome)', function(obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent === 'detail') { //查看
+                procurement(data.id);
+            }
+        });
+
+
+        /*查看*/
+        function procurement(tt) {
+            layer.open({
+                type: 1,
+                title: "查看",
+                shadeClose: true, //是否点击遮罩关闭
+                anim: 5, //弹出动画
+                scrollbar: false, //窗口外滚动条是否出现
+                skin: 'layui-layer-rim', //加上边框
+                area: ['1100px', '440px'], //宽高
+                content: '<div class="ssss"></div>',
+                success: function(layero, index) {
+
+                    noAjax('ordPurchase/getPurchaseOneVo', {
+                        id: tt
+                    }, "GET").done(function(resp) {
+                        console.log(resp);
+
+                        var objs = resp.list[0];
+                        var listss = [];
+                        listss.push(objs.purchaseProductVos);
+                        objs.listss = listss;
+                        delete objs.purchaseProductVos;
+                        objs.createon = times(objs.createon);
+                        objs.orderdate = times(objs.orderdate);
+
+                        $.each(objs.listss, function(index, item) {
+                            item.factorydate = times(item.factorydate);
+                        });
+
+                        var html = template("contentquery", resp);
+                        $(".ssss").html(html);
+
+                    }).fail(function(err) {
+                        console.log(err)
+
+                    });
+                }
+            });
+        }
+
+        function times(t) {
+            return t = t.split("T")[0];
+        }
+
+        //获取列表
+        var tableIns = table.render({
+            elem: '#testdone',
+            url: base + "ordPurchase/getOrdPurchase",
+            method: "GET",
+            where: {},
+            headers: {
+                Authorization: "Bearer" + " " + sessions
+            },
+            toolbar: '#toolbarinter',
+            request: {
+                pageName: 'currentPage',
+                limitName: 'pageSize'
+            },
+            limits: [10, 20],
+            parseData: function(res) { //res 即为原始返回的数据
+                console.log(res)
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "totalNum": res.pageBean.totalNum, //解析数据长度
+                    "lists": res.pageBean.lists //解析数据列表
+                };
+            },
+            response: {
+                statusName: 'code', //数据状态的字段名称，默认：code
+                statusCode: 10000, //成功的状态码，默认：0
+                msgName: "message", //状态信息的字段名称，默认：msg
+                countName: 'totalNum', //数据总数的字段名称，默认：count
+                dataName: 'lists', //数据列表的字段名称，默认：data
+            },
+
+            cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['prev', 'page', 'next', 'skip', 'count'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    ,
+                groups: 5 //只显示 1 个连续页码
+                    ,
+                first: true //不显示首页
+                    ,
+                last: true //不显示尾页
+                    ,
+                next: "下一页",
+                prev: '上一页',
+                theme: "#c81623",
+            },
+            // height: 'full-20',//满高
+            cols: [
+                [{
+                    title: '编号',
+                    type: 'numbers',
+                    fixed: 'left'
+                }, {
+                    field: "orderdate",
+                    title: '采购日期',
+                    minWidth: 100,
+                    sort: true,
+                    fixed: 'left',
+                    align: "center",
+                    templet: function(d) {
+                        var numv = null;
+                        if (d.orderdate == "" || d.orderdate == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.orderdate = layui.util.toDateString(d.orderdate, 'yyyy-MM-dd');
+                        }
+                        return numv
+                    },
+                }, {
+                    field: 'ordercode',
+                    title: '采购单号',
+                    minWidth: 160,
+                    align: "center",
+                }, {
+                    field: 'supplytype',
+                    title: '供应商类型',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        var num = null;
+                        if (d.supplytype == 2) {
+                            num = "企业供应商"
+                        }
+                        if (d.supplytype == 3) {
+                            num = "个人供应商"
+                        }
+                        return num
+                    }
+                }, {
+                    field: 'supplyname',
+                    title: '供应商名称',
+                    minWidth: 120,
+                    align: "center",
+                    sort: true
+                }, {
+                    field: 'wealth',
+                    width: 137,
+                    title: '更多',
+                    minWidth: 20,
+                    align: "center",
+                    fixed: 'right',
+                    toolbar: '#More',
+                }]
+            ]
+        });
+
+
+        /*查询*/
+        $(".Rawquery").click(function() {
+            if ($("#date1").val() == "" && $("#date2").val() == "" && $(".Suppliername").val() == "" && $(".Purchaseorder").val() == "") {
+                layer.msg('请输入查询条件！', {
+                    time: 1000,
+                    offset: 't',
+                });
+                return
+            }
+            if ($("#date1").val() != "") {
+                if ($("#date2").val() == "") {
+                    layer.msg('请选择时间段！', {
+                        time: 1000,
+                        offset: 't',
+                    });
+                    return
+                }
+            }
+
+            if ($("#date2").val() != "") {
+                if ($("#date1").val() == "") {
+                    layer.msg('请选择时间段！', {
+                        time: 1000,
+                        offset: 't',
+                    });
+                    return
+                }
+            }
+            datelist = {
+                orderdateq: $("#date1").val() + " " + "00:00:00",
+                orderdateh: $("#date2").val() + " " + "00:00:00",
+                supplyname: $(".Suppliername").val(),
+                ordercode: $(".Purchaseorder").val()
+            }
+            console.log(datelist)
+            tableIns.reload({
+                where: datelist,
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ['prev', 'page', 'next', 'skip', 'count']
+                },
+            })
+        })
+
+
+        /*重置*/
+        $(".reset").click(function() {
+            $("#date1").val("");
+            $("#date2").val("");
+            $(".Suppliername").val("");
+            $(".Purchaseorder").val("");
+            tableIns.reload({
+                where: {},
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ['prev', 'page', 'next', 'skip', 'count']
+                },
+            })
+        })
+
+    })
 </script>
+
 </html>

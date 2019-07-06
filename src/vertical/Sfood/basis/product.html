@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>产品信息</title>
+    <title>商品信息</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../public/font/iconfont.css">
+    <link rel="stylesheet" href="../../../../css/twocss/commit.css">
 </head>
+
 <body>
     <form class="layui-form" action="">
 
@@ -16,9 +20,9 @@
             <div class="select-con">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">产品名称:</label>
+                        <label class="layui-form-label" style="width:95px;">商品名称:</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="productName" search-type="productName">
+                            <input type="text" class="layui-input   Suppliername">
                         </div>
                     </div>
                 </div>
@@ -26,23 +30,23 @@
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">产品条码:</label>
+                        <label class="layui-form-label">采购单号:</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="barcode" search-type="barcode">
+                            <input type="text" class="layui-input   Purchaseorder">
                         </div>
                     </div>
                 </div>
 
                 <div class="select-btn">
-                    <div class="layui-bg-green comquery " lay-event="search">查询</div>
-                    <div class="layui-bg-green comquery " lay-event="reset">重置</div>
+                    <div class="layui-bg-green comquery   Rawquery">查询</div>
+                    <div class="layui-bg-green comquery  reset">重置</div>
                 </div>
             </div>
         </div>
     </form>
 
     <div class="common-padding">
-        <table class="layui-hide" id="testdome" lay-filter="testdome"></table>
+        <table class="layui-hide" id="testdone" lay-filter="testdome"></table>
     </div>
 </body>
 <!-- 头部 -->
@@ -58,101 +62,382 @@
 <script type="text/html" id="More">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
 </script>
-<script src="../../../../js/module/jquery-3.4.1.min.js"></script>
-<script>
-    layui.config({
-        base: '../../../../js/module/'
-    }).use(['Services', 'jquery'], function() {
-        var $ = layui.jquery;
 
-        var dataType = 1;
-        var services = new layui.Services({
-            baseURL: baseaip,
-            tableId: "testdome",
-            toolbar: "#toolbarinter",
-            serachUrl: "dictionaries/query",
-            getUrl: "dictionaries/get",
-            delUrl: "dictionaries/delete",
-            updUrl: "plant/updateNcpxx",
-            saveUrl: "./dialog/addProduct.html",
-            deleteField: "id",
-            dataType: dataType,
-            parameter: {
-                keyword: '',
-                type: dataType
+
+<!-- 查看的内容 -->
+<script type="text/html" id="contentquery">
+    <div class="select common">
+
+        <div class="select-title" style="border-bottom:0px;background-color: #f3f3f3;">
+            基本信息
+        </div>
+        {{each lists}}
+        <ul class="basis-h">
+
+            <li>
+                <label>商品名称:</label>
+                <p>{{$value.productname}}</p>
+            </li>
+            <li>
+                <label>商品条码:</label>
+                <p>{{$value.barcode}}</p>
+            </li>
+            <li>
+                <label>商品类型:</label>
+                <p>{{$value.producttype}}</p>
+            </li>
+            <li>
+                <label>审批状态:</label> {{if $value.approval== 0 }}
+                <p>未审核</p>
+                {{else if $value.approval== 1}}
+                <p>审核通过</p>
+                {{else}}
+                <p>审核未通过</p>
+                {{/if}}
+            </li>
+            <li>
+                <label>规格:</label>
+                <p>{{$value.specifications}}</p>
+            </li>
+            <li>
+                <label>保质期:</label>
+                <p>{{$value.lifedate}}{{$value.lifedateunit}}</p>
+            </li>
+            <li>
+                <label>重量(kg):</label>
+                <p style="width: 190px;">{{$value.weight}} </p>
+            </li>
+
+            <li>
+                <label>品牌:</label>
+                <p style="width: 190px;">{{$value.brand}} </p>
+            </li>
+
+            <li>
+                <label>单位:</label>
+                <p style="width: 190px;">{{$value.unit}} </p>
+            </li>
+
+            <li>
+                <label>企业编号:</label>
+                <p style="width: 190px;">{{$value.enterprisecode}} </p>
+            </li>
+            <li>
+                <label>生产许可证:</label>
+                <p style="width: 190px;">{{$value.factorylicence}} </p>
+            </li>
+            <li>
+                <label>是否散装:</label>
+                <p style="width: 190px;">{{$value.issanzhuang}} </p>
+            </li>
+
+        </ul>
+        <div style="margin-left:80px;"><label>产品图片：</label><img style="width:150px;" src="{{$value.picturepath}}" alt=""></div>
+        {{/each}}
+    </div>
+
+</script>
+
+<script src="../../../../js/common/jquery.min.js"></script>
+<script src="../../../../js/common/api.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../js/common/template-web.js"></script>
+<script>
+    layui.use(['table', "layer", "laydate", "util"], function() {
+        var $ = layui.jquery,
+            table = layui.table,
+            util = layui.util,
+            layer = layui.layer,
+            datelist = {},
+            laydate = layui.laydate;
+
+        //监听头部监听
+        table.on('toolbar(testdome)', function(obj) {
+            var checkStatus = table.checkStatus(obj.config.id),
+                data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'add':
+                    window.location.href = "./dialog/addProduct.html";
+                    break;
+                case 'update':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else if (data.length > 1) {
+                        layer.msg('只能同时编辑一个');
+                    } else {
+
+                        window.location.href = "./dialog/addProduct.html?id=" + data[0].id;
+                    }
+                    break;
+                case 'delete':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else {
+                        console.log(data)
+                        handleAjax("shop/delShopproduct", {
+                            id: data[0].id
+                        }, "POST").done(function(resp) {
+                            layer.msg('操作成功', {
+                                icon: 1,
+                                time: 1000
+                            });
+                            setTimeout(function() {
+                                tableIns.reload({
+                                    where: {},
+                                    page: {
+                                        curr: 1, //重新从第 1 页开始
+                                        layout: ['prev', 'page', 'next', 'skip', 'count']
+                                    },
+                                })
+                            }, 1500)
+                            return
+                        }).fail(function(err) {
+                            console.log(err)
+                        });
+                    }
+                    break;
+            };
+        });
+
+        //监听表格里面按钮
+        table.on('tool(testdome)', function(obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent === 'detail') { //查看
+                procurement(data.id);
+            }
+
+            if (obj.event === 'showImg') {
+                console.log(data);
+                var photosdata = {
+                    "title": "营业执照", //相册标题
+                    "id": 123, //相册id
+                    "start": 0, //初始显示的图片序号，默认0
+                    "data": [ //相册包含的图片，数组格式
+                        {
+                            // "alt": "图片名",
+                            "pid": 666, //图片id
+                            "src": data.picturepath, //原图地址
+                            "thumb": data.picturepath //缩略图地址
+                        }
+                    ]
+                }
+                layer.photos({
+                    photos: photosdata //格式见API文档手册页
+                        ,
+                    anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+                });
+            }
+        });
+
+
+        /*查看*/
+        function procurement(tt) {
+            layer.open({
+                type: 1,
+                title: "查看",
+                shadeClose: true, //是否点击遮罩关闭
+                anim: 5, //弹出动画
+                scrollbar: false, //窗口外滚动条是否出现
+                skin: 'layui-layer-rim', //加上边框
+                area: ['950px', '400px'], //宽高
+                content: '<div class="ssss"></div>',
+                success: function(layero, index) {
+
+                    noAjax('shop/getShopproductList', {
+                        id: tt
+                    }, "GET").done(function(resp) {
+                        console.log(resp.pageBean.lists);
+
+                        var html = template("contentquery", resp.pageBean);
+                        $(".ssss").html(html);
+
+                    }).fail(function(err) {
+                        console.log(err)
+
+                    });
+                }
+            });
+        }
+
+
+        //获取列表
+        var tableIns = table.render({
+            elem: '#testdone',
+            url: base + "shop/getShopproductList",
+            method: "GET",
+            where: {},
+            headers: {
+                Authorization: "Bearer" + " " + sessions
             },
+            toolbar: '#toolbarinter',
+            request: {
+                pageName: 'currentPage',
+                limitName: 'pageSize'
+            },
+            limits: [10, 20],
+            parseData: function(res) { //res 即为原始返回的数据
+                console.log(res)
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "totalNum": res.pageBean.totalNum, //解析数据长度
+                    "lists": res.pageBean.lists //解析数据列表
+                };
+            },
+            response: {
+                statusName: 'code', //数据状态的字段名称，默认：code
+                statusCode: 10000, //成功的状态码，默认：0
+                msgName: "message", //状态信息的字段名称，默认：msg
+                countName: 'totalNum', //数据总数的字段名称，默认：count
+                dataName: 'lists', //数据列表的字段名称，默认：data
+            },
+
+            cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['prev', 'page', 'next', 'skip', 'count'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    ,
+                groups: 5 //只显示 1 个连续页码
+                    ,
+                first: true //不显示首页
+                    ,
+                last: true //不显示尾页
+                    ,
+                next: "下一页",
+                prev: '上一页',
+                theme: "#c81623",
+            },
+            // height: 'full-20',//满高
             cols: [
                 [{
                     type: 'checkbox',
                     fixed: 'left'
                 }, {
-                    field: 'productname',
-                    sort: true,
+                    field: "productname",
                     title: '商品名称',
-                    templet: function(data) {
-
-                        return (JSON.parse(data.context)).productname
-                    }
+                    minWidth: 100,
+                    sort: true,
+                    align: "center",
                 }, {
                     field: 'barcode',
-                    sort: true,
                     title: '商品条码',
-                    templet: function(data) {
-
-                        return (JSON.parse(data.context)).barcode
-                    }
+                    minWidth: 160,
+                    align: "center",
                 }, {
-                    field: 'productclass',
-                    sort: true,
-                    title: '类别',
-                    templet: function(data) {
-
-                        return (JSON.parse(data.context)).productclass
-                    }
-                }, {
-                    field: 'approval',
-                    sort: true,
-                    title: '审批状态',
-                    templet: function(data) {
-                        var d = JSON.parse(data.context);
-                        d.approval = d.approval === undefined || d.approval === null ? 1 : d.approval;
-                        return (d.approval === 1 ? "未审核" : d.approval === 2 ? "审核通过" : d.approval === 3 ? "审核未通过" : "")
-                    }
+                    field: 'producttype',
+                    title: '商品类型',
+                    minWidth: 130,
+                    align: "center",
                 }, {
                     field: 'specifications',
-                    sort: true,
-                    title: '规格型号',
-                    templet: function(data) {
-
-                        return (JSON.parse(data.context)).specifications
+                    title: '规格',
+                    minWidth: 120,
+                    align: "center",
+                    sort: true
+                }, {
+                    field: 'approval',
+                    title: '审批状态',
+                    minWidth: 120,
+                    align: "center",
+                    templet: function(d) {
+                        var num = null;
+                        console.log(d.approval)
+                        if (d.approval == "0") {
+                            num = "未审核"
+                            return num
+                        }
+                        if (d.approval == "1" || d.approval == "审批通过") {
+                            num = "审批通过"
+                            return num
+                        }
+                        if (d.approval == "2" || d.approval == "审批不通过") {
+                            num = "审批不通过"
+                            return num
+                        }
                     }
                 }, {
                     field: 'unit',
-                    sort: true,
                     title: '单位',
-                    templet: function(data) {
+                    minWidth: 100,
+                    align: "center",
+                    sort: true
+                }, {
+                    field: 'enterprisecode',
+                    title: '企业编号',
+                    minWidth: 100,
+                    align: "center",
+                }, {
+                    field: 'factorylicence',
+                    title: '生产许可证',
+                    minWidth: 120,
+                    align: "center",
+                    sort: true
+                }, {
+                    field: 'picturepath',
+                    title: '产品图片',
+                    minWidth: 120,
+                    align: "center",
+                    event: 'showImg',
+                    templet: function(d) {
+                        if (d.picturepath != null) {
+                            return '<img src="' + d.picturepath + '" alt="" class="licenseimg">'
+                        }
 
-                        return (JSON.parse(data.context)).unit
                     }
                 }, {
-                    field: 'foodcreate_name',
-                    sort: true,
-                    title: '生产企业名称',
-                    templet: function(data) {
-
-                        return (JSON.parse(data.context)).foodcreate_name
-                    }
-                }, {
-                    field: 'foodcode',
-                    sort: true,
-                    title: '生产许可证号',
-                    templet: function(data) {
-                        return (JSON.parse(data.context)).foodcode
-                    }
-                }, ]
-            ],
+                    field: 'wealth',
+                    width: 137,
+                    title: '更多',
+                    minWidth: 20,
+                    align: "center",
+                    fixed: 'right',
+                    toolbar: '#More',
+                }]
+            ]
         });
-    });
+
+
+        /*查询*/
+        $(".Rawquery").click(function() {
+            if ($(".Suppliername").val() == "" && $(".Purchaseorder").val() == "") {
+                layer.msg('请输入查询条件！', {
+                    time: 1000,
+                    offset: 't',
+                });
+                return
+            }
+
+            datelist = {
+                productname: $(".Suppliername").val(),
+                barcode: $(".Purchaseorder").val()
+            }
+            console.log(datelist)
+            tableIns.reload({
+                where: datelist,
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ['prev', 'page', 'next', 'skip', 'count']
+                },
+            })
+        })
+
+
+        /*重置*/
+        $(".reset").click(function() {
+            $(".Suppliername").val("");
+            $(".Purchaseorder").val("");
+            tableIns.reload({
+                where: {},
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ['prev', 'page', 'next', 'skip', 'count']
+                },
+            })
+        })
+
+    })
 </script>
 
 </html>
