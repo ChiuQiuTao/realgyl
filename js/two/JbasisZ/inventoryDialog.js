@@ -58,15 +58,14 @@
             var storagename = document.querySelector('#storagename2').value;
             var chargeperson = document.querySelector('#chargeperson').value;
             var remarks = document.querySelector('#remarks').value;
-            Theoldcuiway('plant/updateCkxx', { 
+            Theoldcuiway('plant/basis/updatePlantRepository', { 
                 id:id,
                 parentid:parentid,
                 parentname:parentname,
-                storagelevel: storagelevel,
-                storagename: storagename,
+                repositoryname: storagename,
                 chargeperson: chargeperson,
                 remarks: remarks,
-                repositorytype:1
+                storagelevel:2
             }, "POST").done(function(resp) {
                 console.log(resp);
                 layer.msg('更新成功');
@@ -82,17 +81,16 @@
         }
         //查看详情
         function getBasStorageVo(delid){
-            Theoldcuiway('plant/getCkxx', { 
-                ckxxId: delid,
+            Theoldcuiway('plant/basis/getPlantRepository', { 
+                id: delid,
             }, "GET").done(function(resp) {
                 console.log(resp);
-                
                 one.style.display = 'none';
                 two.style.display = 'block';
                 setTimeout(function(){
                     document.querySelector('#parentid').value = resp.data.parentid;
                     document.querySelector('#storagelevel').value = resp.data.storagelevel;
-                    document.querySelector('#storagename2').value = resp.data.storagename;
+                    document.querySelector('#storagename2').value = resp.data.repositoryname;
                     document.querySelector('#chargeperson').value = resp.data.chargeperson;
                     document.querySelector('#remarks').value = resp.data.remarks;
                     layui.form.render("select");
@@ -107,12 +105,12 @@
         // 查询企业仓库
         getBasStorage();
         function getBasStorage(){
-            Theoldcuiway('plant/getyjck', { 
-                repositorytype:1,
+            Theoldcuiway('plant/getOneRepostoryList', { 
             }, "GET").done(function(resp) {
+                console.log(resp)
                 var selectList='';
                 for(var i=0;i<resp.data.length;i++){
-                    selectList = selectList + '<option value="'+resp.data[i].id+'"  data-name="'+resp.data[i].storagename+'">'+resp.data[i].storagename+'</option>';
+                    selectList = selectList + '<option value="'+resp.data[i].parentid+'"  data-name="'+resp.data[i].parentname+'">'+resp.data[i].parentname+'</option>';
                 }
                 document.querySelector('#parentid').innerHTML=selectList;
                 
@@ -128,20 +126,16 @@
         getckrzr();
         function getckrzr(){
             var chargeperson = document.querySelector('#chargeperson');
-            Theoldcuiway('plant/getckrzr', { 
+            Theoldcuiway('plant/getPlantChargePerson', { 
             }, "GET").done(function(resp) {
                 console.log(resp);
                 for(var i=0;i<resp.data.length;i++){
-                    chargeperson.innerHTML = chargeperson.innerHTML+'<option value="'+resp.data[i].personname+'">'+resp.data[i].personname+'</option>';
+                    chargeperson.innerHTML = chargeperson.innerHTML+'<option value="'+resp.data[i].name+'">'+resp.data[i].name+'</option>';
                 }
                 console.log(resp);
                 layui.form.render("select");
                 return
             }).fail(function(err) {
-                // console.log(err)
-                // chargeperson.innerHTML = '<option value="'+err.realName+'" data-name="lsxj">'+err.realName+'</option>';
-                // layui.form.render("select");
-
             });
         }
         function addBasStorage(){
@@ -159,11 +153,11 @@
             var chargeperson = document.querySelector('#chargeperson').value;
             var remarks = document.querySelector('#remarks').value;
     
-            Theoldcuiway('plant/saveCkxx', { 
+            Theoldcuiway('plant/basis/savePlantRepository', { 
                 parentid:parentid,
                 parentname:parentname,
                 storagelevel: storagelevel,
-                storagename: storagename,
+                repositoryname: storagename,
                 chargeperson: chargeperson,
                 remarks: remarks,
                 repositorytype:1

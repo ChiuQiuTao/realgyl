@@ -91,8 +91,8 @@ layui.use(['form','element','table', "layer", "util"], function() {
                 {
                 // "alt": "图片名",
                 "pid": 666, //图片id
-                "src": data.picturepath, //原图地址
-                "thumb": data.picturepath //缩略图地址
+                "src": data.imgs, //原图地址
+                "thumb": data.imgs //缩略图地址
                 }
             ]
             }
@@ -112,7 +112,7 @@ layui.use(['form','element','table', "layer", "util"], function() {
         getBasPerson();
     })
     function delBasPersonById(delid){
-        Theoldcuiway('basic/deleteGrkhxx',
+        Theoldcuiway('plant/deleteGRGYS',
         {
             grkhxxId:delid
         }, "post").done(function(resp) {
@@ -128,8 +128,8 @@ layui.use(['form','element','table', "layer", "util"], function() {
     }
     function delBasEnterpriseById(delid){
         Theoldcuiway(
-            "plant/deleteQykhxxId", {
-                qykhxxId:delid,
+            "plant/basis/deletePlantEnterpriseaudit", {
+                id:delid,
             },
             "POST"
         )
@@ -149,20 +149,20 @@ layui.use(['form','element','table', "layer", "util"], function() {
     getBasEnterprise();
 
     function getBasEnterprise() {
-        var enterprisename = document.querySelector('#enterprisename').value;
-        var license = document.querySelector('#license').value;
-        var auditStaus = document.querySelector('#auditStaus').value;
+        var enterprisename = $('#enterprisename').val();
+        var license = $('#license').val();
+        var auditStaus = $('#auditStaus').val();
         //获取列表
+        console.log(baseaip);
         var tableIns = table.render({
             elem: "#testee",
-            url: baseaip + "plant/qykhxxs",
+            url: baseaip + "plant/basis/getPlantEnterpriseaudits",
             method: "GET",
             where: {
-            sysType: 1,
-            enterprisename: enterprisename,
+            enterpriseclass:2,
             license: license,
             enterprisename: enterprisename,
-            auditStaus:auditStaus,
+            auditstaus:auditStaus,
             },
             headers: {
             Authorization: "Bearer" + " " + sessions
@@ -178,8 +178,8 @@ layui.use(['form','element','table', "layer", "util"], function() {
             return {
                 code: res.code, //解析接口状态
                 msg: res.msg, //解析提示文本
-                totalNum: res.data.totalElements, //解析数据长度
-                lists: res.data.content //解析数据列表
+                totalNum: res.data.total, //解析数据长度
+                lists: res.data.list //解析数据列表
             };
             },
             toolbar: "#toolbarinter",
@@ -225,12 +225,39 @@ layui.use(['form','element','table', "layer", "util"], function() {
                 minWidth: 120,
                 align: "center"
                 },
-                {
-                field: "corporation",
-                title: "法定负责人",
-                minWidth: 120,
-                align: "center"
-                },
+                 {
+                    field: 'linkman',
+                    title: '联系人',
+                    align: "center",
+                    minWidth: 130
+                }, {
+                    field: 'linkphone',
+                    title: '联系人电话',
+                    align: "center",
+                    minWidth: 150
+                }, {
+                    field: 'auditstaus',
+                    title: '审核状态',
+                    align: "center",
+                    minWidth: 100,
+                    templet: function(d) {
+                        var num = null;
+                        console.log(d.auditstaus)
+                        if (d.auditstaus == "1") {
+                            num = "未审核"
+                            return num
+                        }
+
+                        if (d.auditstaus == "2") {
+                            num = "通过审核"
+                            return num
+                        }
+                        if (d.auditstaus == "3") {
+                            num = "未通过审核"
+                            return num
+                        }
+                    }
+                }
                             
             ]
             ]
@@ -250,13 +277,13 @@ layui.use(['form','element','table', "layer", "util"], function() {
         //获取列表
         var tableIns = table.render({
             elem: "#personaltable",
-            url: baseaip + "plant/grkhxxs",
+            url: baseaip + "plant/basis/getPlantPersonnels",
             method: "GET",
             where: {
-            sysType: 1,
-            userName: userName,
-            idCard: idCard,
-            auditStaus:auditStaus,
+            persontype:2,
+            personname: userName,
+            personcard: idCard,
+            auditstaus:auditStaus,
             },
             headers: {
             Authorization: "Bearer" + " " + sessions
@@ -272,8 +299,8 @@ layui.use(['form','element','table', "layer", "util"], function() {
             return {
                 code: res.code, //解析接口状态
                 msg: res.msg, //解析提示文本
-                totalNum: res.data.totalElements, //解析数据长度
-                lists: res.data.content //解析数据列表
+                totalNum: res.data.total, //解析数据长度
+                lists: res.data.records //解析数据列表
             };
             },
             toolbar: "#toolbarinter",
@@ -344,9 +371,9 @@ layui.use(['form','element','table', "layer", "util"], function() {
     document.querySelector('.againsperson').addEventListener('click',function(){
         document.querySelector('#personname').value='';
         document.querySelector('#personcard').value='';
-        document.querySelector('#persontype').value=1;
+        document.querySelector('#auditStaus2').value=1;
 
-        document.querySelector('#personinline').innerHTML='<select name="persontype" lay-verify="" id="persontype"><option value="1" class="persontypeitem" selected="selected">供应商</option><option value="2" class="persontypeitem">客户</option></select>'
+        // document.querySelector('#personinline').innerHTML='<select name="persontype" lay-verify="" id="persontype"><option value="1" class="persontypeitem" selected="selected">供应商</option><option value="2" class="persontypeitem">客户</option></select>'
         getBasPerson();
 
         layui.form.render('select');

@@ -18,13 +18,12 @@
             <div class="select-con">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label" style="width:95px;">农产品名称:</label
-              >
-              <div class="layui-input-inline">
-                <input type="text" class="layui-input  accessories" />
-              </div>
-            </div>
-          </div>
+                        <label class="layui-form-label" style="width:95px;">农产品名称:</label>
+                        <div class="layui-input-inline">
+                          <input type="text" class="layui-input productname" />
+                        </div>
+                      </div>
+                    </div>
 
           <div class="select-btn">
             <div class="layui-bg-green comquery  Rawquery">查询</div>
@@ -67,12 +66,10 @@
 
       var tableIns = table.render({
         elem: "#test",
-        url: baseaip + "plant/yjxx/ncpkcyj",
+        url: baseaip + "plant/warning/getCommodityStocks",
         method: "GET",
         where: {
-          sysType: "1",
-          productclass: "2",
-          productName: ""
+          productname: ""
         },
         headers: {
           Authorization: "Bearer" + " " + sessions
@@ -88,8 +85,8 @@
           return {
             code: res.code, //解析接口状态
             msg: res.msg, //解析提示文本
-            totalNum: res.data.totalElements, //解析数据长度
-            lists: res.data.content //解析数据列表
+            totalNum: res.data.total, //解析数据长度
+            lists: res.data.list //解析数据列表
           };
         },
         toolbar: "#toolbarinter",
@@ -125,17 +122,17 @@
                     minWidth: 120,
                     align: "center",
                 }, {
-                    field: 'min',
+                    field: 'minstock',
                     title: "最小库存重量(KG)",
                     minWidth: 120,
                     align: "center",
                 }, {
-                    field: 'max',
+                    field: 'maxstock',
                     title: "最大库存重量(KG)",
                     minWidth: 120,
                     align: "center",
                 }, {
-                    field: 'count',
+                    field: 'stockweight',
                     title: '库存重量(KG)',
                     minWidth: 120,
                     align: "center",
@@ -148,7 +145,7 @@
 
        /*查询*/
        $(".Rawquery").click(function() {
-            if ($(".accessories").val() == "") {
+            if ($(".productname").val() == "") {
                 layer.msg("请输入查询条件！", {
                     time: 1000,
                     offset: "t"
@@ -157,9 +154,8 @@
             }
 
             var datelist = {
-                sysType: "1",
-                productclass: "2",
-                productName: $(".accessories").val()
+                
+              productname: $(".productname").val()
             };
 
             tableIns.reload({
@@ -177,12 +173,11 @@
 
         /*重置*/
         $(".reset").click(function() {
-            $(".accessories").val("");
+            $(".productname").val("");
             tableIns.reload({
                 where: {
-                    sysType: "1",
-                    productclass: "2",
-                    productName: ""
+                   
+                    productname: ""
                 },
                 page: {
                     curr: 1, //重新从第 1 页开始

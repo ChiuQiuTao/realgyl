@@ -44,7 +44,7 @@
                     <input type="text" class="layui-input" id="inputtype" search-type="inputtype" style='display: none' value="1">
 
                 </div>
-<!-- 
+
                 <div class="layui-form-item" id="item-type1" style="display:block">
                     <div class="layui-inline" id='inline-type'>
                         <label class="layui-form-label">种类:</label>
@@ -53,15 +53,9 @@
                                 <option value="">请选择</option>
                             </select>
                         </div>
-                    </div>
-                </div>
 
-
-                <div class="layui-form-item" id="item-type2" style="display:none">
-                    <div class="layui-inline" id='inline-type2'>
-                        <label class="layui-form-label">种类:</label>
-                        <div class="layui-input-inline">
-                            <select name="typefarm" lay-verify="" id='typefarm' lay-filter="typefarm">
+                        <div class="layui-input-inline" style="display:none" id="item-type2">
+                            <select name="typedetail" lay-verify="" id='typedetail' lay-filter="typedetail">
                                 <option value="">请选择</option>
                             </select>
                         </div>
@@ -69,7 +63,19 @@
                 </div>
 
 
-                <div class="layui-form-item" id="item-type3" style="display:none">
+                <!-- <div class="layui-form-item" id="item-type2" style="display:none">
+                    <div class="layui-inline" id='inline-type2'>
+                        <label class="layui-form-label">种类:</label>
+                        <div class="layui-input-inline">
+                            <select name="typedetail" lay-verify="" id='typedetail' lay-filter="typedetail">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> -->
+
+
+                <!-- <div class="layui-form-item" id="item-type3" style="display:none">
                     <div class="layui-inline" id='inline-type3'>
                         <label class="layui-form-label">种类:</label>
                         <div class="layui-input-inline">
@@ -78,7 +84,22 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> -->
+
+                <!-- <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态:</label>
+                        <div class="layui-input-inline">
+                            <select name="ctype" lay-verify="" id='approval'>
+                                <option value="">请选择</option>
+                                <option value="1">待审批 </option>
+                                <option value="2">审批通过 </option>
+                                <option value="3">审批为通过</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div> -->
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
@@ -93,7 +114,7 @@
                             </select>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
 
                 <div class="select-btn">
@@ -129,8 +150,8 @@
 <script src="../../../../js/common/jquery.min.js"></script>
 <script src="../../../../js/common/api.js"></script>
 <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
-<!-- <script src="../../../../js/two/JbasisZ/inputs.js"></script> -->
-<script>
+<script src="../../../../js/two/JbasisZ/inputs.js"></script>
+<!-- <script>
     layui.config({
         base: '../../../../js/module/'
     }).use(['form','Services','jquery'],function () {
@@ -284,13 +305,10 @@
                         
                         return (JSON.parse(data.context)).enterprisename
                     }},
-                    // {field: 's5', sort: true, title: '状态',templet:function (data) {
-                        
-                    //     return (JSON.parse(data.context)).s5
-                    // }},
+                   
                 ]],
             });
         }
     });
-</script>
+</script> -->
 </html>

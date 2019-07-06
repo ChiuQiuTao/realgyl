@@ -33,7 +33,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">基地名称:</label>
                         <div class="layui-input-inline">
-                            <select name="standardtype" lay-verify="" lay-filter='persontype' id="landnameP">
+                            <select name="standardtype" lay-verify="" id="landnameP" lay-filter='landnameP'>
                             </select>
                         </div>
                     </div>
@@ -48,7 +48,20 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">企业图片:</label>
+                        <div class="layui-input-inline">
+                            <div class="layui-upload" style="display:flex;align-items: center;">
+                                <button type="button" class="layui-btn layui-btn-normal" id="selectImg">选择文件</button>
+                                <div class="layui-upload-list">
+                                    <img class="layui-upload-img" id="showimg" style="width:80px;height:38px;margin-left: 15px;border: 1px solid #fff;">
+                                </div>
+                                <input type="text" id='imgpath' style="display: none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-form-item layui-form-item-textarea">
                     <div class="layui-inline layui-inline-textarea">
                         <label class="layui-form-label">备注:</label>

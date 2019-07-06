@@ -234,6 +234,7 @@ var menudata = [{
 
         ]
     },
+    
     {
         icon: "icon-guimohuaxuqinyangzhichang",
         type: "3",
@@ -563,6 +564,38 @@ var menudata = [{
                 title: "农产品采收预警",
                 type: "4"
             },
+        ]
+    },
+    {
+        icon: "icon-ios-folder-open",
+        type: "4",
+        title: "企业统计分析",
+        child: [{
+                url: "../vertical/Splanting/statistical/harvest.html",
+                title: "农产品采收信息统计",
+                type: "4"
+            },
+            {
+                url: "../vertical/Splanting/statistical/detection.html",
+                title: "农产品检测信息统计",
+                type: "4"
+            },
+            {
+                url: "../vertical/Splanting/statistical/sales.html",
+                title: "农产品销售统计",
+                type: "4"
+            },
+            {
+                url: "../vertical/Splanting/statistical/Return.html",
+                title: "农产品退货统计",
+                type: "4"
+            },
+            {
+                url: "../vertical/Splanting/statistical/procurement.html",
+                title: "投入品种植采购统计",
+                type: "4"
+            },
+
         ]
     },
     {

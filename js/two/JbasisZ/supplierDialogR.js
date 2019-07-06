@@ -8,14 +8,13 @@
             var phone = document.querySelector('#phone').value;
             var remark = document.querySelector('#remark').value;
 
-            Theoldcuiway('plant/saveGrgys', { 
+            Theoldcuiway('plant/basis/savePlantPersonnel', { 
                 personcard: personcard,
                 personname: personname, 
                 address: address, 
                 phone: phone, 
                 persontype: '1', 
                 remark: remark, 
-                systype:1
             }, "POST").done(function(resp) {
                 console.log(resp)
                 layer.msg('新增成功');
@@ -59,8 +58,8 @@
 
         // 通过主键查看个人供应商，个人客户
         function getBasPersonById(id){
-            Theoldcuiway('plant/getGrgys', 
-            { grkhxxId: id },
+            Theoldcuiway('plant/basis/getPlantPersonnel', 
+            { id: id },
              "GET").done(function(resp) {
                 console.log(resp)
                 document.querySelector('#personcard').value=resp.data.personcard;
@@ -77,7 +76,7 @@
         }
 
         function updateBasPerson(id){
-            Theoldcuiway('plant/updateGrgys', 
+            Theoldcuiway('plant/basis/updatePlantPersonnel', 
             {
                 id: id,
                 personcard: document.querySelector('#personcard').value,
@@ -86,7 +85,6 @@
                 phone:document.querySelector('#phone').value,
                 remark:document.querySelector('#remark').value,
                 persontype:'1',
-                systype:1,
             },
              "POST").done(function(resp) {
                 console.log(resp)

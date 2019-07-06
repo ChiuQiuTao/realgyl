@@ -21,7 +21,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">商品名称:</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input   accessories" />
+                            <input type="text" class="layui-input productname" />
                         </div>
                     </div>
                 </div>
@@ -65,12 +65,10 @@
         //获取列表
         var tableIns = table.render({
             elem: "#test",
-            url: baseaip + "plant/yjxx/ncpbzqyj",
+            url: baseaip + "plant/warning/getCommodityLifeDates",
             method: "GET",
             where: {
-                sysType: "1",
-                productclass: "4",
-                productName: ""
+                productname: ""
             },
             headers: {
                 Authorization: "Bearer" + " " + sessions
@@ -86,8 +84,8 @@
                 return {
                     code: res.code, //解析接口状态
                     msg: res.msg, //解析提示文本
-                    totalNum: res.data.totalElements, //解析数据长度
-                    lists: res.data.content //解析数据列表
+                    totalNum: res.data.total, //解析数据长度
+                    lists: res.data.list //解析数据列表
                 };
             },
             toolbar: "#toolbarinter",
@@ -119,56 +117,56 @@
                     fixed: "left"
                 }, {
                     field: "productname",
-                    title: "商品名称",
+                    title: "投入品名字",
                     minWidth: 120,
                     align: "center",
                 }, {
-                    field: "batch",
+                    field: "pickBatch",
                     minWidth: 120,
                     align: "center",
                     title: "商品批次"
                 }, {
-                    field: "createdate",
+                    field: "pickDate",
                     minWidth: 120,
                     align: "center",
                     title: "生产日期",
                     templet: function(d) {
                         var numv = null;
-                        if (d.createdate == "" || d.createdate == null) {
+                        if (d.pickDate == "" || d.pickDate == null) {
                             numv = " ";
                         } else {
-                            numv = d.createdate = layui.util.toDateString(
-                                d.createdate,
+                            numv = d.pickDate = layui.util.toDateString(
+                                d.pickDate,
                                 "yyyy-MM-dd"
                             );
                         }
                         return numv;
                     }
                 }, {
-                    field: "overdue",
+                    field: "todate",
                     minWidth: 120,
                     align: "center",
                     title: "过期日期",
                     minWidth: 120,
                     templet: function(d) {
                         var numv = null;
-                        if (d.overdue == "" || d.overdue == null) {
+                        if (d.todate == "" || d.todate == null) {
                             numv = " ";
                         } else {
-                            numv = d.overdue = layui.util.toDateString(
-                                d.overdue,
+                            numv = d.todate = layui.util.toDateString(
+                                d.todate,
                                 "yyyy-MM-dd"
                             );
                         }
                         return numv;
                     }
                 }, {
-                    field: "countunit",
+                    field: "status",
                     title: "保质期",
                     minWidth: 120,
                     align: "center",
                     templet: function(d) {
-                        return d.countunit + "/天"
+                        return d.lifedate
                     }
                 }, {
                     field: "weight",
@@ -176,13 +174,7 @@
                     minWidth: 120,
                     align: "center",
                     totalRow: true
-                }, {
-                    field: "status",
-                    title: "状态",
-                    minWidth: 120,
-                    align: "center",
-                    totalRow: true
-                }]
+                }, ]
             ]
         });
 
@@ -191,7 +183,7 @@
 
         /*查询*/
         $(".Rawquery").click(function() {
-            if ($(".accessories").val() == "") {
+            if ($(".productname").val() == "") {
                 layer.msg("请输入查询条件！", {
                     time: 1000,
                     offset: "t"
@@ -200,9 +192,8 @@
             }
 
             var datelist = {
-                sysType: "1",
-                productclass: "4",
-                productName: $(".accessories").val()
+               
+                productName: $(".productname").val()
             };
 
             tableIns.reload({
@@ -220,12 +211,10 @@
 
         /*重置*/
         $(".reset").click(function() {
-            $(".accessories").val("");
+            $(".productname").val("");
             tableIns.reload({
                 where: {
-                    sysType: "1",
-                    productclass: "4",
-                    productName: ""
+                    productname: ""
                 },
                 page: {
                     curr: 1, //重新从第 1 页开始

@@ -29,7 +29,7 @@
                     <div class="select-con">
 
 
-                        <div class="layui-form-item">
+                        <!-- <div class="layui-form-item">
                             <div class="layui-inline">
                                 <label class="layui-form-label">企业名称:</label>
                                 <div class="layui-input-inline">
@@ -50,17 +50,41 @@
                                 <label class="layui-form-label">状态:</label>
                                 <div class="layui-input-inline">
                                     <select name="type" lay-verify="" id='auditStaus' lay-filter="type">
-                                        <option value="0">全部</option>
                                         <option value="1">待审核</option>
                                         <option value="2">审核通过</option>
                                         <option value="3">审核未通过</option>
-
+                                    </select>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">企业名称:</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="enterprisename">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">营业执照号:</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="license">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">状态:</label>
+                                <div class="layui-input-inline">
+                                    <select name="type" lay-verify="" id='auditStaus' lay-filter="type">
+                                        <option value="1">待审核</option>
+                                        <option value="2">审核通过</option>
+                                        <option value="3">审核未通过</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="select-btn">
                             <div class="layui-bg-green comquery" id='selectcondition'>查询</div>
                             <div class="layui-bg-green comquery  agains">重置</div>
@@ -111,11 +135,9 @@
                                 <label class="layui-form-label">状态:</label>
                                 <div class="layui-input-inline">
                                     <select name="type" lay-verify="" id='auditStaus2' lay-filter="type">
-                                        <option value="0">全部</option>
                                         <option value="1">待审核</option>
                                         <option value="2">审核通过</option>
                                         <option value="3">审核未通过</option>
-
                                     </select>
                                 </div>
                             </div>

@@ -38,8 +38,8 @@
 
             function deleteId(id){
                 Theoldcuiway(
-                    "plant/deleteCkxx", {
-                        ckxxId:id,
+                    "plant/basis/deletePlantRepository", {
+                        id:id,
                     },
                     "POST"
                 )
@@ -65,12 +65,11 @@
             //获取列表
             var tableIns = table.render({
                 elem: "#test",
-                url: baseaip + "plant/ckxxs",
+                url: baseaip + "plant/basis/getPlantRepositorys",
                 method: "GET",
                 where: {
-                repositorytype: "1",
-                storageName: storageName,
-                storageName2: storageName2,
+                storagename: storageName,
+                storagename2: storageName2,
                 },
                 headers: {
                 Authorization: "Bearer" + " " + sessions
@@ -86,8 +85,8 @@
                 return {
                     code: res.code, //解析接口状态
                     msg: res.msg, //解析提示文本
-                    totalNum: res.data.totalElements, //解析数据长度
-                    lists: res.data.content //解析数据列表
+                    totalNum: res.data.total, //解析数据长度
+                    lists: res.data.records //解析数据列表
                 };
                 },
                 toolbar: "#toolbarinter",
@@ -128,7 +127,7 @@
                     align: "center"
                     },
                     {
-                    field: "storagename",
+                    field: "repositoryname",
                     title: "二级仓库名称",
                     minWidth: 120,
                     align: "center"

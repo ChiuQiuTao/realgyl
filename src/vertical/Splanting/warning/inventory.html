@@ -22,7 +22,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label" style="width:95px;">投入产品名称:</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input  accessories">
+                            <input type="text" class="layui-input  accessories" id="putseedname">
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
 
 <!-- 里面的查看 -->
 <script type="text/html" id="More">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <!-- <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a> -->
 </script>
 
 <script src="../../../../js/common/jquery.min.js"></script>
@@ -70,12 +70,10 @@
         //获取列表
         var tableIns = table.render({
             elem: "#test",
-            url: baseaip + "plant/yjxx/trpkcyj",
+            url: baseaip + "plant/warning/getPutseedStocks",
             method: "GET",
             where: {
-                sysType: "1",
-                productclass: "3",
-                productName: ""
+                putseedname:document.querySelector('#putseedname').value
             },
             headers: {
                 Authorization: "Bearer" + " " + sessions
@@ -91,8 +89,8 @@
                 return {
                     code: res.code, //解析接口状态
                     msg: res.msg, //解析提示文本
-                    totalNum: res.data.totalElements, //解析数据长度
-                    lists: res.data.content //解析数据列表
+                    totalNum: res.data.total, //解析数据长度
+                    lists: res.data.list //解析数据列表
                 };
             },
             toolbar: "#toolbarinter",
@@ -123,22 +121,38 @@
                     align: "center",
                     fixed: "left"
                 }, {
-                    field: 'productname',
+                    field: 'putseedname',
                     title: '投入品名称',
                     minWidth: 120,
                     align: "center",
                 }, {
-                    field: 'min',
+                    field: 'putseedclass',
+                    title: '投入品类别',
+                    minWidth: 120,
+                    align: "center",
+                    templet:function(e){
+                        if(e.putseedclass==1){
+                            return '种子'
+                        }else if(e.putseedclass==2){
+                            return '农药'
+                        }else if(e.putseedclass==3){
+                            return '肥料'
+                        }else if(e.putseedclass==4){
+                            return '其他投入品信息'
+                        }
+                    }
+                }, {
+                    field: 'minstock',
                     title: "最小库存重量(KG)",
                     minWidth: 120,
                     align: "center",
                 }, {
-                    field: 'max',
+                    field: 'maxstock',
                     title: "最大库存重量(KG)",
                     minWidth: 120,
                     align: "center",
                 }, {
-                    field: 'count',
+                    field: 'stocknum',
                     title: '库存重量(KG)',
                     minWidth: 120,
                     align: "center",
@@ -159,9 +173,7 @@
             }
 
             var datelist = {
-                sysType: "1",
-                productclass: "3",
-                productName: $(".accessories").val()
+                putseedname: $("#putseedname").val()
             };
 
             tableIns.reload({

@@ -14,87 +14,89 @@ layui.use(['form','table', "laydate"], function() {
     $(".agains").click(function() {
         window.location.reload();
     })
-    // // 切换tab
-    // var tabItemId='1';
-    // var enterpriseid='';
-    // tabItems = document.querySelectorAll('.select-tab>.item');
-    // for(var i=0;i<tabItems.length;i++){
-    //     (function(i){
-    //         tabItems[i].addEventListener('click',function(){
-    //             var tabItemThis = document.querySelector('.select-tab>.item-this');
-    //             tabItemThis.classList.remove('item-this');
-    //             tabItems[i].classList.add('item-this');
-    //             tabItemId = tabItems[i].getAttribute("data-id");
-    //             console.log(tabItemId);
-    //             findBasPutseedList(enterpriseid);
-    //             if(i==0){
-    //                 document.querySelector('#item-type1').style.display='block';
-    //                 document.querySelector('#item-type2').style.display='none';
-    //                 document.querySelector('#item-type3').style.display='none';
-
-    //             }else if(i==1){
-    //                 document.querySelector('#item-type1').style.display='none';
-    //                 document.querySelector('#item-type2').style.display='block';
-    //                 document.querySelector('#item-type3').style.display='none';
-    //             }else if(i==2){
-    //                 document.querySelector('#item-type1').style.display='none';
-    //                 document.querySelector('#item-type2').style.display='none';
-    //                 document.querySelector('#item-type3').style.display='block';
-    //             }else if(i==3){
-    //                 document.querySelector('#item-type1').style.display='none';
-    //                 document.querySelector('#item-type2').style.display='none';
-    //             }
-    //         })
-    //     })(i)
+    // 切换tab
+    var tabItemId='1';
+    var enterpriseid='';
+    tabItems = document.querySelectorAll('.select-tab>.item');
+    for(var i=0;i<tabItems.length;i++){
+        (function(i){
+            tabItems[i].addEventListener('click',function(){
+                var tabItemThis = document.querySelector('.select-tab>.item-this');
+                tabItemThis.classList.remove('item-this');
+                tabItems[i].classList.add('item-this');
+                tabItemId = tabItems[i].getAttribute("data-id");
+                console.log(tabItemId);
+                
+                getPlantPutseeds(tabItemId);
+                getProducttype(tabItemId);
+            })
+        })(i)
         
-    // }
-    // //监听头部监听
-    // table.on('toolbar(testdome)', function(obj) {
-    //     var checkStatus = table.checkStatus(obj.config.id),
-    //         data = checkStatus.data; //获取选中的数据
-    //     switch (obj.event) {
-    //         case 'add':
-    //             if(tabItemId==1){
-    //                 window.location.href = "./dialog/inputsDialog.html";
-    //             }else if(tabItemId==2){
-    //                 window.location.href = "./dialog/inputsDialog2.html";
-    //             }else if(tabItemId==3){
-    //                 window.location.href = "./dialog/inputsDialog3.html";
-    //             }else if(tabItemId==4){
-    //                 window.location.href = "./dialog/inputsDialog4.html";
-    //             }
-    //             break;
-    //         case 'update':
-    //             if(data.length === 0){
-    //                 layer.msg('请选择一行');
-    //             } else if(data.length > 1){
-    //                 layer.msg('只能同时编辑一个');
-    //             } else {
-    //                 if(tabItemId==1){
-    //                     window.location.href = "./dialog/inputsDialog.html?id="+data[0].id;
-    //                 }else if(tabItemId==2){
-    //                     window.location.href = "./dialog/inputsDialog2.html?id="+data[0].id;
-    //                 }else if(tabItemId==3){
-    //                     window.location.href = "./dialog/inputsDialog3.html?id="+data[0].id;
-    //                 }else if(tabItemId==4){
-    //                     window.location.href = "./dialog/inputsDialog4.html?id="+data[0].id;
-    //                 }
-    //             }
-    //             break;
-    //         case 'delete':
-    //             if (data.length === 0) {
-    //                 layer.msg('请选择一行');
-    //             } else {
-    //                 layer.msg('删除');
-    //             }
-    //             break;
-    //     };
-    // });
+    }
+    //监听头部监听
+    table.on('toolbar(testdome)', function(obj) {
+        var checkStatus = table.checkStatus(obj.config.id),
+            data = checkStatus.data; //获取选中的数据
+        switch (obj.event) {
+            case 'add':
+                if(tabItemId==1){
+                    window.location.href = "./dialog/inputsDialog1.html";
+                }else if(tabItemId==2){
+                    window.location.href = "./dialog/inputsDialog2.html";
+                }else if(tabItemId==3){
+                    window.location.href = "./dialog/inputsDialog3.html";
+                }else if(tabItemId==4){
+                    window.location.href = "./dialog/inputsDialog4.html";
+                }
+                break;
+            case 'update':
+                if(data.length === 0){
+                    layer.msg('请选择一行');
+                } else if(data.length > 1){
+                    layer.msg('只能同时编辑一个');
+                } else {
+                    if(tabItemId==1){
+                        window.location.href = "./dialog/inputsDialog1.html?id="+data[0].id;
+                    }else if(tabItemId==2){
+                        window.location.href = "./dialog/inputsDialog2.html?id="+data[0].id;
+                    }else if(tabItemId==3){
+                        window.location.href = "./dialog/inputsDialog3.html?id="+data[0].id;
+                    }else if(tabItemId==4){
+                        window.location.href = "./dialog/inputsDialog4.html?id="+data[0].id;
+                    }
+                }
+                break;
+            case 'delete':
+                if (data.length === 0) {
+                    layer.msg('请选择一行');
+                } 
+                else if(data.length > 1){
+                    layer.msg('只能同时编辑一个');
+                } else {
+                    delId(data[0].id);
+                }
+                break;
+        };
+    });
     //监听表格里面按钮
     table.on('tool(testdome)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         
     });
 
+    function delId(id){
+        Theoldcuiway('plant/basis/deletePlantPutseed', {
+            id:id
+        }, "post").done(function(resp) {
+            layer.msg('删除成功');
+            setTimeout(function(){
+                getPlantPutseeds(tabItemId);
+            },1500)
+            return
+        }).fail(function(err) {
+            console.log(err);
+            return
+        });
+    }
     // var producttypeid=null;
     // // 选择框选择显示
     // function showSelect(){
@@ -117,46 +119,55 @@ layui.use(['form','table', "laydate"], function() {
 
 
     // 获取用户信息
-    getUser();
-    function getUser() {
-        handleAjax('user/getUser', {}, "GET").done(function(resp) {
-            console.log(resp);
-            enterpriseid = resp.enterpriseId;
-            findBasPutseedList(enterpriseid);
-            return
-        }).fail(function(err) {
-            console.log(err);
-            enterpriseid = err.enterpriseId;
-            findBasPutseedList(enterpriseid);
-            return
-        });
-    }
-    // getBasProducttype();
-    // getTypeParentidByName();
-    // //种子种类查询
-    // function getBasProducttype(){
-    //     handleAjax('PlantBasPutseed/getBasProducttype', {
-    //         parentid:'0000000000003'
-    //     }, "GET").done(function(resp) {
+    // getUser();
+    // function getUser() {
+    //     handleAjax('user/getUser', {}, "GET").done(function(resp) {
     //         console.log(resp);
-
-    //         for(var i=0;i<resp.list.length;i++){
-    //             document.querySelector('#type').innerHTML=document.querySelector('#type').innerHTML+'<option value="'+resp.list[i].pid+'" data-id="'+i+'">'+resp.list[i].pname+'</option>'
-    //             document.querySelector('#inline-type').innerHTML=document.querySelector('#inline-type').innerHTML
-    //             +'<div class="layui-input-inline inline-ctype" style="display:none;"><select name="ctype" lay-filter="ctype" class="ctype"><option value="">请选择</option></select></div>'
-    //             var ctypelist = document.querySelectorAll('.ctype');
-    //             for(var j=0;j<resp.list[i].viList.length;j++){
-    //                 ctypelist[i].innerHTML=ctypelist[i].innerHTML+'<option value="'+resp.list[i].viList[j].pid+'">'+resp.list[i].viList[j].pname+'</option>'
-    //             }
-    //         }
-    //         layui.form.render("select");
-    //         showSelect();
+    //         enterpriseid = resp.enterpriseId;
+    //         findBasPutseedList(enterpriseid);
     //         return
     //     }).fail(function(err) {
     //         console.log(err);
+    //         enterpriseid = err.enterpriseId;
+    //         findBasPutseedList(enterpriseid);
     //         return
     //     });
     // }
+    getProducttype('1');
+    //种子种类查询
+    function getProducttype(tabItemId){
+        var id='';
+        
+        if(tabItemId==1){
+            id='0000000000003';
+        }else if(tabItemId==2){
+            id='25b13fdd-9b01-11e5-83f4-000c29365478';
+        }else if(tabItemId==3){
+            id='25ca81fb-9b01-11e5-83f4-000c29365478';
+        }else if(tabItemId==4){
+            id='25f64f62-9b01-11e5-83f4-000c29365478';
+        }
+        Theoldcuiway('plant/getProducttype', {
+            pid:id
+        }, "GET").done(function(resp) {
+            console.log(resp);
+            document.querySelector('#type').innerHTML='<option value="">请选择</option>'
+            for(var i=0;i<resp.data.length;i++){
+                document.querySelector('#type').innerHTML=document.querySelector('#type').innerHTML+'<option value="'+resp.data[i].id+'" data-id="'+i+'">'+resp.data[i].name+'</option>'
+                // document.querySelector('#inline-type').innerHTML=document.querySelector('#inline-type').innerHTML
+                // +'<div class="layui-input-inline inline-ctype" style="display:none;"><select name="ctype" lay-filter="ctype" class="ctype"><option value="">请选择</option></select></div>'
+                // var ctypelist = document.querySelectorAll('.ctype');
+                // for(var j=0;j<resp.list[i].viList.length;j++){
+                //     ctypelist[i].innerHTML=ctypelist[i].innerHTML+'<option value="'+resp.list[i].viList[j].pid+'">'+resp.list[i].viList[j].pname+'</option>'
+                // }
+            }
+            layui.form.render("select");
+            return
+        }).fail(function(err) {
+            console.log(err);
+            return
+        });
+    }
     // // 农药/其它投入品种别查询
     // function getTypeParentidByName(){
     //     var listVo={
@@ -203,57 +214,65 @@ layui.use(['form','table', "laydate"], function() {
     //     });
     // }
     document.querySelector('#findBasPutseedList').addEventListener('click',function(){
-        findBasPutseedList();
+        getPlantPutseeds();
     })
     // 列表
-    function findBasPutseedList(enterpriseid){
+    getPlantPutseeds(1);
+    function getPlantPutseeds(id){
+        console.log(111);
         var putseedname=document.querySelector('#putseedname').value;
         var approval=document.querySelector('#approval').value;
-        // var producttypeid=document.querySelector('#producttypeid').value;
-        console.log(producttypeid);
-        var putseed = {
-            'enterpriseid':enterpriseid,
-            'putseedclass':tabItemId,
-            'producttypeid':producttypeid,
-            'approval':approval,
-            'putseedname':putseedname
-        };
-        console.log(putseed);
-        var putseed = JSON.stringify(putseed);
+        var producttypeid=document.querySelector('#type').value;
         table.render({
-            elem: '#test',
-            url: base + "PlantBasPutseed/findBasPutseedList",
+            elem: '#testdome',
+            url: baseaip + "plant/basis/getPlantPutseeds",
             method: "GET",
-            where: {putseed:putseed},
+            where: {
+                putseedclass:id,
+                // putseedsource:1,
+                auditstaus:approval,
+                putseedname:putseedname,
+                producttypeid:producttypeid
+            },
             headers: {
                 Authorization: "Bearer" + " " + sessions
             },
-            toolbar: '#toolbarinter',
-            done: function(res, curr, count) {
-                console.log('1231231')
-                console.log(res)
-                // showImg();
-            },
             request: {
-                pageName: 'currentPage' //页码的参数名称，默认：page
-                    ,
-                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                pageName: "page",
+                limitName: "limit"
             },
-            parseData: function(res) { //res 即为原始返回的数据
+            limits: [10, 20],
+            parseData: function(res) {
+            //res 即为原始返回的数据
+                console.log(res);
                 return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.message, //解析提示文本
-                    "totalNum": res.pageBean.totalNum, //解析数据长度
-                    "lists": res.pageBean.lists //解析数据列表
+                    code: res.code, //解析接口状态
+                    msg: res.msg, //解析提示文本
+                    totalNum: res.data.total, //解析数据长度
+                    lists: res.data.records //解析数据列表
                 };
             },
+            toolbar: "#toolbarinter",
             response: {
-                statusName: 'code', //数据状态的字段名称，默认：code
-                statusCode: 10000, //成功的状态码，默认：0
-                msgName: "message", //状态信息的字段名称，默认：msg
-                countName: 'totalNum', //数据总数的字段名称，默认：count
-                dataName: 'lists', //数据列表的字段名称，默认：data
+                statusName: "code", //数据状态的字段名称，默认：code
+                statusCode: 200, //成功的状态码，默认：0
+                msgName: "msg", //状态信息的字段名称，默认：msg
+                countName: "totalNum", //数据总数的字段名称，默认：count
+                dataName: "lists" //数据列表的字段名称，默认：data
             },
+            cellMinWidth: 80,
+            page: {
+            //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ["prev", "page", "next", "skip", "count"], //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                groups: 5, //只显示 1 个连续页码
+                first: true, //不显示首页
+                last: true, //不显示尾页
+                prev: "下一页",
+                next: "上一页",
+                theme: "#c81623"
+            },
+            
             cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
@@ -285,11 +304,6 @@ layui.use(['form','table', "laydate"], function() {
                     align: "center",
                     minWidth: 150
                 }, {
-                    field: 'shopname',
-                    title: '商品名称',
-                    align: "center",
-                    minWidth: 120
-                }, {
                     field: 'lifedate',
                     title: '保质期',
                     align: "center",
@@ -307,17 +321,12 @@ layui.use(['form','table', "laydate"], function() {
                     minWidth: 130
                 }, 
                 {
-                    field: 'registrationmark',
+                    field: 'registrationcode',
                     title: '审定/登记号',
                     align: "center",
                     minWidth: 150
                 }, 
-                {
-                    field: 'approval',
-                    title: '审批状态',
-                    align: "center",
-                    minWidth: 150
-                }, 
+                
                 {
                     field: 'putseedclass',
                     title: '投入品类别',

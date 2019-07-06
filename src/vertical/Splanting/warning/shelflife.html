@@ -19,20 +19,19 @@
             <div class="select-con">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label" style="width:95px;">投入产品名称:</label
-              >
-              <div class="layui-input-inline">
-                <input type="text" class="layui-input  accessories" />
-              </div>
-            </div>
-          </div>
+                        <label class="layui-form-label" style="width:95px;">投入产品名称:</label>
+                        <div class="layui-input-inline">
+                          <input type="text" class="layui-input putseedname" />
+                        </div>
+                    </div>
+                  </div>
 
-          <div class="select-btn">
-            <div class="layui-bg-green comquery  Rawquery">查询</div>
-            <div class="layui-bg-green comquery  reset">重置</div>
+                <div class="select-btn">
+                  <div class="layui-bg-green comquery  Rawquery">查询</div>
+                  <div class="layui-bg-green comquery  reset">重置</div>
+                </div>
           </div>
         </div>
-      </div>
     </form>
 
     <div class="common-padding">
@@ -56,12 +55,10 @@
       //获取列表
       var tableIns = table.render({
         elem: "#test",
-        url: baseaip + "plant/yjxx/trpbzqyj",
+        url: baseaip + "plant/warning/getPutseedLifeDates",
         method: "GET",
         where: {
-          sysType: "1",
-          productclass: "3",
-          productName:""
+          putseedname:""
         },
         headers: {
           Authorization: "Bearer" + " " + sessions
@@ -77,8 +74,8 @@
           return {
             code: res.code, //解析接口状态
             msg: res.msg, //解析提示文本
-            totalNum: res.data.totalElements, //解析数据长度
-            lists: res.data.content //解析数据列表
+            totalNum: res.data.total, //解析数据长度
+            lists: res.data.list //解析数据列表
           };
         },
         toolbar: "#toolbarinter",
@@ -111,7 +108,7 @@
               fixed: "left"
             },
             {
-              field: "productname",
+              field: "putseedname",
               title: "投入品名称",
               minWidth: 120,
               align: "center"
@@ -123,52 +120,50 @@
               align: "center"
             },
             {
-              field: "createdate",
+              field: "factorydate",
               title: "生产日期",
               minWidth: 120,
               align: "center",
               templet: function(d) {
-                                            var numv = null;
-                                            if (d.createdate == "" || d.createdate == null) {
-                                                numv = " ";
-                                            } else {
-                                                numv = d.createdate = layui.util.toDateString(
-                                                    d.createdate,
-                                                    "yyyy-MM-dd"
-                                                );
-                                            }
-                                            return numv;
-                                        }
+                var numv = null;
+                if (d.factorydate == "" || d.factorydate == null) {
+                    numv = " ";
+                } else {
+                    numv = d.factorydate = layui.util.toDateString(
+                        d.factorydate,
+                        "yyyy-MM-dd"
+                    );
+                }
+                return numv;
+            }
             },
             {
-              field: "overdue",
+              field: "todate",
               title: "过期日期",
               minWidth: 120,
               align: "center",
               templet: function(d) {
-                                            var numv = null;
-                                            if (d.overdue == "" || d.overdue == null) {
-                                                numv = " ";
-                                            } else {
-                                                numv = d.overdue = layui.util.toDateString(
-                                                    d.overdue,
-                                                    "yyyy-MM-dd"
-                                                );
-                                            }
-                                            return numv;
-                                        }
+                var numv = null;
+                if (d.todate == "" || d.todate == null) {
+                    numv = " ";
+                } else {
+                    numv = d.todate = layui.util.toDateString(
+                        d.todate,
+                        "yyyy-MM-dd"
+                    );
+                }
+                return numv;
+            }
             },
             {
-              field: "shelfdateunit",
+              field: "lifedate",
               title: "保质期",
               minWidth: 120,
               align: "center",
-              templet: function(d) {
-                return  d.shelfdateunit+"/天"
-              }
+              
             },
             {
-              field: "weight",
+              field: "stocknum",
               title: "库存数量",
               minWidth: 120,
               align: "center"
@@ -187,7 +182,7 @@
       
        /*查询*/
        $(".Rawquery").click(function() {
-            if ($(".accessories").val() == "") {
+            if ($(".putseedname").val() == "") {
                 layer.msg("请输入查询条件！", {
                     time: 1000,
                     offset: "t"
@@ -196,9 +191,8 @@
             }
 
             var datelist = {
-                sysType: "1",
-                productclass: "3",
-                productName: $(".accessories").val()
+                
+              putseedname: $(".putseedname").val()
             };
 
             tableIns.reload({
@@ -216,12 +210,10 @@
 
         /*重置*/
         $(".reset").click(function() {
-            $(".accessories").val("");
+            $(".putseedname").val("");
             tableIns.reload({
                 where: {
-                    sysType: "1",
-                    productclass: "3",
-                    productName: ""
+                  putseedname:''
                 },
                 page: {
                     curr: 1, //重新从第 1 页开始

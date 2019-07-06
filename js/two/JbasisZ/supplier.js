@@ -128,8 +128,8 @@ layui.use(['form','element','table', "layer", "util"], function() {
     }
     function delBasEnterpriseById(delid){
         Theoldcuiway(
-            "plant/deleteGYSXX", {
-                qykhxxId:delid,
+            "plant/basis/deletePlantEnterpriseaudit", {
+                id:delid,
             },
             "POST"
         )
@@ -149,19 +149,20 @@ layui.use(['form','element','table', "layer", "util"], function() {
     getBasEnterprise();
 
     function getBasEnterprise() {
-        var enterprisename = document.querySelector('#enterprisename').value;
-        var license = document.querySelector('#license').value;
-        var auditStaus = document.querySelector('#auditStaus').value;
+        var enterprisename = $('#enterprisename').val();
+        var license = $('#license').val();
+        var auditStaus = $('#auditStaus').val();
         //获取列表
+        console.log(baseaip);
         var tableIns = table.render({
             elem: "#testee",
-            url: baseaip + "plant/gysxxs",
+            url: baseaip + "plant/basis/getPlantEnterpriseaudits",
             method: "GET",
             where: {
-            sysType: 1,
+            enterpriseclass:1,
             license: license,
-            enterpriseName: enterprisename,
-            auditStaus:auditStaus,
+            enterprisename: enterprisename,
+            auditstaus:auditStaus,
             },
             headers: {
             Authorization: "Bearer" + " " + sessions
@@ -177,8 +178,8 @@ layui.use(['form','element','table', "layer", "util"], function() {
             return {
                 code: res.code, //解析接口状态
                 msg: res.msg, //解析提示文本
-                totalNum: res.data.totalElements, //解析数据长度
-                lists: res.data.content //解析数据列表
+                totalNum: res.data.total, //解析数据长度
+                lists: res.data.list //解析数据列表
             };
             },
             toolbar: "#toolbarinter",
@@ -224,12 +225,7 @@ layui.use(['form','element','table', "layer", "util"], function() {
                 minWidth: 120,
                 align: "center"
                 },
-                {
-                field: "corporation",
-                title: "法定负责人",
-                minWidth: 120,
-                align: "center"
-                }, {
+                 {
                     field: 'linkman',
                     title: '联系人',
                     align: "center",
@@ -240,15 +236,6 @@ layui.use(['form','element','table', "layer", "util"], function() {
                     align: "center",
                     minWidth: 150
                 }, {
-                    field: 'imgs',
-                    title: '营业执照图片地址',
-                    align: "center",
-                    minWidth: 180,
-                    event: 'showImg', 
-                    templet: function(d) {
-                        return '<img src="'+d.imgs+'" alt="" class="licenseimg">'
-                    }
-                }, {
                     field: 'auditstaus',
                     title: '审核状态',
                     align: "center",
@@ -256,17 +243,17 @@ layui.use(['form','element','table', "layer", "util"], function() {
                     templet: function(d) {
                         var num = null;
                         console.log(d.auditstaus)
-                        if (d.auditstaus == "0") {
-                            num = "待审批"
+                        if (d.auditstaus == "1") {
+                            num = "未审核"
                             return num
                         }
 
-                        if (d.auditstaus == "1" || d.auditstaus == "审批通过") {
-                            num = "审批通过"
+                        if (d.auditstaus == "2") {
+                            num = "通过审核"
                             return num
                         }
-                        if (d.auditstaus == "2" || d.auditstaus == "审批不通过") {
-                            num = "审批不通过"
+                        if (d.auditstaus == "3") {
+                            num = "未通过审核"
                             return num
                         }
                     }
@@ -290,13 +277,13 @@ layui.use(['form','element','table', "layer", "util"], function() {
         //获取列表
         var tableIns = table.render({
             elem: "#personaltable",
-            url: baseaip + "plant/grgys",
+            url: baseaip + "plant/basis/getPlantPersonnels",
             method: "GET",
             where: {
-            sysType: 1,
-            userName: userName,
-            idCard: idCard,
-            auditStaus:auditStaus,
+            persontype:1,
+            personname: userName,
+            personcard: idCard,
+            auditstaus:auditStaus,
             },
             headers: {
             Authorization: "Bearer" + " " + sessions
@@ -312,8 +299,8 @@ layui.use(['form','element','table', "layer", "util"], function() {
             return {
                 code: res.code, //解析接口状态
                 msg: res.msg, //解析提示文本
-                totalNum: res.data.totalElements, //解析数据长度
-                lists: res.data.content //解析数据列表
+                totalNum: res.data.total, //解析数据长度
+                lists: res.data.records //解析数据列表
             };
             },
             toolbar: "#toolbarinter",

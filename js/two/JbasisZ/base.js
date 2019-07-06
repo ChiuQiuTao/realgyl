@@ -31,13 +31,22 @@
                             deleteId(data[0].id);
                         }
                         break;
+                    case 'show':
+                        if(data.length === 0){
+                            layer.msg('请选择一行');
+                        } else if(data.length > 1){
+                            layer.msg('只能同时选择一个');
+                        } else {
+                            window.location.href = "./newpage/examineDialog.html?id="+data[0].id;
+                        }
+                        break;
                 };
             });
 
             function deleteId(id){
                 Theoldcuiway(
-                    "plant/deleteJdxx", {
-                        jdxxId:id,
+                    "plant/basis/deletePlantBase", {
+                        id:id,
                     },
                     "POST"
                 )
@@ -62,11 +71,11 @@
             //获取列表
             var tableIns = table.render({
                 elem: "#test",
-                url: baseaip + "plant/jdxxs",
+                url: baseaip + "plant/basis/getPlantBases",
                 method: "GET",
                 where: {
                 sysType: "1",
-                landName: landName
+                basename: landName
                 },
                 headers: {
                 Authorization: "Bearer" + " " + sessions
@@ -82,8 +91,8 @@
                 return {
                     code: res.code, //解析接口状态
                     msg: res.msg, //解析提示文本
-                    totalNum: res.data.totalElements, //解析数据长度
-                    lists: res.data.content //解析数据列表
+                    totalNum: res.data.total, //解析数据长度
+                    lists: res.data.records //解析数据列表
                 };
                 },
                 toolbar: "#toolbarinter",
@@ -118,7 +127,7 @@
                     align: "center",
                     },
                     {
-                    field: "landname",
+                    field: "basename",
                     title: "基地名称",
                     minWidth: 120,
                     align: "center"

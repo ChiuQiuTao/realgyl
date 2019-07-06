@@ -158,12 +158,12 @@ $(".agains").click(function() {
         //获取列表
         var tableIns = table.render({
             elem: "#testee",
-            url: baseaip + "plant/gysxxs",
+            url: baseaip + "plant/basis/getPlantEnterpriseaudits",
             method: "GET",
             where: {
-            sysType: 2,
+            enterpriseclass:1,
             license: license,
-            enterpriseName: enterprisename,
+            enterprisename: enterprisename,
             auditStaus:auditStaus,
             },
             headers: {
@@ -293,7 +293,7 @@ $(".agains").click(function() {
         //获取列表
         var tableIns = table.render({
             elem: "#personaltable",
-            url: baseaip + "plant/grgys",
+            url:  baseaip + "plant/basis/getPlantEnterpriseaudits",
             method: "GET",
             where: {
             sysType: 2,
