@@ -1,0 +1,62 @@
+#shousuo,
+#shouhuoss {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    background-color: #eb1e1e;
+    padding: 7px;
+    margin: 4px;
+    cursor: pointer;
+    display: none;
+}
+
+.layque {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.queding {
+    margin-left: 15px;
+}
+
+.searchd {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 10px;
+}
+
+.wusss {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.lisrds {
+    margin: 0 15px;
+    background-color: #fff;
+    width: 100%;
+}
+
+.wuhao {
+    position: relative;
+}
+
+.wuliaos>input {
+    height: 28px;
+    width: 100px;
+    border: 0;
+}
+
+.wuliaos>i {
+    position: absolute;
+    top: 0;
+    right: -10px;
+    background-color: #eb1e1e;
+    padding: 0px 3px;
+    margin: 1px;
+    cursor: pointer;
+}

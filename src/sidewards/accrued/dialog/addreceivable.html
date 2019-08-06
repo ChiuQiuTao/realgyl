@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>应收账单</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../css/goodsshelves.css">
+</head>
+
+<body>
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 应收账单</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">批准人名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   approver" name="approver" placeholder="输入批准人">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="csname" lay-filter="csname" class="csname">
+                                <option value="">---请选择---</option>                                       
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户代号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  cscode" placeholder="输入供客户代号" name="cscode" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">批准:</label>
+                        <div class="layui-input-inline ">
+                            <select name="approve" lay-filter="approve" class="approve">
+                                <option value="">---请选择---</option> 
+                                <option value="已批准">已批准</option>            
+                                <option value="未批准">未批准</option>                                                            
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">单据日期:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="billstime" class="layui-input input-d  billstime" placeholder="输入单据日期" name="billstime">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否关闭:</label>
+                        <div class="layui-input-inline" id="top">
+                            <input type="radio" name="closed" value="是" title="是">
+                            <input type="radio" name="closed" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">发票日期:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="invoicetime" class="layui-input input-d  invoicetime" placeholder="输入发票日期" name="invoicetime">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">付款条件:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  paymentterms" placeholder="输入付款条件" name="paymentterms">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">税目名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="taxitems" lay-filter="taxitems" class="taxitems">
+                                <option value="">---请选择---</option> 
+                                <option value="0.03">3%普通税</option> 
+                                <option value="0.06">6%普通税</option>            
+                                <option value="0.16">16%增值税</option>                   
+                                <option value="0.17">17%增值税</option>                                                             
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">税率:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  taxrate" placeholder="输入税率" name="taxrate" disabled>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="lisrds">
+            <table class="layui-table" lay-data="{id:'test3'}" lay-filter="test3" id="test3">
+                <thead>
+                    <tr>
+                        <th lay-data="{type:'checkbox', align: 'center'}"></th>
+                        <th lay-data="{field:'id', minWidth:80,align: 'center'}">序号</th>
+                        <th lay-data="{field:'productcode', minWidth:120,align: 'center',event: 'setSign',}">产品代号*</th>
+                        <th lay-data="{field:'productname',  minWidth: 120,align: 'center',}">物料名称</th>
+                        <th lay-data="{field:'specifications', minWidth:120,align: 'center' }">物料规格</th>
+                        <th lay-data="{field:'num', edit: 'text', minWidth: 120,align: 'center'}">应收数量*</th>
+                        <th lay-data="{field:'unitprice', minWidth:120,edit: 'text',align: 'center'}">单价*</th>
+                        <th lay-data="{field:'taxrate', minWidth:120,align: 'center'}">税率</th>
+                        <th lay-data="{field:'taxprice', minWidth:120,edit: 'text',align: 'center'}">含税单价*</th>
+                        <th lay-data="{field:'notmoney', minWidth:120,edit: 'text',align: 'center'}">不含税金额*</th>
+                        <th lay-data="{field:'money', minWidth:120,align: 'center'}">含税金额*</th>
+                        <th lay-data="{field:'amountmoney', minWidth:120,align: 'center'}">应收金额*</th>
+                        <th lay-data="{field:'unit', minWidth:120,align: 'center',event: 'erre'}">单位*</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>1</td>
+                        <td class="productcode"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rates"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>2</td>
+                        <td class="productcode"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rates"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="select-btn" style="margin-left:30px;">
+            <div class="layui-bg-green comquery queding" id="queding">确定</div>
+            <div class="layui-bg-green comquery cancels">取消</div>
+        </div>
+    </form>
+</body>
+<script src="../../../../js/module/jquery-3.4.1.min.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../js/common/api.js"></script>
+<script type="text/javascript">
+</script>
+
+</html>
+
+
+<script>
+    layui.use(["table", "laydate", "layer", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            layer = layui.layer,
+            obj = {},
+            table = layui.table;
+
+        laydate.render({
+            elem: '#billstime' //指定元素
+        });
+
+        laydate.render({
+            elem: '#invoicetime',
+            trigger: 'click'
+        });
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../receivable.html";
+        });
+
+        //客户名称
+        obj.csname = "";
+        obj.cscode = "";
+        noAjax("coa/getCustomerList", {}, "get").done(function(resp) {
+            $.each(resp.ipage.records, function(v, item) {
+                $(".csname").append('<option  value="' + item.customerId + '">' + item.fullName + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(csname)', function(data) {
+            obj.csname = data.elem[data.elem.selectedIndex].text;
+            obj.cscode = data.value;
+            if (data.value == "") {
+                obj.csname = "";
+            }
+            $(".cscode").val(data.value);
+            return
+        });
+
+
+        //制表人名称
+        noAjax("user/getUser", {}, "get").done(function(resp) {
+            console.log(resp)
+            obj.listername = resp.realName;
+            obj.listercode = resp.id;
+            $(".approver").val(resp.realName);
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+        //税目
+        obj.taxitems = "";
+        obj.taxrate = "";
+        form.on('select(taxitems)', function(data) {
+            obj.taxitems = data.elem[data.elem.selectedIndex].text;
+            obj.taxrate = Number(data.value);
+            if (data.value == "") {
+                obj.taxitems = "";
+            }
+            $(".taxrate").val(data.value);
+            return
+        });
+
+
+
+
+        /*子输入||*/
+        //监听单元格编辑
+        table.on('edit(test3)', function(obj) {
+            var value = obj.value //得到修改后的值
+                ,
+                data = obj.data //得到所在行所有键值
+                ,
+                field = obj.field; //得到字段
+            // layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
+            var res = new RegExp("^[0-9]*$|^[0-9]+(.[0-9]{1,})?$");
+            if (!res.test(value)) {
+                layer.msg("请输入数字！", {
+                    time: 1000,
+                    offset: "c"
+                });
+                return
+            }
+            // 13168118877
+            var ying = $(obj.tr).children().eq(5).text();
+            var dan = $(obj.tr).children().eq(6).text();
+            var lu = $(obj.tr).children().eq(7).text();
+            var huandan = (Number(dan) + (Number(dan) * Number(lu))).toFixed(2);
+            if (field == "num") {
+                $(obj.tr).children().eq(5).text(Number(value).toFixed(2));
+                $(obj.tr).children().eq(8).text((Number(dan) + (Number(dan) * Number(lu))).toFixed(2));
+                $(obj.tr).children().eq(9).text((Number(value) * Number(dan)).toFixed(2));
+                $(obj.tr).children().eq(10).text((Number(value) * (Number(dan) + (Number(dan) * Number(lu)))).toFixed(2));
+                $(obj.tr).children().eq(11).text((Number(value) * (Number(dan) + (Number(dan) * Number(lu)))).toFixed(2));
+
+                $.each(layui.table.cache.test3, function(v, items) {
+                    if (items.id == data.id) {
+                        items.num = Number(value);
+                        items.taxprice = (Number(dan) + (Number(dan) * Number(lu))).toFixed(2);
+                        items.notmoney = (Number(value) * Number(dan)).toFixed(2);
+                        items.money = (Number(value) * (Number(dan) + (Number(dan) * Number(lu)))).toFixed(2);
+                        items.amountmoney = (Number(value) * (Number(dan) + (Number(dan) * Number(lu)))).toFixed(2);
+                    }
+                })
+                return
+            }
+
+
+            if (field == "unitprice") {
+                $(obj.tr).children().eq(6).text(Number(value).toFixed(2));
+                $(obj.tr).children().eq(8).text((Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2));
+                $(obj.tr).children().eq(9).text((Number(ying) * Number(value)).toFixed(2));
+                $(obj.tr).children().eq(10).text(((Number(ying) * Number(value)) + (Number(value) * Number($(".taxrate").val()))).toFixed(2));
+                $(obj.tr).children().eq(11).text(((Number(ying) * Number(value)) + (Number(value) * Number($(".taxrate").val()))).toFixed(2));
+
+                $.each(layui.table.cache.test3, function(v, items) {
+                    if (items.id == data.id) {
+                        items.taxprice = (Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2);
+                        items.notmoney = (Number(ying) * Number(value)).toFixed(2);
+                        items.money = ((Number(ying) * Number(value)) + (Number(value) * Number($(".taxrate").val()))).toFixed(2);
+                        items.amountmoney = ((Number(ying) * Number(value)) + (Number(value) * Number($(".taxrate").val()))).toFixed(2);
+                        items.unitprice = Number(value).toFixed(2);
+                    }
+                })
+                return
+            }
+
+            if (field == "taxprice") {
+                $(obj.tr).children().eq(8).text(Number(value).toFixed(2));
+                $(obj.tr).children().eq(6).text((Number(value) / (Number($(".taxrate").val()) + 1)).toFixed(2));
+                $(obj.tr).children().eq(9).text((Number(value) / (Number($(".taxrate").val()) + 1)).toFixed(2));
+                $(obj.tr).children().eq(10).text(Number(value).toFixed(2));
+                $(obj.tr).children().eq(11).text(Number(value).toFixed(2));
+
+                $.each(layui.table.cache.test3, function(v, items) {
+                    if (items.id == data.id) {
+                        items.taxprice = Number(value).toFixed(2);
+                        items.notmoney = (Number(value) / (Number($(".taxrate").val()) + 1)).toFixed(2);
+                        items.money = Number(value).toFixed(2);
+                        items.amountmoney = Number(value).toFixed(2);
+                        items.unitprice = (Number(value) / (Number($(".taxrate").val()) + 1)).toFixed(2);
+                    }
+                })
+                return
+            }
+
+            if (field == "notmoney") {
+                $(obj.tr).children().eq(9).text(Number(value).toFixed(2));
+                $(obj.tr).children().eq(6).text(Number(value).toFixed(2));
+                $(obj.tr).children().eq(8).text((Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2));
+                $(obj.tr).children().eq(10).text((Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2));
+                $(obj.tr).children().eq(11).text((Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2));
+
+                $.each(layui.table.cache.test3, function(v, items) {
+                    if (items.id == data.id) {
+                        items.taxprice = (Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2);
+                        items.notmoney = Number(value).toFixed(2);
+                        items.money = (Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2);
+                        items.amountmoney = (Number(value) + (Number(value) * Number($(".taxrate").val()))).toFixed(2);
+                        items.unitprice = Number(value).toFixed(2);
+                    }
+                })
+                return
+            }
+
+
+        });
+
+
+        //监听单元格事件
+        table.on('tool(test3)', function(obj) {
+            var data = obj.data;
+            if (obj.event === 'erre') {
+                var danw = $(this);
+                layer.open({
+                    type: 1,
+                    title: "单位查询",
+                    shadeClose: true, //是否点击遮罩关闭
+                    anim: 5, //弹出动画
+                    scrollbar: false, //窗口外滚动条是否出现
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['860px', '440px'], //宽高
+                    content: '<div id="sssd"></div>',
+                    success: function(layero, index) {
+                        $("#sssd").append('<div  class="searchd"><div  class="wusss"> <label class="layui-form-label"  style="width:140px;">单位编号:</label><input type="text" class="layui-input " id="a"></div><div  class="wusss"> <label class="layui-form-label"  style="width:140px;"> 单位名称:</label><input type="text" class="layui-input " id="b"></div><div style="margin-left:10px;"><button  class="layui-btn layui-btn-xs  search" >查询</button><button  class="layui-btn layui-btn-xs  reset">清除</button></div></div>')
+                        $("#sssd").append(' <table class="layui-hide" id="gylMaterialunit" lay-filter="gylMaterialunit"></table>');
+                        $("#sssd").append('<div  class="layque"><button type="button" class="layui-btn   quedingw">确定</button><button type="button" class="layui-btn  quxiaow">取消</button></div>')
+                        daws(danw, data)
+                    }
+                });
+                return
+            }
+
+            if ($(".taxrate").val() == "") {
+                layer.msg("请输入选择税目名称！", {
+                    time: 1000,
+                    offset: "c"
+                });
+                return
+            }
+
+            if (obj.event === 'setSign') {
+                var thisfthisf = $(this);
+                layer.open({
+                    type: 1,
+                    title: "物料查询",
+                    shadeClose: true, //是否点击遮罩关闭
+                    anim: 5, //弹出动画
+                    scrollbar: false, //窗口外滚动条是否出现
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['860px', '440px'], //宽高
+                    content: '<div id="sssd"></div>',
+                    success: function(layero, index) {
+                        $("#sssd").append('<div  class="searchd"><div  class="wusss"> <label class="layui-form-label"  style="width:140px;">物料代号:</label><input type="text" class="layui-input " id="aw"></div><div  class="wusss"> <label class="layui-form-label"  style="width:140px;"> 物料名称:</label><input type="text" class="layui-input " id="bw"></div><div style="margin-left:10px;"><button  class="layui-btn layui-btn-xs  searchw" >查询</button><button  class="layui-btn layui-btn-xs  resetw">清除</button></div></div>')
+                        $("#sssd").append(' <table class="layui-hide" id="gylin" lay-filter="gylin"></table>');
+                        $("#sssd").append('<div  class="layque"><button type="button" class="layui-btn   quedingw">确定</button><button type="button" class="layui-btn  quxiaow">取消</button></div>')
+                        xuefeng(thisfthisf, data)
+                    }
+                });
+            }
+
+        });
+
+        //单位
+        function daws(tt, uu) {
+            var tableIns = table.render({
+                elem: "#gylMaterialunit",
+                url: base + "coa/getUnitsList",
+                method: "GET",
+                where: {},
+                headers: {
+                    Authorization: "Bearer" + " " + sessions
+                },
+                request: {
+                    pageName: "currentPage",
+                    limitName: "pageSize"
+                },
+                toolbar: "#toolbarinter",
+                limits: [10, 20],
+                parseData: function(res) {
+                    //res 即为原始返回的数据
+                    console.log(res);
+                    return {
+                        code: res.code, //解析接口状态
+                        msg: res.message, //解析提示文本
+                        totalNum: res.ipage.total, //解析数据长度
+                        lists: res.ipage.records //解析数据列表
+                    };
+                },
+                response: {
+                    statusName: "code", //数据状态的字段名称，默认：code
+                    statusCode: 10000, //成功的状态码，默认：0
+                    msgName: "message", //状态信息的字段名称，默认：msg
+                    countName: "totalNum", //数据总数的字段名称，默认：count
+                    dataName: "lists" //数据列表的字段名称，默认：data
+                },
+
+                cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                page: {
+                    //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ["prev", "page", "next", "skip", "count"], //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    groups: 5, //只显示 1 个连续页码
+                    first: true, //不显示首页
+                    last: true, //不显示尾页
+                    prev: "上一页",
+                    next: "下一页",
+                    theme: "#c81623"
+                },
+                // height: 'full-20',//满高
+                cols: [
+                    [{
+                            type: 'checkbox',
+                            fixed: "left"
+                        }, {
+                            field: "uom",
+                            title: "单位编号",
+                            fixed: "left",
+                            minWidth: 110,
+                            align: "center"
+                        }, {
+                            field: "description",
+                            title: "单位名称",
+                            minWidth: 140,
+                            align: "center"
+                        },
+                        // {
+                        //     field: "manager",
+                        //     title: "管理者",
+                        //     minWidth: 100,
+                        //     sort: true,
+                        //     align: "center"
+                        // },
+                    ]
+                ]
+            });
+
+            /*查询*/
+            $(".search").click(function() {
+                if ($("#a").val() == "" && $("#b").val() == "") {
+                    layer.msg("请输入查询条件！", {
+                        time: 1000,
+                        offset: "t"
+                    });
+                    return;
+                }
+
+                var datelist = {
+                    uom: $("#a").val(),
+                    description: $("#b").val()
+                };
+
+                tableIns.reload({
+                    where: datelist,
+                    request: {
+                        pageName: "currentPage", //页码的参数名称，默认：page
+                        limitName: "pageSize" //每页数据量的参数名，默认：limit
+                    },
+                    page: {
+                        curr: 1, //重新从第 1 页开始
+                        layout: ["prev", "page", "next", "skip", "count"]
+                    }
+                });
+            });
+
+            /*重置*/
+            $(".reset").click(function() {
+                $("#a").val("");
+                $("#b").val("");
+                tableIns.reload({
+                    where: {},
+                    page: {
+                        curr: 1, //重新从第 1 页开始
+                        layout: ["prev", "page", "next", "skip", "count"]
+                    }
+                });
+            });
+
+
+            //取消
+            $(".quxiaow").click(function() {
+                layer.closeAll();
+            })
+
+            //确定
+            $(".quedingw").click(function() {
+                var checkStatus = table.checkStatus("gylMaterialunit");
+                if (checkStatus.data.length === 0) {
+                    layer.msg('请选择一行');
+                } else if (checkStatus.data.length > 1) {
+                    layer.msg('只能同时编辑一个');
+                } else {
+
+                    tt.children().text(checkStatus.data[0].description);
+
+                    $.each(layui.table.cache.test3, function(v, items) {
+
+                        if (items.id == tt.parent().children().eq(1).children().text()) {
+                            items.unit = tt.children().text();
+                        }
+                    })
+                    layer.closeAll();
+                }
+                return
+            })
+        }
+
+
+        //物
+        function xuefeng(yy, tt) {
+            var tableIns = table.render({
+                elem: "#gylin",
+                url: base + "coa/getProductList",
+                method: "GET",
+                where: {},
+                headers: {
+                    Authorization: "Bearer" + " " + sessions
+                },
+                request: {
+                    pageName: "currentPage",
+                    limitName: "pageSize"
+                },
+                toolbar: "#toolbarinter",
+                limits: [10, 20],
+                parseData: function(res) {
+                    //res 即为原始返回的数据
+                    console.log(res);
+                    return {
+                        code: res.code, //解析接口状态
+                        msg: res.message, //解析提示文本
+                        totalNum: res.ipage.total, //解析数据长度
+                        lists: res.ipage.records //解析数据列表
+                    };
+                },
+                response: {
+                    statusName: "code", //数据状态的字段名称，默认：code
+                    statusCode: 10000, //成功的状态码，默认：0
+                    msgName: "message", //状态信息的字段名称，默认：msg
+                    countName: "totalNum", //数据总数的字段名称，默认：count
+                    dataName: "lists" //数据列表的字段名称，默认：data
+                },
+
+                cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                page: {
+                    //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ["prev", "page", "next", "skip", "count"], //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    groups: 5, //只显示 1 个连续页码
+                    first: true, //不显示首页
+                    last: true, //不显示尾页
+                    prev: "上一页",
+                    next: "下一页",
+                    theme: "#c81623"
+                },
+                // height: 'full-20',//满高
+                cols: [
+                    [{
+                            type: 'checkbox',
+                            fixed: "left"
+                        }, {
+                            field: "createTime",
+                            title: "创建时间",
+                            minWidth: 120,
+                            sort: true,
+                            align: "center",
+                            templet: function(d) {
+                                var numv = null;
+                                if (d.createTime == "" || d.createTime == null) {
+                                    numv = " ";
+                                } else {
+                                    numv = d.createTime = layui.util.toDateString(
+                                        d.createTime,
+                                        "yyyy-MM-dd"
+                                    );
+                                }
+                                return numv;
+                            }
+                        }, {
+                            field: "artId",
+                            title: "物料代号",
+                            minWidth: 110,
+                            align: "center"
+                        }, {
+                            field: "description",
+                            title: "名称",
+                            minWidth: 140,
+                            align: "center"
+                        }, {
+                            field: "specification",
+                            title: "规格",
+                            minWidth: 110,
+                            sort: true,
+                            align: "center"
+                        }, {
+                            field: "productCodeName",
+                            title: "类别",
+                            minWidth: 100,
+                            sort: true,
+                            align: "center"
+                        }, {
+                            field: "locationName",
+                            title: "仓库",
+                            minWidth: 100,
+                            sort: true,
+                            align: "center"
+                        },
+                        // {
+                        //     field: "qtyOnHand",
+                        //     title: "库存",
+                        //     minWidth: 100,
+                        //     sort: true,
+                        //     align: "center"
+                        // },
+                        {
+                            field: "vendorName",
+                            title: "来源",
+                            minWidth: 100,
+                            sort: true,
+                            align: "center"
+                        }, {
+                            field: "unitBuyCost",
+                            title: "参考进价",
+                            minWidth: 100,
+                            sort: true,
+                            align: "center"
+                        }, {
+                            field: "unitSaleCost",
+                            title: "参考售价",
+                            minWidth: 100,
+                            sort: true,
+                            align: "center"
+                        }, {
+                            field: "editTime",
+                            title: "修改时间",
+                            minWidth: 130,
+                            sort: true,
+                            align: "center",
+                            templet: function(d) {
+                                var numv = null;
+                                if (d.editTime == "" || d.editTime == null) {
+                                    numv = " ";
+                                } else {
+                                    numv = d.editTime = layui.util.toDateString(
+                                        d.editTime,
+                                        "yyyy-MM-dd"
+                                    );
+                                }
+                                return numv;
+                            }
+                        }
+                    ]
+                ]
+            });
+
+            /*查询*/
+            $(".searchw").click(function() {
+                if ($("#aw").val() == "" && $("#bw").val() == "") {
+                    layer.msg("请输入查询条件！", {
+                        time: 1000,
+                        offset: "t"
+                    });
+                    return;
+                }
+
+                var datelist = {
+                    artId: $("#aw").val(),
+                    description: $("#bw").val()
+                };
+
+                tableIns.reload({
+                    where: datelist,
+                    request: {
+                        pageName: "currentPage", //页码的参数名称，默认：page
+                        limitName: "pageSize" //每页数据量的参数名，默认：limit
+                    },
+                    page: {
+                        curr: 1, //重新从第 1 页开始
+                        layout: ["prev", "page", "next", "skip", "count"]
+                    }
+                });
+            });
+
+            /*重置*/
+            $(".resetw").click(function() {
+                $("#aw").val("");
+                $("#bw").val("");
+                tableIns.reload({
+                    where: {},
+                    page: {
+                        curr: 1, //重新从第 1 页开始
+                        layout: ["prev", "page", "next", "skip", "count"]
+                    }
+                });
+            });
+
+            //取消
+            $(".quxiaow").click(function() {
+                layer.closeAll();
+            })
+
+            //确定
+            $(".quedingw").click(function() {
+                var checkStatus = table.checkStatus("gylin");
+                if (checkStatus.data.length === 0) {
+                    layer.msg('请选择一行');
+                } else if (checkStatus.data.length > 1) {
+                    layer.msg('只能一个');
+                } else {
+                    yy.children().text(checkStatus.data[0].artId);
+                    yy.next().children().text(checkStatus.data[0].description);
+                    yy.next().next().children().text(checkStatus.data[0].specification);
+                    yy.parent().children("td:last-child").children().text(checkStatus.data[0].unitName);
+                    yy.parent().children().eq(7).children().text($(".taxrate").val());
+
+                    $.each(layui.table.cache.test3, function(v, items) {
+                        if (items.id == yy.parent().children().eq(1).children().text()) {
+                            items.productcode = yy.parent().children().eq(2).children().text();
+                            items.productname = yy.parent().children().eq(3).children().text();
+                            items.specifications = yy.parent().children().eq(4).children().text();
+                            items.unit = yy.parent().children().eq(12).children().text();
+                            items.taxrate = $(".taxrate").val();
+                        }
+                    })
+                    layer.closeAll();
+                }
+                return
+            })
+
+        }
+
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getAccountList", {
+            id: urls,
+            billtype: 1
+        }, "get").done(function(resp) {
+            console.log(resp.pageBean.lists)
+            if (urls != "") {
+                var ss = resp.pageBean.lists[0].billstime;
+                resp.pageBean.lists[0].billstime = ss.substring(0, 10);
+
+                var ss = resp.pageBean.lists[0].invoicetime;
+                resp.pageBean.lists[0].invoicetime = ss.substring(0, 10);
+
+                form.val("example", resp.pageBean.lists[0])
+                form.render('select');
+            }
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+
+        $("#queding").click(function() {
+
+            if ($("#approver").val() == "") {
+                alerts("请输入批准人")
+                return
+            }
+
+            if ($(".csname").val() == "") {
+                alerts("请选择客户名称")
+                return
+            }
+            if ($(".approve").val() == "") {
+                alerts("请选择批准")
+                return
+            }
+            if ($("#billstime").val() == "") {
+                alerts("请输入单据日期")
+                return
+            }
+            if ($("#invoicetime").val() == "") {
+                alerts("请输入发票日期")
+                return
+            }
+            if ($(".paymentterms").val() == "") {
+                alerts("请输入付款条件")
+                return
+            }
+            if ($(".taxitems").val() == "") {
+                alerts("请选择税目名称")
+                return
+            }
+
+
+            obj.approver = $(".approver").val();
+            obj.cscode = $(".cscode").val();
+            obj.approve = $(".approve").val();
+            obj.billtype = 1;
+            obj.closed = $('#top input[type="radio"]:checked').val();
+            obj.exchangerate = 1;
+            obj.billstime = $("#billstime").val() + " " + "00:00:00";
+            obj.invoicetime = $("#invoicetime").val() + " " + "00:00:00";
+            obj.swebId = "";
+            obj.paymentterms = $(".paymentterms").val();
+
+
+            var checkS = table.checkStatus("test3");
+
+            if (checkS.data.length === 0) {
+                layer.msg("请请选择一行", {
+                    time: 1000,
+                    offset: "t"
+                });
+                return
+            } else {
+
+                $.each(checkS.data, function(s, itemf) {
+                    delete itemf.id
+                    delete itemf.undefined
+                })
+
+                obj.coProductBillList = checkS.data;
+            }
+
+            if (urls != "") {
+                obj.id = urls;
+                obj = JSON.stringify(obj);
+                handleAjax("coa/updateAccount", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../receivable.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                obj = JSON.stringify(obj);
+                console.log(obj)
+                handleAjax("coa/addAccount", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../receivable.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+
+        });
+    });
+</script>

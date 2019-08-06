@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>收款单</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+</head>
+
+<body>
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 收款单</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">批准人:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   approver" name="approver" placeholder="输入批准人">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="csname" lay-filter="csname" class="csname">
+                                <option value="">---请选择---</option>                                       
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户代号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  cscode" placeholder="输入供客户代号" name="cscode" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">货币代号:</label>
+                        <div class="layui-input-inline ">
+                            <select name="curcode" lay-filter="curcode" class="curcode">
+                                <option value="">---请选择---</option> 
+                                <option value="1">人民币</option>                                                          
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">折扣金额:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  disamount" placeholder="输入折扣金额" name="disamount">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">汇率:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  exchangerate" placeholder="输入汇率" name="exchangerate" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">批准:</label>
+                        <div class="layui-input-inline ">
+                            <select name="approve" lay-filter="approve" class="approve">
+                                <option value="">---请选择---</option> 
+                                <option value="已批准">已批准</option>            
+                                <option value="未批准">未批准</option>                                                            
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">已收金额:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  amountpaid" placeholder="输入已收金额" name="amountpaid">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">应收金额:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  amountpayable" placeholder="输入应收金额" name="amountpayable">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">本次收款金额:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  payamount" placeholder="输入本次收款金额" name="payamount">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">收款方式:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  paymethod" placeholder="输入收款方式" name="paymethod">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">收款日期:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="paytime" class="layui-input input-d  paytime" placeholder="输入收款日期" name="paytime">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">税目名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="taxitems" lay-filter="taxitems" class="taxitems">
+                                <option value="3%普通税">3%普通税</option> 
+                                <option value="6%普通税">6%普通税</option>            
+                                <option value="16%增值税">16%增值税</option>                   
+                                <option value="17%增值税">17%增值税</option>                                                             
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">备注:</label>
+                        <div class="layui-input-inline">
+                            <textarea type="text" class="layui-input input-d  remark" placeholder="输入备注" name="remark"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+<script src="../../../../js/module/jquery-3.4.1.min.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../js/common/api.js"></script>
+<script type="text/javascript">
+</script>
+
+</html>
+
+
+<script>
+    layui.use(["table", "laydate", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+        laydate.render({
+            elem: '#paytime' //指定元素
+        });
+
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../voucher.html";
+        });
+
+
+        //供应商
+        obj.csname = "";
+        obj.cscode = "";
+        noAjax("coa/getCustomerList", {}, "get").done(function(resp) {
+            $.each(resp.ipage.records, function(v, item) {
+                $(".csname").append('<option  value="' + item.customerId + '">' + item.fullName + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(csname)', function(data) {
+            obj.csname = data.elem[data.elem.selectedIndex].text;
+            obj.cscode = data.value;
+            if (data.value == "") {
+                obj.csname = "";
+            }
+            $(".cscode").val(data.value);
+            return
+        });
+
+
+        //人民币
+        obj.curcode = "";
+        obj.exchangerate = "";
+        form.on('select(curcode)', function(data) {
+            obj.curcode = data.elem[data.elem.selectedIndex].text;
+            obj.exchangerate = data.value;
+            $(".exchangerate").val(data.value);
+            if (data.value == "") {
+                obj.curcode = "";
+            }
+            return
+        });
+
+
+        //制表人名称
+        noAjax("user/getUser", {}, "get").done(function(resp) {
+            console.log(resp)
+            obj.listername = resp.realName;
+            obj.listercode = resp.id;
+            $(".approver").val(resp.realName);
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getPayList", {
+            id: urls,
+            paytype: "收款类型"
+        }, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            if (urls != "") {
+                var ss = resp.ipage.records[0].paytime;
+                resp.ipage.records[0].paytime = ss.substring(0, 10);
+
+                form.val("example", resp.ipage.records[0])
+                form.render('select');
+            }
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+
+        $("#queding").click(function() {
+
+            if ($("#approver").val() == "") {
+                alerts("请输入批准人")
+                return
+            }
+            if ($(".csname").val() == "") {
+                alerts("请选择客户名称")
+                return
+            }
+            if ($(".curcode").val() == "") {
+                alerts("请选择货币代号")
+                return
+            }
+            if ($(".disamount").val() == "") {
+                alerts("请输入折扣金额")
+                return
+            }
+            if ($(".approve").val() == "") {
+                alerts("请选择批准")
+                return
+            }
+            if ($(".amountpaid").val() == "") {
+                alerts("请输入已付金额")
+                return
+            }
+            if ($(".amountpayable").val() == "") {
+                alerts("请输入应付金额")
+                return
+            }
+            if ($(".payamount").val() == "") {
+                alerts("请输入本次付款金额")
+                return
+            }
+            if ($(".paymethod").val() == "") {
+                alerts("请输入付款方式")
+                return
+            }
+            if ($("#paytime").val() == "") {
+                alerts("请选择付款日期")
+                return
+            }
+            if ($(".remark").val() == "") {
+                alerts("请输入备注")
+                return
+            }
+
+            // if ($('#hether input[type="radio"]:checked').val() == "") {
+            //     alerts("请选择是否停用")
+            //     return
+            // }
+
+            obj.approver = $(".approver").val();
+            obj.disamount = $(".disamount").val();
+            obj.cscode = $(".cscode").val();
+            obj.exchangerate = $(".exchangerate").val();
+            obj.approve = $(".approve").val();
+            obj.amountpayable = $(".amountpayable").val();
+            obj.amountpaid = $(".amountpaid").val();
+            obj.payamount = $(".payamount").val();
+            obj.paymethod = $(".paymethod").val();
+            obj.paytime = $(".paytime").val() + " " + "00:00:00";
+            obj.paytype = "收款类型"
+            obj.taxitems = $(".taxitems").val();
+            obj.swebId = "";
+            obj.remark = $(".remark").val();
+            // obj.ifStop = $('#hether input[type="radio"]:checked').val();
+
+
+            if (urls != "") {
+                obj.id = urls;
+                obj = JSON.stringify(obj);
+                handleAjax("coa/updatePay", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../voucher.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                obj = JSON.stringify(obj);
+                handleAjax("coa/addPay", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../voucher.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+
+        });
+    });
+</script>

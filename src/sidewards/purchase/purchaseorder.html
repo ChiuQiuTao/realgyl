@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-    <title>Document</title>
+    <title>采购订单</title>
     <link rel="stylesheet" href="../../../public/dist/css/layui.css">
     <link rel="stylesheet" href="../../../css/purchaseorder.css">
     <link rel="stylesheet" href="../../../public/font/iconfont.css">
@@ -18,33 +17,36 @@
         <div class="select-left">
             <div class="select-item">
                 <div class="select-item-text">
-                    供应商名称
+                    订单单号
                 </div>
-                <input type="text" class="layui-input select-item-input" id="supplier" search-type="supplier">
+                <input type="text" class="layui-input select-item-input" id="a">
             </div>
 
             <div class="select-item">
                 <div class="select-item-text">
-                    单号
+                    订单状态
                 </div>
-                <input type="text" class="layui-input select-item-input" id="code" search-type="code">
-            </div>
-
-
-            <div class="select-item">
-                <div class="select-item-text">
-                    付款方式
-                </div>
-                <input type="text" class="layui-input select-item-input" id="way" search-type="way">
+                <select name="" id="b" class="select-item-select2 ">
+                    <option value="">--请选择--</option>
+                    <option value="付款">付款</option>
+                    <option value="已付款">已付款</option>
+                    <option value="确认">确认</option>
+                    <option value="已确认">已确认</option>
+                    <option value="取消">取消</option>
+                    <option value="发货">发货</option>
+                    <option value="已发货">已发货</option>
+                    <option value="退款">退款</option>
+                    <option value="退货">退货</option>
+                </select>
             </div>
 
         </div>
 
         <div class="select-right">
-            <div class="select-btn " lay-event="search">
+            <div class="select-btn   search" lay-event="search">
                 查询
             </div>
-            <div class="select-btn " lay-event="reset">
+            <div class="select-btn    reset" lay-event="reset">
                 清除
             </div>
         </div>
@@ -60,7 +62,6 @@
 
 </html>
 
-
 <!-- 头部 -->
 <script type="text/html" id="toolbarinter">
     <div class="layui-btn-container ">
@@ -70,94 +71,369 @@
     </div>
 </script>
 
-<script>
-    layui.config({
-        base: "../../../js/module/"
-    }).use(['Services', 'jquery'], function() {
-        var $ = layui.jquery;
 
-        var dataType = "Synergy1procurement";
-        var services = new layui.Services({
-            baseURL: baseaip,
-            tableId: "testdome",
-            toolbar: "#toolbarinter",
-            serachUrl: "dictionaries/query",
-            getUrl: "dictionaries/get",
-            delUrl: "dictionaries/delete",
-            updUrl: "plant/updateNcpxx",
-            saveUrl: "./dialog/addcaigong.html",
-            deleteField: "id",
-            dataType: dataType,
-            parameter: {
-                keyword: '',
-                type: dataType
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+</script>
+
+
+<script>
+    layui.use(["table", "laydate", "layer", "util"], function() {
+        var $ = layui.jquery,
+            util = layui.util,
+            laydate = layui.laydate,
+            layer = layui.layer,
+            table = layui.table;
+
+
+
+        //监听头部监听
+        table.on('toolbar(testdome)', function(obj) {
+            var checkStatus = table.checkStatus(obj.config.id),
+                data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'add':
+                    window.location.href = "./dialog/addpurchaseorder.html";
+                    break;
+                case 'update':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else if (data.length > 1) {
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        window.location.href = "./dialog/addpurchaseorder.html?id=" + data[0].id;
+                    }
+                    break;
+                case 'delete':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else {
+
+                        noAjax("coa/delOrder", {
+                            id: data[0].id
+                        }, "POST").done(function(resp) {
+                            layer.msg('操作成功', {
+                                icon: 1,
+                                time: 1000
+                            });
+                            setTimeout(function() {
+                                tableIns.reload({
+                                    where: {},
+                                    page: {
+                                        curr: 1, //重新从第 1 页开始
+                                        layout: ['prev', 'page', 'next', 'skip', 'count']
+                                    },
+                                })
+                            }, 1500)
+                            return
+                        }).fail(function(err) {
+                            console.log(err)
+                        });
+                    }
+                    break;
+            };
+        });
+
+
+        var tableIns = table.render({
+            elem: "#testdome",
+            url: base + "coa/getOrderList",
+            method: "GET",
+            where: {
+                transType: "采购订单"
             },
+            headers: {
+                Authorization: "Bearer" + " " + sessions
+            },
+            request: {
+                pageName: "currentPage",
+                limitName: "pageSize"
+            },
+            toolbar: "#toolbarinter",
+            limits: [10, 20],
+            parseData: function(res) {
+                //res 即为原始返回的数据
+                console.log(res);
+                return {
+                    code: res.code, //解析接口状态
+                    msg: res.message, //解析提示文本
+                    totalNum: res.pageBean.totalNum, //解析数据长度
+                    lists: res.pageBean.lists //解析数据列表
+                };
+            },
+            response: {
+                statusName: "code", //数据状态的字段名称，默认：code
+                statusCode: 10000, //成功的状态码，默认：0
+                msgName: "message", //状态信息的字段名称，默认：msg
+                countName: "totalNum", //数据总数的字段名称，默认：count
+                dataName: "lists" //数据列表的字段名称，默认：data
+            },
+
+            cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            page: {
+                //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ["prev", "page", "next", "skip", "count"], //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                groups: 5, //只显示 1 个连续页码
+                first: true, //不显示首页
+                last: true, //不显示尾页
+                prev: "上一页",
+                next: "下一页",
+                theme: "#c81623"
+            },
+            // height: 'full-20',//满高
             cols: [
                 [{
-                    type: 'checkbox',
-                    fixed: 'left'
-                }, {
-                    field: 'code',
-                    sort: true,
-                    title: '采购单号',
-                    templet: function(data) {
-                        return (JSON.parse(data.context)).code
-                    }
-                }, {
-                    field: 'time',
-                    sort: true,
-                    title: '采购日期',
-                    templet: function(data) {
-                        return (JSON.parse(data.context)).time
-                    }
-                }, {
-                    field: 'way',
-                    sort: true,
-                    title: '付款方式',
-                    templet: function(data) {
-                        return (JSON.parse(data.context)).way
-                    }
-                }, {
-                    field: 'states',
-                    sort: true,
-                    title: '付款方式',
-                    templet: function(data) {
-                        return (JSON.parse(data.context)).states
-                    }
-                }, {
-                    field: 'supplier',
-                    sort: true,
-                    title: '供应商名称',
-                    templet: function(data) {
+                        type: 'checkbox',
+                        fixed: "left",
+                    }, {
+                        field: "createTime",
+                        title: "创建时间",
+                        minWidth: 120,
+                        sort: true,
+                        align: "center",
+                        templet: function(d) {
+                            var numv = null;
+                            if (d.createTime == "" || d.createTime == null) {
+                                numv = " ";
+                            } else {
+                                numv = d.createTime = layui.util.toDateString(
+                                    d.createTime,
+                                    "yyyy-MM-dd"
+                                );
+                            }
+                            return numv;
+                        }
+                    }, {
+                        field: "transNo",
+                        title: "采购单号",
+                        minWidth: 110,
+                        align: "center"
+                    }, {
+                        field: "transDate",
+                        title: "采购日期",
+                        minWidth: 120,
+                        sort: true,
+                        align: "center",
+                        templet: function(d) {
+                            var numv = null;
+                            if (d.transDate == "" || d.transDate == null) {
+                                numv = " ";
+                            } else {
+                                numv = d.transDate = layui.util.toDateString(
+                                    d.transDate,
+                                    "yyyy-MM-dd"
+                                );
+                            }
+                            return numv;
+                        }
+                    }, {
+                        field: "isLoan",
+                        title: "付款方式",
+                        minWidth: 140,
+                        align: "center"
+                    }, {
+                        field: "transStatus",
+                        title: "付款状态",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "customerVendorName",
+                        title: "供应商名称",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "salesman",
+                        title: "采购员名称",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "approved",
+                        title: "批准",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "closed",
+                        title: "关闭",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "estShipDate	",
+                        title: "预交日",
+                        minWidth: 120,
+                        sort: true,
+                        align: "center",
+                        templet: function(d) {
+                            var numv = null;
+                            if (d.estShipDate == "" || d.estShipDate == null) {
+                                numv = " ";
+                            } else {
+                                numv = d.estShipDate = layui.util.toDateString(
+                                    d.estShipDate,
+                                    "yyyy-MM-dd"
+                                );
+                            }
+                            return numv;
+                        }
+                    },
 
-                        return (JSON.parse(data.context)).supplier
-                    }
-                }, {
-                    field: 'jiaotime',
-                    sort: true,
-                    title: '预交日期',
-                    templet: function(data) {
+                    {
+                        field: "shipToId",
+                        title: "发货地址",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "remark",
+                        title: "备注",
+                        minWidth: 100,
+                        align: "center"
+                    }, {
+                        field: "userName",
+                        title: "制表人名称",
+                        minWidth: 100,
+                        align: "center"
+                    }, {
+                        field: "editTime",
+                        title: "单身数据",
+                        minWidth: 80,
+                        align: "center",
+                        toolbar: '#barDemo'
+                    }, {
+                        field: "editTime",
+                        title: "修改时间",
+                        minWidth: 130,
+                        sort: true,
+                        align: "center",
+                        fixed: 'right',
+                        templet: function(d) {
+                            var numv = null;
+                            if (d.editTime == "" || d.editTime == null) {
+                                numv = " ";
+                            } else {
+                                numv = d.editTime = layui.util.toDateString(
+                                    d.editTime,
+                                    "yyyy-MM-dd"
+                                );
+                            }
+                            return numv;
+                        }
+                    },
+                ]
+            ]
+        });
 
-                        return (JSON.parse(data.context)).jiaotime
-                    }
-                }, {
-                    field: 'lister',
-                    sort: true,
-                    title: '制表人名称',
-                    templet: function(data) {
+        /*查询*/
+        $(".search").click(function() {
+            if ($("#a").val() == "" && $("#b").val() == "") {
+                layer.msg("请输入查询条件！", {
+                    time: 1000,
+                    offset: "t"
+                });
+                return;
+            }
 
-                        return (JSON.parse(data.context)).lister
-                    }
-                }, {
-                    field: 'approval',
-                    sort: true,
-                    title: '批准',
-                    templet: function(data) {
+            var datelist = {
+                transNo: $("#a").val(),
+                transStatus: $("#b").val(),
+                transType: "采购订单"
+            };
 
-                        return (JSON.parse(data.context)).approval
+            tableIns.reload({
+                where: datelist,
+                request: {
+                    pageName: "currentPage", //页码的参数名称，默认：page
+                    limitName: "pageSize" //每页数据量的参数名，默认：limit
+                },
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ["prev", "page", "next", "skip", "count"]
+                }
+            });
+        });
+
+        /*重置*/
+        $(".reset").click(function() {
+            $("#a").val("");
+            $("#b").val("");
+            tableIns.reload({
+                where: {
+                    transType: "采购订单"
+                },
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ["prev", "page", "next", "skip", "count"]
+                }
+            });
+        });
+
+
+
+        //查看
+        var rys = null;
+        table.on('tool(testdome)', function(obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent === 'edit') { //查看
+                layer.open({
+                    type: 1,
+                    title: "单身数据",
+                    shadeClose: true, //是否点击遮罩关闭
+                    anim: 5, //弹出动画
+                    scrollbar: false, //窗口外滚动条是否出现
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['860px', '300px'], //宽高
+                    content: '<div id="sssd"  style="margin:10px;"></div>',
+                    success: function(layero, index) {
+                        console.log(data.coOrderSingle)
+                        $.each(data.coOrderSingle, function(v, its) {
+                            rys = '<tr>' +
+                                '<td>' + its.partDescription + '</td>' +
+                                '<td>' + its.partId + '</td>' +
+                                '<td>' + its.partSpecification + '</td>' +
+                                '<td>' + its.quantity + '</td>' +
+                                '<td>' + its.unit + '</td>' +
+                                '<td>' + its.taxRate + '</td>' +
+                                '<td>' + its.taxPrice + '</td>' +
+                                '<td>' + its.amount + '</td>' +
+                                '<td>' + its.allAmt + '</td>' +
+                                '<td>' + its.zkRate + '</td>' +
+                                '<td>' + its.locationName + '</td>' +
+                                '<td>' + its.remark + '</td>' +
+                                '<td>' + its.perQty + '</td>' +
+                                '</tr>'
+                        })
+                        console.log(rys)
+
+                        $("#sssd").html('<table lay-filter="parse-table-demo">' +
+                            '<thead> <tr>' +
+                            '<th lay-data="{field:\'username\', minWidth:100}">物料名称</th>' +
+                            '<th lay-data="{field:\'d\', minWidth:100}">材料代号</th>' +
+                            '<th lay-data="{field:\'userwname\', minWidth:100}">物料规格</th>' +
+                            '<th lay-data="{field:\'w\', minWidth:100}">采购数量</th>' +
+                            '<th lay-data="{field:\'e\', minWidth:100}">单位</th>' +
+                            '<th lay-data="{field:\'r\', minWidth:100}">税率</th>' +
+                            '<th lay-data="{field:\'t\', minWidth:100}">含税单价</th>' +
+                            '<th lay-data="{field:\'y\', minWidth:100}">采购金额</th>' +
+                            '<th lay-data="{field:\'u\', minWidth:100}">价税合计</th>' +
+                            '<th lay-data="{field:\'i\', minWidth:100}">折扣率</th>' +
+                            '<th lay-data="{field:\'o\', minWidth:100}">交货仓库</th>' +
+                            '<th lay-data="{field:\'p\', minWidth:100}">备注</th>' +
+                            '<th lay-data="{field:\'q\', minWidth:100}">装箱数量/箱</th>' +
+                            '</tr> ' +
+                            '</thead>' +
+                            '<tbody>' + rys + '</tbody>' +
+                            '</table> ')
+                        table.init('parse-table-demo', { //转化静态表格
+                        });
                     }
-                }, ]
-            ],
+                });
+            }
         });
     });
 </script>

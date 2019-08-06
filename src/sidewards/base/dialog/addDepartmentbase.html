@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -8,148 +8,244 @@
     <title>部门资料</title>
     <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
 </head>
+
 <body>
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 部门资料</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">创建时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss" class="layui-input input-d   ming" name="createTime" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">部门名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  house" placeholder="输入部门名称" name="description">
+                        </div>
+                    </div>
+                </div>
 
-<blockquote class="layui-elem-quote layui-text">
-    部门资料
-</blockquote>
-<form class="layui-form" action="" lay-filter="example" id="example">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">部门地址:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  address" placeholder="输入部门地址" name="address">
+                        </div>
+                    </div>
+                </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >部门代号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="a"  class="layui-input">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">传真:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  fax" placeholder="输入传真" name="fax">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否停用:</label>
+                        <div class="layui-input-inline" id="hether">
+                            <input type="radio" name="ifStop" value="是" title="是">
+                            <input type="radio" name="ifStop" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">主管部门:</label>
+                        <div class="layui-input-inline ">
+                            <select name="parentName" lay-filter="parentName" class="parentName">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">主管:</label>
+                        <div class="layui-input-inline ">
+                            <select name="supervisor" lay-filter="supervisor" class="supervisor">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">部门联系电话:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  telephone" placeholder="输入部门联系电话" name="telephone" maxlength="11">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >部门名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="b"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >主管</label>
-            <div class="layui-input-inline">
-                <input type="text" name="c"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >部门联系电话</label>
-            <div class="layui-input-inline">
-                <input type="text" name="d"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >地址</label>
-            <div class="layui-input-inline">
-                <input type="text" name="e"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >传真</label>
-            <div class="layui-input-inline">
-                <input type="text" name="f"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >创建时间</label>
-            <div class="layui-input-inline">
-                <input type="date" name="g"  class="layui-input" >
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn cancels">取消</button>
-        </div>
-    </div>
-</form>
+    </form>
 </body>
 <script src="../../../../js/module/jquery-3.4.1.min.js"></script>
 <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
 <script src="../../../../js/common/api.js"></script>
 <script type="text/javascript">
-    var dataId = null;
-    layui.config({
-        base: '../../../../js/module/'
-    }).use(['Tool','form', 'layedit', 'laydate',"serviceTools"],function () {
-        layui.Tool.init();
-        var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate,
-            serviceTools = layui.serviceTools;
-        //监听提交
-        form.on('submit(demo1)', function(data){
-            console.log("-----------",data)
-            var type = localStorage.getItem("type");
-            if ( type === null ){
-                alert("数据类型不能为空")
-            }else{
-                var zd = { id:dataId === null ? "" : dataId,
-                    type:type,
-                    context:JSON.stringify(data.field),
-                    keyword:data.field.a+"|"+data.field.b
-                }
-                serviceTools.EditOrSaveOrDelete({
-                    parame:zd,
-                    url:baseaip+"dictionaries/saveOrUpdate",
-                    callback:(function(){
-                        window.history.back(-2);
-                    })()
-                })
-
-            }
-            return false;
-        });
-
-        // console.info(location.href.split("?")[1])
-        getHrefId();
-
-    });
-    function getHrefId(){
-        var loc = location.href;
-        console.log(loc);
-        var url = loc.split("?")[1];
-        console.log(url);
-        if(url && url!=''){
-            var para = url.split("&");
-            var len = para.length;
-            var res = {};
-            var arr = [];
-            for(var i=0;i<len;i++){
-                arr = para[i].split("=");
-                res[arr[0]] = arr[1];
-            }
-            dataId = res.id;
-            var dataJson = localStorage.getItem([res.id]);
-            dataJson != null && dataJson.trim().length > 0 ? (function(){
-                data  = JSON.parse(dataJson);
-                setForm(data);
-            })():"";
-
-        }else{
-
-        }
-
-    }
-    function setForm(data){
-        layui.use(['form'], function () {
-            console.log(data);
-            console.log('data');
-
-            layui.form.val('example', JSON.parse(data.context));
-        })
-    }
-
 </script>
 
 </html>
+
+
+<script>
+    layui.use(["table", "laydate", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+        laydate.render({
+            elem: '#tesss' //指定元素
+        });
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../departmentbase.html";
+        });
+
+        obj.parentName = "";
+        obj.parentDeptId = "";
+
+        //主管部门
+        noAjax("coa/getDeptList", {}, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            $.each(resp.ipage.records, function(v, item) {
+                $(".parentName").append('<option  value="' + item.id + '">' + item.description + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(parentName)', function(data) {
+            obj.parentName = data.elem[data.elem.selectedIndex].text;
+            obj.parentDeptId = data.value;
+            if (data.value == "") {
+                obj.parentName = "";
+            }
+            return
+        });
+
+        //主管
+        obj.supervisor = "";
+        noAjax("coa/getEmployeeList", {}, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            $.each(resp.ipage.records, function(v, item) {
+                $(".supervisor").append('<option  value="' + item.name + '">' + item.name + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(supervisor)', function(data) {
+            obj.supervisor = data.value;
+            return
+        });
+
+
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getLocationList", {
+            id: urls
+        }, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            if (urls != "") {
+                var ss = resp.ipage.records[0].createTime;
+                resp.ipage.records[0].createTime = ss.substring(0, 10);
+                form.val("example", resp.ipage.records[0])
+            }
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+
+        $("#queding").click(function() {
+
+            if ($("#tesss").val() == "") {
+                alerts("请选择时间")
+                return
+            }
+            if ($(".house").val() == "") {
+                alerts("请输入部门名称")
+                return
+            }
+            if ($('#hether input[type="radio"]:checked').val() == "") {
+                alerts("请选择是否停用")
+                return
+            }
+
+            obj.createTime = $("#tesss").val() + " " + "00:00:00";
+            obj.description = $(".house").val();
+            obj.address = $(".address").val();
+            obj.fax = $(".fax").val();
+            obj.ifStop = $('#hether input[type="radio"]:checked').val();
+            obj.telephone = $(".telephone").val();
+
+            if (urls != "") {
+                obj.id = urls;
+
+                handleAjax("coa/updateDept", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../departmentbase.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                handleAjax("coa/addDept", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../departmentbase.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+
+
+
+        });
+    });
+</script>

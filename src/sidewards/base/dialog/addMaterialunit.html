@@ -8,155 +8,108 @@
     <title>物料单位</title>
     <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
 </head>
+
 <body>
 
-<blockquote class="layui-elem-quote layui-text">
-    物料单位
-</blockquote>
-<form class="layui-form" action="" lay-filter="example" id="example">
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 计量单位</div>
+            <div class="select-con">
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >供应商名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="a"  class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >物料名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="b"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >采购单号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="c"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >采购日期</label>
-            <div class="layui-input-inline">
-                <input type="date" name="d"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >付款方式</label>
-            <div class="layui-input-inline">
-                <input type="text" name="e"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >单据类型名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="f"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >付款状态</label>
-            <div class="layui-input-inline">
-                <input type="text" name="g"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >采购员</label>
-            <div class="layui-input-inline">
-                <input type="text" name="h"  class="layui-input">
-            </div>
-        </div>
-    </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">单位名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  house" placeholder="输入单位名称" name="description">
+                        </div>
+                    </div>
+                </div>
 
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn cancels">取消</button>
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 </body>
 <script src="../../../../js/module/jquery-3.4.1.min.js"></script>
 <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
 <script src="../../../../js/common/api.js"></script>
-<script type="text/javascript">
-    var dataId = null;
-    layui.config({
-        base: '../../../../js/module/'
-    }).use(['Tool','form', 'layedit', 'laydate',"serviceTools"],function () {
-        layui.Tool.init();
-        var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate,
-            serviceTools = layui.serviceTools;
-        //监听提交
-        form.on('submit(demo1)', function(data){
-            console.log("-----------",data)
-            var type = localStorage.getItem("type");
-            if ( type === null ){
-                alert("数据类型不能为空")
-            }else{
-                var zd = { id:dataId === null ? "" : dataId,
-                    type:type,
-                    context:JSON.stringify(data.field),
-                    keyword:data.field.a+"|"+data.field.b
-                }
-                serviceTools.EditOrSaveOrDelete({
-                    parame:zd,
-                    url:baseaip+"dictionaries/saveOrUpdate",
-                    callback:(function(){
-                        window.history.back(-2);
-                    })()
-                })
-
-            }
-            return false;
-        });
-
-        // console.info(location.href.split("?")[1])
-        getHrefId();
-
-    });
-    function getHrefId(){
-        var loc = location.href;
-        console.log(loc);
-        var url = loc.split("?")[1];
-        console.log(url);
-        if(url && url!=''){
-            var para = url.split("&");
-            var len = para.length;
-            var res = {};
-            var arr = [];
-            for(var i=0;i<len;i++){
-                arr = para[i].split("=");
-                res[arr[0]] = arr[1];
-            }
-            dataId = res.id;
-            var dataJson = localStorage.getItem([res.id]);
-            dataJson != null && dataJson.trim().length > 0 ? (function(){
-                data  = JSON.parse(dataJson);
-                setForm(data);
-            })():"";
-
-        }else{
-
-        }
-
-    }
-    function setForm(data){
-        layui.use(['form'], function () {
-            console.log(data);
-            console.log('data');
-
-            layui.form.val('example', JSON.parse(data.context));
-        })
-    }
-
-</script>
 
 </html>
+
+
+<script>
+    layui.use(["table", "laydate", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../materialunit.html";
+        });
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getUnitsList", {
+            id: urls
+        }, "get").done(function(resp) {
+
+            form.val("example", resp.ipage.records[0])
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+
+        $("#queding").click(function() {
+
+            if ($(".house").val() == "") {
+                alerts("请选择时间")
+                return
+            }
+            obj.description = $(".house").val()
+
+            if (urls != "") {
+                obj.id = urls;
+
+                handleAjax("coa/updateUnits", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../materialunit.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                handleAjax("coa/addUnits", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../materialunit.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+            return
+        });
+    });
+</script>

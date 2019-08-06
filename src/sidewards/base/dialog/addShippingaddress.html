@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>收货地址</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+</head>
+
+<body>
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 收货地址</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">联系人:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   contact" name="contact" placeholder="输入联系人">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">手机号码:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  mobile" placeholder="输入手机号码" name="mobile" maxlength="11">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">固定电话:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  telephone" placeholder="输入固定电话" name="telephone">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">省:</label>
+                        <div class="layui-input-inline ">
+                            <select name="province" lay-filter="province" class="province">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">城市:</label>
+                        <div class="layui-input-inline ">
+                            <select name="city" lay-filter="city" class="city">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">县区:</label>
+                        <div class="layui-input-inline ">
+                            <select name="district" lay-filter="district" class="district">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">街道:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  streetId" placeholder="输入街道" name="streetId">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">地址名:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  addressName" placeholder="输入详细地址" name="addressName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">详细地址:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  detailedAddr" placeholder="输入详细地址" name="detailedAddr">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">邮政编码:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" required lay-verify="required" autocomplete="off" class="layui-input input-d  zipcode" placeholder="输入邮政编码" name="zipcode">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">备注:</label>
+                        <div class="layui-input-inline">
+                            <textarea type="text" class="layui-input input-d  remark" placeholder="输入备注" name="remark"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">默认地址:</label>
+                        <div class="layui-input-inline" id="hether">
+                            <input type="radio" name="isDefault" value="true" title="是">
+                            <input type="radio" name="isDefault" value="false" title="否">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+<script src="../../../../js/module/jquery-3.4.1.min.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../js/common/api.js"></script>
+<script type="text/javascript">
+</script>
+
+</html>
+
+
+<script>
+    layui.use(["table", "laydate", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+
+        form.verify({
+            required: function(value) {
+                alert(value)
+            }
+        })
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../Shippingaddress.html";
+        });
+
+
+        //省|市|区
+        noAjax("enterprise/getProvincecity", {
+            parentid: 0
+        }, "get").done(function(resp) {
+            $(".province").children().remove();
+            $(".province").append("<option>---请选择---</option>");
+            $.each(resp.list, function(v, item) {
+                $(".province").append('<option  value="' + item.code + '">' + item.fullName + '</option>');
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        // 市
+        form.on('select(province)', function(data) {
+            obj.province = $(this)[0].innerText;
+            noAjax("enterprise/getProvincecity", {
+                parentid: data.value
+            }, "get").done(function(resp) {
+                $(".city").children().remove();
+                $(".city").append("<option>---请选择---</option>");
+                $.each(resp.list, function(v, item) {
+                    $(".city").append('<option  value="' + item.code + '">' + item.fullName + '</option>');
+                })
+                form.render('select');
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
+            return
+        });
+        // 区
+        form.on('select(city)', function(data) {
+            obj.city = $(this)[0].innerText;
+            noAjax("enterprise/getProvincecity", {
+                parentid: data.value
+            }, "get").done(function(resp) {
+                $(".district").children().remove();
+                $(".district").append("<option>---请选择---</option>");
+                $.each(resp.list, function(v, item) {
+                    $(".district").append('<option  value="' + item.code + '">' + item.fullName + '</option>');
+                })
+                form.render('select');
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
+            return
+        });
+
+        form.on('select(district)', function(data) {
+
+            obj.district = $(this)[0].innerText;
+            return
+        });
+
+
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getShippingAddressList", {
+            id: urls
+        }, "get").done(function(resp) {
+            console.log(resp.ipage.records);
+            if (!urls == "") {
+                form.val("example", resp.ipage.records[0])
+                form.render('select');
+            }
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+        $(".mobile").blur(function() {
+            if (!(/^1[3456789]\d{9}$/.test($(this).val()))) {
+                alerts("请输入正确手机号");
+                $(this).val("");
+                return false;
+            }
+        })
+
+
+
+        $("#queding").click(function() {
+
+            if ($(".contact").val() == "") {
+                alerts("请输入联系人")
+                return
+            }
+            if ($(".mobile").val() == "") {
+                alerts("请输入手机号")
+                return
+            }
+            if ($(".province").val() == "") {
+                alerts("请选择省区")
+                return
+            }
+            if ($(".city").val() == "") {
+                alerts("请选择市区")
+                return
+            }
+            if ($(".district").val() == "") {
+                alerts("请选择市县区")
+                return
+            }
+
+
+            if ($(".streetId").val() == "") {
+                alerts("请输入街道")
+                return
+            }
+            if ($(".addressName").val() == "") {
+                alerts("请输入地址名")
+                return
+            }
+
+
+            if ($(".detailedAddr").val() == "") {
+                alerts("请输入详细地址")
+                return
+            }
+            if ($(".zipcode").val() == "") {
+                alerts("请输入邮政编码")
+                return
+            }
+
+            if ($('#hether input[type="radio"]:checked').val() == undefined) {
+                alerts("请选择是否默认地址")
+                return
+            }
+
+
+            obj.contact = $(".contact").val();
+            obj.mobile = $(".mobile").val();
+            obj.telephone = $(".telephone").val();
+            obj.isDefault = $('#hether input[type="radio"]:checked').val();
+            obj.streetId = $(".streetId").val();
+            obj.detailedAddr = $(".detailedAddr").val();
+            obj.addressName = $(".addressName").val();
+            obj.zipcode = $(".zipcode").val();
+            obj.remark = $(".remark").val();
+
+
+
+            if (urls != "") {
+                obj.id = urls;
+                handleAjax("coa/updateShippingAddress", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../Shippingaddress.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                handleAjax("coa/addShippingAddress", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../Shippingaddress.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+
+        });
+    });
+</script>

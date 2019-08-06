@@ -8,154 +8,408 @@
     <title>供应商资料</title>
     <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
 </head>
+
 <body>
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 供应商资料</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">供应商简称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   ming" name="shortName" placeholder="输入供应商简称">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">供应商全称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  house" placeholder="输入供应商全称" name="fullName">
+                        </div>
+                    </div>
+                </div>
 
-<blockquote class="layui-elem-quote layui-text">
-    供应商资料
-</blockquote>
-<form class="layui-form" action="" lay-filter="example" id="example">
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >供应商代号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="a"  class="layui-input">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">平台账号:</label>
+                        <div class="layui-input-inline" id="hether">
+                            <input type="text" class="layui-input input-d  hao" placeholder="输入平台账号" name="webId">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">国家:</label>
+                        <div class="layui-input-inline ">
+                            <select name="country" lay-filter="country" class="superior">
+                                        <option value="">---请选择---</option>
+                                        <option value="0">中国</option>
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">省:</label>
+                        <div class="layui-input-inline ">
+                            <select name="state" lay-filter="sheng" class="shseng">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">城市:</label>
+                        <div class="layui-input-inline ">
+                            <select name="city" lay-filter="cshi" class="cshi">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">详细地址:</label>
+                        <div class="layui-input-inline">
+                            <textarea type="text" class="layui-input input-d  xx" placeholder="输入详细地址" name="vendorAdd"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">联系人:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  liang" placeholder="输入联系人" name="linkman">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">手机:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  shou" placeholder="输入手机" name="mobNo" maxlength="11">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">传真号码:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  chaungzheng" placeholder="输入传真号码" name="facsimile">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">邮政编号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  you" placeholder="输入邮政编号" name="zipcode">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">电话号码:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  cahung" placeholder="输入电话号码" name="telephone">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">供应商类别名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="vendorCodeName" lay-filter="nigs" class="nigs">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">供应商类别代号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  daihao" placeholder="输入供应商类别代号" name="vendorCode">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">负责人:</label>
+                        <div class="layui-input-inline ">
+                            <input type="text" class="layui-input input-d  fu" placeholder="输入负责人" name="principal" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >供应商名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="b"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >供应商类别</label>
-            <div class="layui-input-inline">
-                <input type="text" name="c"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >详细地址</label>
-            <div class="layui-input-inline">
-                <input type="text" name="d"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >负责人</label>
-            <div class="layui-input-inline">
-                <input type="text" name="e"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >电话号码</label>
-            <div class="layui-input-inline">
-                <input type="text" name="f"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >备注</label>
-            <div class="layui-input-inline">
-                <input type="text" name="g"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >创建时间</label>
-            <div class="layui-input-inline">
-                <input type="date" name="h"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn cancels">取消</button>
-        </div>
-    </div>
-</form>
+    </form>
 </body>
 <script src="../../../../js/module/jquery-3.4.1.min.js"></script>
 <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
 <script src="../../../../js/common/api.js"></script>
-<script type="text/javascript">
-    var dataId = null;
-    layui.config({
-        base: '../../../../js/module/'
-    }).use(['Tool','form', 'layedit', 'laydate',"serviceTools"],function () {
-        layui.Tool.init();
-        var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate,
-            serviceTools = layui.serviceTools;
-        //监听提交
-        form.on('submit(demo1)', function(data){
-            console.log("-----------",data)
-            var type = localStorage.getItem("type");
-            if ( type === null ){
-                alert("数据类型不能为空")
-            }else{
-                var zd = { id:dataId === null ? "" : dataId,
-                    type:type,
-                    context:JSON.stringify(data.field),
-                    keyword:data.field.a+"|"+data.field.b
-                }
-                serviceTools.EditOrSaveOrDelete({
-                    parame:zd,
-                    url:baseaip+"dictionaries/saveOrUpdate",
-                    callback:(function(){
-                        window.history.back(-2);
-                    })()
-                })
-
-            }
-            return false;
-        });
-
-        // console.info(location.href.split("?")[1])
-        getHrefId();
-
-    });
-    function getHrefId(){
-        var loc = location.href;
-        console.log(loc);
-        var url = loc.split("?")[1];
-        console.log(url);
-        if(url && url!=''){
-            var para = url.split("&");
-            var len = para.length;
-            var res = {};
-            var arr = [];
-            for(var i=0;i<len;i++){
-                arr = para[i].split("=");
-                res[arr[0]] = arr[1];
-            }
-            dataId = res.id;
-            var dataJson = localStorage.getItem([res.id]);
-            dataJson != null && dataJson.trim().length > 0 ? (function(){
-                data  = JSON.parse(dataJson);
-                setForm(data);
-            })():"";
-
-        }else{
-
-        }
-
-    }
-    function setForm(data){
-        layui.use(['form'], function () {
-            console.log(data);
-            console.log('data');
-
-            layui.form.val('example', JSON.parse(data.context));
-        })
-    }
-
-</script>
 
 </html>
+
+<script>
+    layui.use(["table", "laydate", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../supplierdata.html";
+        });
+
+        //供应商类别名称
+        noAjax("coa/getSuppliersTypeList", {}, "get").done(function(resp) {
+            $.each(resp.ipage.records, function(v, item) {
+                $(".nigs").append('<option  value="' + item.vendorCode + '">' + item.name + '</option>')
+            })
+
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        //负责人
+        noAjax("user/getUser", {}, "get").done(function(resp) {
+            $(".fu").val(resp.realName)
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+        //从国家中选择出省
+        form.on('select(nigs)', function(data) {
+            obj.vendorCodeName = $(this)[0].innerText;
+            $(".daihao").val(data.value);
+        });
+
+
+
+        obj.country = "";
+        obj.city = "";
+        obj.state = "";
+        //从国家中选择出省
+        form.on('select(country)', function(data) {
+
+            obj.country = $(this)[0].innerText;
+            noAjax("enterprise/getProvincecity", {
+                parentid: data.value
+            }, "get").done(function(resp) {
+                $(".shseng").children().remove();
+                $(".shseng").append("<option>---请选择---</option>");
+                $.each(resp.list, function(v, item) {
+                    $(".shseng").append('<option  value="' + item.code + '">' + item.fullName + '</option>');
+                })
+                form.render('select');
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
+            return
+        });
+
+        // 市
+        form.on('select(cshi)', function(data) {
+            obj.city = $(this)[0].innerText;
+            return
+        });
+
+        //选择省
+        form.on('select(sheng)', function(data) {
+            obj.state = $(this)[0].innerText;
+            noAjax("enterprise/getProvincecity", {
+                parentid: data.value
+            }, "get").done(function(resp) {
+                console.log(resp)
+                $(".cshi").children().remove();
+                $(".cshi").append("<option>---请选择---</option>");
+                $.each(resp.list, function(v, item) {
+                    $(".cshi").append('<option  value="' + item.code + '">' + item.fullName + '</option>');
+                })
+                form.render();
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
+            return
+        });
+
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getSuppliersList", {
+            id: urls
+        }, "get").done(function(resp) {
+            setTimeout(function() {
+                form.val("example", resp.ipage.records[0]);
+
+                form.render("select");
+            }, 1500)
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        //手机号
+        $(".shou").blur(function() {
+            if (!(/^1[3456789]\d{9}$/.test($(this).val()))) {
+                alerts("请输入正确手机号");
+                $(this).val("");
+                return false;
+            }
+        })
+
+        //确定
+        $("#queding").click(function() {
+
+            if ($(".ming").val() == "") {
+                alerts("请输入供应商简称")
+                return
+            }
+            if ($(".house").val() == "") {
+                alerts("请输入供应商全称")
+                return
+            }
+            if ($(".webId").val() == "") {
+                alerts("请输入平台账号")
+                return
+            }
+            if ($(".webId").val() == "") {
+                alerts("请输入平台账号")
+                return
+            }
+            if ($(".superior").val() == "") {
+                alerts("请选择国家")
+                return
+            }
+            if ($(".shseng").val() == "") {
+                alerts("请选择省")
+                return
+            }
+            if ($(".cshi").val() == "") {
+                alerts("请选择城市")
+                return
+            }
+            if ($(".xx").val() == "") {
+                alerts("请选择详细地址")
+                return
+            }
+            if ($(".liang").val() == "") {
+                alerts("请输入联系人")
+                return
+            }
+
+            if ($(".shou").val() == "") {
+                alerts("请输入手机号")
+                return
+            }
+            if ($(".chaungzheng").val() == "") {
+                alerts("请输入传真号码")
+                return
+            }
+            if ($(".you").val() == "") {
+                alerts("请输入邮政编号")
+                return
+            }
+            if ($(".cahung").val() == "") {
+                alerts("请输入电话号码")
+                return
+            }
+            if ($(".nigs").val() == "") {
+                alerts("请选择供应商类别名称")
+                return
+            }
+
+
+
+
+            obj.shortName = $(".ming").val();
+            obj.fullName = $(".house").val();
+            obj.webId = $(".hao").val();
+            obj.vendorAdd = $(".xx").val();
+            obj.linkman = $(".liang").val();
+            obj.mobNo = $(".shou").val();
+            obj.facsimile = $(".chaungzheng").val();
+            obj.zipcode = $(".you").val();
+            obj.telephone = $(".cahung").val();
+            obj.vendorCode = $(".daihao").val();
+            obj.principal = $(".fu").val();
+
+
+            if (urls != "") {
+                obj.id = urls;
+                handleAjax("coa/updateSuppliers", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../supplierdata.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                handleAjax("coa/addSuppliers", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../supplierdata.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+
+
+
+        });
+    });
+</script>

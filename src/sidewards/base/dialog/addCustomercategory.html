@@ -8,150 +8,212 @@
     <title>客户类别</title>
     <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
 </head>
+
 <body>
 
-<blockquote class="layui-elem-quote layui-text">
-    客户类别
-</blockquote>
-<form class="layui-form" action="" lay-filter="example" id="example">
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 客户类别</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label ">创建时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss" class="layui-input input-d   ming" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类别名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  house" placeholder="输入类别名称" name="name">
+                        </div>
+                    </div>
+                </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label"  >类别代号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="a"  class="layui-input">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否底层:</label>
+                        <div class="layui-input-inline" id="bottom">
+                            <input type="radio" name="ifBottom" value="是" title="是">
+                            <input type="radio" name="ifBottom" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否顶层:</label>
+                        <div class="layui-input-inline" id="top">
+                            <input type="radio" name="ifTop" value="是" title="是">
+                            <input type="radio" name="ifTop" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上层类别:</label>
+                        <div class="layui-input-inline ">
+                            <select name="parentName" lay-filter="shiss" class="superior">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item  gais">
+                    <div class="layui-inline">
+                        <label class="layui-form-label  ">修改时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss1" class="layui-input input-d   xiug" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label"  >类别名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="b"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label"  >是否顶层</label>
-            <div class="layui-input-inline">
-                <input type="radio" name="c"  value="是" title="是" checked>
-                <input type="radio" name="c"   value="否" title="否"  >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label"  >是否底层</label>
-            <div class="layui-input-inline">
-                <input type="radio" name="d"  value="是" title="是" >
-                <input type="radio" name="d"   value="否" title="否" checked >
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label"  >上层类别</label>
-            <div class="layui-input-inline">
-                <input type="text" name="e"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label"  >参数组</label>
-            <div class="layui-input-inline">
-                <input type="text" name="f"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label"  >创建时间</label>
-            <div class="layui-input-inline">
-                <input type="date" name="g"  class="layui-input" >
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn cancels">取消</button>
-        </div>
-    </div>
-</form>
+    </form>
+
 </body>
 <script src="../../../../js/module/jquery-3.4.1.min.js"></script>
 <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
 <script src="../../../../js/common/api.js"></script>
-<script type="text/javascript">
-    var dataId = null;
-    layui.config({
-        base: '../../../../js/module/'
-    }).use(['Tool','form', 'layedit', 'laydate',"serviceTools"],function () {
-        layui.Tool.init();
-        var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate,
-            serviceTools = layui.serviceTools;
-        //监听提交
-        form.on('submit(demo1)', function(data){
-            console.log("-----------",data)
-            var type = localStorage.getItem("type");
-            if ( type === null ){
-                alert("数据类型不能为空")
-            }else{
-                var zd = { id:dataId === null ? "" : dataId,
-                    type:type,
-                    context:JSON.stringify(data.field),
-                    keyword:data.field.a+"|"+data.field.b
-                }
-                serviceTools.EditOrSaveOrDelete({
-                    parame:zd,
-                    url:baseaip+"dictionaries/saveOrUpdate",
-                    callback:(function(){
-                        window.history.back(-2);
-                    })()
-                })
-
-            }
-            return false;
-        });
-
-        // console.info(location.href.split("?")[1])
-        getHrefId();
-
-    });
-    function getHrefId(){
-        var loc = location.href;
-        console.log(loc);
-        var url = loc.split("?")[1];
-        console.log(url);
-        if(url && url!=''){
-            var para = url.split("&");
-            var len = para.length;
-            var res = {};
-            var arr = [];
-            for(var i=0;i<len;i++){
-                arr = para[i].split("=");
-                res[arr[0]] = arr[1];
-            }
-            dataId = res.id;
-            var dataJson = localStorage.getItem([res.id]);
-            dataJson != null && dataJson.trim().length > 0 ? (function(){
-                data  = JSON.parse(dataJson);
-                setForm(data);
-            })():"";
-
-        }else{
-
-        }
-
-    }
-    function setForm(data){
-        layui.use(['form'], function () {
-            console.log(data);
-            console.log('data');
-
-            layui.form.val('example', JSON.parse(data.context));
-        })
-    }
-
-</script>
 
 </html>
+
+
+<script>
+    layui.use(["table", "laydate", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+        laydate.render({
+            elem: '#tesss' //指定元素
+        });
+        laydate.render({
+            elem: '#tesss1' //指定元素
+        });
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../customercategory.html";
+        });
+
+        obj.parentName = "";
+        obj.parentId = "";
+
+        //上级仓库
+        noAjax("coa/getCustomerTypeList", {}, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            $.each(resp.ipage.records, function(v, item) {
+                $(".superior").append('<option  value="' + item.id + '">' + item.name + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        form.on('select(shiss)', function(data) {
+            obj.parentName = data.elem[data.elem.selectedIndex].text;
+            obj.parentId = data.value;
+            if (data.value == "") {
+                obj.parentName = "";
+            }
+            return
+        });
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getCustomerTypeList", {
+            id: urls
+        }, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            if (urls != "") {
+                $(".gais").show();
+            } else {
+                $(".gais").hide();
+            }
+
+            $(".ming").val(resp.ipage.records[0].createTime.substring(0, 10));
+            form.val("example", resp.ipage.records[0]);
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+
+        $("#queding").click(function() {
+
+            if ($("#tesss").val() == "") {
+                alerts("请选择时间")
+                return
+            }
+            if ($(".house").val() == "") {
+                alerts("请输入类别名称")
+                return
+            }
+            if ($('#bottom input[type="radio"]:checked').val() == "") {
+                alerts("请选择是否停用")
+                return
+            }
+            if ($('#top input[type="radio"]:checked').val() == "") {
+                alerts("请选择是否停用")
+                return
+            }
+
+
+            obj.description = $(".house").val();
+            obj.ifBottom = $('#bottom input[type="radio"]:checked').val();
+            obj.ifTop = $('#top input[type="radio"]:checked').val();
+            obj.name = $(".house").val();
+
+
+            if (urls != "") {
+                obj.id = urls;
+                obj.createTime = $("#tesss").val() + " " + "00:00:00";
+                obj.editTime = $("#tesss1").val() + " " + "00:00:00";
+                handleAjax("coa/updateCustomerType", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../customercategory.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+
+                obj.createTime = $("#tesss").val() + " " + "00:00:00";
+                obj.editTime = "";
+                handleAjax("coa/addCustomerType", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../customercategory.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+        });
+    });
+</script>

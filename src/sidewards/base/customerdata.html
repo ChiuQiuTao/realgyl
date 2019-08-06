@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,37 +10,38 @@
     <link rel="stylesheet" href="../../../css/departmentbase.css">
     <link rel="stylesheet" href="../../../public/font/iconfont.css">
 </head>
+
 <body>
-<!-- 查询 -->
-<div class="select">
-    <div class="select-left">
-        <div class="select-item">
-            <div class="select-item-text">
-                客户代号
+    <!-- 查询 -->
+    <div class="select">
+        <div class="select-left">
+            <div class="select-item">
+                <div class="select-item-text">
+                    客户代号
+                </div>
+                <input type="text" class="layui-input select-item-input" id="a" search-type="a">
             </div>
-            <input type="text" class="layui-input select-item-input"  id="a" search-type="a">
+            <div class="select-item">
+                <div class="select-item-text">
+                    客户简称
+                </div>
+                <input type="text" class="layui-input select-item-input" id="b" search-type="b">
+            </div>
         </div>
-        <div class="select-item">
-            <div class="select-item-text">
-                客户简称
+
+        <div class="select-right">
+            <div class="select-btn  search " lay-event="search">
+                查询
             </div>
-            <input type="text" class="layui-input select-item-input" id="b" search-type="b">
+            <div class="select-btn  reset" lay-event="reset">
+                清除
+            </div>
         </div>
     </div>
 
-    <div class="select-right">
-        <div class="select-btn " lay-event="search">
-            查询
-        </div>
-        <div class="select-btn " lay-event="reset">
-            清除
-        </div>
+    <div class="common-padding">
+        <table class="layui-hide" id="gylCustomerdata" lay-filter="gylCustomerdata"></table>
     </div>
-</div>
-
-<div class="common-padding">
-    <table class="layui-hide" id="gylCustomerdata" lay-filter="gylCustomerdata"></table>
-</div>
 </body>
 <script src="../../../public/dist/layui.js" charset="utf-8"></script>
 <script src="../../../js/common/jquery.min.js"></script>
@@ -56,57 +58,249 @@
     </div>
 </script>
 
+
 <script>
-    layui.config({
-        base: "../../../js/module/"
-    }).use(['Services', 'jquery'], function() {
-        var $ = layui.jquery;
+    layui.use(["table", "laydate", "util"], function() {
+        var $ = layui.jquery,
+            util = layui.util,
+            laydate = layui.laydate,
+            table = layui.table;
 
-        var dataType = "gylCustomerdata";
-        var services = new layui.Services({
-            baseURL: baseaip,
-            tableId: "gylCustomerdata",
-            toolbar: "#toolbarinter",
-            serachUrl: "dictionaries/query",
-            getUrl: "dictionaries/get",
-            delUrl: "dictionaries/delete",
-            updUrl: "plant/updateNcpxx",
-            saveUrl: "./dialog/addCustomerdata.html",
-            deleteField: "id",
-            dataType: dataType,
-            parameter: {
-                keyword: '',
-                type: dataType
+
+        //监听头部监听
+        table.on('toolbar(gylCustomerdata)', function(obj) {
+            var checkStatus = table.checkStatus(obj.config.id),
+                data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'add':
+                    window.location.href = "./dialog/addCustomerdata.html";
+                    break;
+                case 'update':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else if (data.length > 1) {
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        window.location.href = "./dialog/addCustomerdata.html?id=" + data[0].id;
+                    }
+                    break;
+                case 'delete':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else {
+
+                        noAjax("coa/delCustomer", {
+                            id: data[0].id
+                        }, "POST").done(function(resp) {
+                            layer.msg('操作成功', {
+                                icon: 1,
+                                time: 1000
+                            });
+                            setTimeout(function() {
+                                tableIns.reload({
+                                    where: {},
+                                    page: {
+                                        curr: 1, //重新从第 1 页开始
+                                        layout: ['prev', 'page', 'next', 'skip', 'count']
+                                    },
+                                })
+                            }, 1500)
+                            return
+                        }).fail(function(err) {
+                            console.log(err)
+                        });
+                    }
+                    break;
+            };
+        });
+
+
+        var tableIns = table.render({
+            elem: "#gylCustomerdata",
+            url: base + "coa/getCustomerList",
+            method: "GET",
+            where: {},
+            headers: {
+                Authorization: "Bearer" + " " + sessions
             },
-            cols:[[
-                {type: 'checkbox', fixed: 'left'},
-                {field: 'a',   title: '客户代号',templet:function (data) {
-                        return (JSON.parse(data.context)).a
-                    }},
-                {field: 'b',   title: '客户简称',templet:function (data) {
-                        return (JSON.parse(data.context)).b
-                    }},
-                {field: 'c',   title: '客户全称',templet:function (data) {
-                        return (JSON.parse(data.context)).c
-                    }},
+            request: {
+                pageName: "currentPage",
+                limitName: "pageSize"
+            },
+            toolbar: "#toolbarinter",
+            limits: [10, 20],
+            parseData: function(res) {
+                //res 即为原始返回的数据
+                console.log(res);
+                return {
+                    code: res.code, //解析接口状态
+                    msg: res.message, //解析提示文本
+                    totalNum: res.ipage.total, //解析数据长度
+                    lists: res.ipage.records //解析数据列表
+                };
+            },
+            response: {
+                statusName: "code", //数据状态的字段名称，默认：code
+                statusCode: 10000, //成功的状态码，默认：0
+                msgName: "message", //状态信息的字段名称，默认：msg
+                countName: "totalNum", //数据总数的字段名称，默认：count
+                dataName: "lists" //数据列表的字段名称，默认：data
+            },
 
-                {field: 'd',   title: '客户类别',templet:function (data) {
-                        return (JSON.parse(data.context)).d
-                    }},
-                {field: 'g',   title: '联系人',templet:function (data) {
-                        return (JSON.parse(data.context)).g
-                    }},
-                {field: 'h',   title: '手机',templet:function (data) {
-                        return (JSON.parse(data.context)).h
-                    }},
-                {field: 'i',   title: '业务部门名称',templet:function (data) {
-                        return (JSON.parse(data.context)).i
-                    }},
-                {field: 'k',   title: '电话号码',templet:function (data) {
-                        return (JSON.parse(data.context)).k
-                    }},
+            cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            page: {
+                //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ["prev", "page", "next", "skip", "count"], //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                groups: 5, //只显示 1 个连续页码
+                first: true, //不显示首页
+                last: true, //不显示尾页
+                prev: "上一页",
+                next: "下一页",
+                theme: "#c81623"
+            },
+            // height: 'full-20',//满高
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: "left"
+                }, {
+                    field: "createTime",
+                    title: "创建时间",
+                    minWidth: 120,
+                    sort: true,
+                    align: "center",
+                    templet: function(d) {
+                        var numv = null;
+                        if (d.createTime == "" || d.createTime == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.createTime = layui.util.toDateString(
+                                d.createTime,
+                                "yyyy-MM-dd"
+                            );
+                        }
+                        return numv;
+                    }
+                }, {
+                    field: "customerId",
+                    title: "客户代号",
+                    minWidth: 110,
+                    align: "center"
+                }, {
+                    field: "shortName",
+                    title: "客户简称",
+                    minWidth: 140,
+                    align: "center"
+                }, {
+                    field: "fullName",
+                    title: "客户全称",
+                    minWidth: 110,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "customerCodeName",
+                    title: "客户类别",
+                    minWidth: 110,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "state",
+                    title: "省",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "city",
+                    title: "城市",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "custAdd",
+                    title: "详细地址",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "principal",
+                    title: "联系人",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "mobNo",
+                    title: "手机",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "editTime",
+                    title: "修改时间",
+                    minWidth: 120,
+                    sort: true,
+                    align: "center",
+                    templet: function(d) {
+                        var numv = null;
+                        if (d.editTime == "" || d.editTime == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.editTime = layui.util.toDateString(
+                                d.editTime,
+                                "yyyy-MM-dd"
+                            );
+                        }
+                        return numv;
+                    }
+                }, {
+                    field: "webId",
+                    title: "平台用户帐号",
+                    minWidth: 140,
+                    sort: true,
+                    align: "center"
+                }, ]
+            ]
+        });
 
-            ]],
+        /*查询*/
+        $(".search").click(function() {
+            if ($("#a").val() == "" && $("#b").val() == "") {
+                layer.msg("请输入查询条件！", {
+                    time: 1000,
+                    offset: "t"
+                });
+                return;
+            }
+
+            var datelist = {
+                CustomerId: $("#a").val(),
+                shortName: $("#b").val()
+            };
+
+            tableIns.reload({
+                where: datelist,
+                request: {
+                    pageName: "currentPage", //页码的参数名称，默认：page
+                    limitName: "pageSize" //每页数据量的参数名，默认：limit
+                },
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ["prev", "page", "next", "skip", "count"]
+                }
+            });
+        });
+
+        /*重置*/
+        $(".reset").click(function() {
+            $("#a").val("");
+            $("#b").val("");
+            tableIns.reload({
+                where: {},
+                page: {
+                    curr: 1, //重新从第 1 页开始
+                    layout: ["prev", "page", "next", "skip", "count"]
+                }
+            });
         });
     });
 </script>

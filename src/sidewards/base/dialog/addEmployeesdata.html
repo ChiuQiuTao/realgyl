@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -8,149 +8,266 @@
     <title>员工资料</title>
     <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
 </head>
+
 <body>
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 员工资料</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">创建时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss" class="layui-input input-d   ming" name="createTime" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
 
-<blockquote class="layui-elem-quote layui-text">
-    员工资料
-</blockquote>
-<form class="layui-form" action="" lay-filter="example" id="example">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">员工名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  house" placeholder="输入员工名称" name="name">
+                        </div>
+                    </div>
+                </div>
 
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >员工代号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="a"  class="layui-input">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">手机:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  mob" placeholder="输入手机" name="mob" maxlength="11">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">身份证:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  shengNo" placeholder="输入身份证" name="shengNo" maxlength="18">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">民族:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  nationId" placeholder="输入民族" name="nationId" maxlength="18">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">性别:</label>
+                        <div class="layui-input-inline" id="hether">
+                            <input type="radio" name="sex" value="男" title="男">
+                            <input type="radio" name="sex" value="女" title="女">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">电话:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  tel" placeholder="输入电话" name="tel">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">邮箱:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  email" placeholder="输入邮箱" name="email">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否在职</label>
+                        <div class="layui-input-inline" id="activea">
+                            <input type="radio" name="active" value="是" title="是">
+                            <input type="radio" name="active" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">部门地址:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  adress" placeholder="输入部门地址" name="adress" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">部门名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="deptName" lay-filter="deptName" class="deptName">
+                                        <option value="">---请选择---</option>
+                                        
+                                 </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">备注:</label>
+                        <div class="layui-input-inline">
+                            <textarea type="text" class="layui-input input-d  remark" placeholder="输入备注" name="remark"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
             </div>
         </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >员工名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="b"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >性别(男或女）</label>
-            <div class="layui-input-inline">
-                <input type="radio" name="c"  value="男" title="男"  checked>
-                <input type="radio" name="c"  value="女" title="女" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >部门名称</label>
-            <div class="layui-input-inline">
-                <input type="text" name="d"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >民族</label>
-            <div class="layui-input-inline">
-                <input type="text" name="e"  class="layui-input" >
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >备注</label>
-            <div class="layui-input-inline">
-                <input type="text" name="f"  class="layui-input">
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class=" layui-form-label" style="width: 90px"  >创建时间</label>
-            <div class="layui-input-inline">
-                <input type="date" name="g"  class="layui-input" >
-            </div>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn cancels">取消</button>
-        </div>
-    </div>
-</form>
+    </form>
 </body>
 <script src="../../../../js/module/jquery-3.4.1.min.js"></script>
 <script src="../../../../public/dist/layui.js" charset="utf-8"></script>
 <script src="../../../../js/common/api.js"></script>
 <script type="text/javascript">
-    var dataId = null;
-    layui.config({
-        base: '../../../../js/module/'
-    }).use(['Tool','form', 'layedit', 'laydate',"serviceTools"],function () {
-        layui.Tool.init();
-        var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate,
-            serviceTools = layui.serviceTools;
-        //监听提交
-        form.on('submit(demo1)', function(data){
-            console.log("-----------",data)
-            var type = localStorage.getItem("type");
-            if ( type === null ){
-                alert("数据类型不能为空")
-            }else{
-                var zd = { id:dataId === null ? "" : dataId,
-                    type:type,
-                    context:JSON.stringify(data.field),
-                    keyword:data.field.a+"|"+data.field.b
-                }
-                serviceTools.EditOrSaveOrDelete({
-                    parame:zd,
-                    url:baseaip+"dictionaries/saveOrUpdate",
-                    callback:(function(){
-                        window.history.back(-2);
-                    })()
-                })
-
-            }
-            return false;
-        });
-
-        // console.info(location.href.split("?")[1])
-        getHrefId();
-
-    });
-    function getHrefId(){
-        var loc = location.href;
-        console.log(loc);
-        var url = loc.split("?")[1];
-        console.log(url);
-        if(url && url!=''){
-            var para = url.split("&");
-            var len = para.length;
-            var res = {};
-            var arr = [];
-            for(var i=0;i<len;i++){
-                arr = para[i].split("=");
-                res[arr[0]] = arr[1];
-            }
-            dataId = res.id;
-            var dataJson = localStorage.getItem([res.id]);
-            dataJson != null && dataJson.trim().length > 0 ? (function(){
-                data  = JSON.parse(dataJson);
-                setForm(data);
-            })():"";
-
-        }else{
-
-        }
-
-    }
-    function setForm(data){
-        layui.use(['form'], function () {
-            console.log(data);
-            console.log('data');
-
-            layui.form.val('example', JSON.parse(data.context));
-        })
-    }
-
 </script>
 
 </html>
+
+
+<script>
+    layui.use(["table", "laydate", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+        laydate.render({
+            elem: '#tesss' //指定元素
+        });
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../employeesdata.html";
+        });
+
+        obj.description = "";
+        obj.address = "";
+
+        //部门名称
+        noAjax("coa/getDeptList", {}, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            $.each(resp.ipage.records, function(v, item) {
+                $(".deptName").append('<option  value="' + item.address + '">' + item.description + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        form.on('select(deptName)', function(data) {
+            obj.deptName = data.elem[data.elem.selectedIndex].text;
+            $(".adress").val(data.value);
+            return
+        });
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getEmployeeList", {
+            id: urls
+        }, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            var ss = resp.ipage.records[0].createTime;
+            resp.ipage.records[0].createTime = ss.substring(0, 10);
+            form.val("example", resp.ipage.records[0])
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        $(".mob").blur(function() {
+            if (!(/^1[3456789]\d{9}$/.test($(this).val()))) {
+                alerts("请输入正确手机号");
+                $(this).val("");
+                return false;
+            }
+        })
+
+
+        $("#queding").click(function() {
+
+            if ($("#tesss").val() == "") {
+                alerts("请选择时间")
+                return
+            }
+            if ($(".house").val() == "") {
+                alerts("请输入员工名称")
+                return
+            }
+            if ($('#hether input[type="radio"]:checked').val() == "") {
+                alerts("请选择是否停用")
+                return
+            }
+
+            obj.createTime = $("#tesss").val() + " " + "00:00:00";
+            obj.name = $(".house").val();
+            obj.mob = $(".mob").val();
+            obj.sex = $('#hether input[type="radio"]:checked').val();
+            obj.shengNo = $(".shengNo").val();
+            obj.nationId = $(".nationId").val();
+            obj.tel = $(".tel").val();
+            obj.remark = $(".remark").val();
+            obj.email = $(".email").val();
+            obj.active = $('#activea  input[type="radio"]:checked').val();
+            obj.adress = $(".adress").val();
+
+
+            if (urls != "") {
+                obj.id = urls;
+
+                handleAjax("coa/updateEmployee", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../employeesdata.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                handleAjax("coa/addEmployee", obj, "POST").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../employeesdata.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+        });
+    });
+</script>

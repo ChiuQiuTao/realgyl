@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>上架商品</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../css/goodsshelves.css">
+</head>
+
+<body>
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 上架商品</div>
+            <div class="select-con">
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">创建时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss1" class="layui-input input-d   createTime" name="createTime" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上架时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss" class="layui-input input-d   ming" name="shelvesTime" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上架数量:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d  shelvesNum" placeholder="输入上架数量" name="shelvesNum">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">下架时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss3" class="layui-input input-d   unshelvesTime" name="unshelvesTime" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">条码:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  barcode" placeholder="输入条码" name="barcode">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">品牌:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  brandName" placeholder="输入品牌" name="brandName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">起订量:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  buyminnum" placeholder="输入起订量" name="buyminnum">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">单位换算率:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  conversion" placeholder="输入单位换算率" name="conversion">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品名称:</label>
+                        <div class="layui-input-inline" style="position: relative">
+                            <input type="text" class="layui-input input-d   description" name="description" placeholder="输入商品名称">
+                            <i class="layui-icon" id="shousuo">&#xe615;</i>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品代号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   partId" name="partId" placeholder="输入商品代号" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">单位名称:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   uomName" name="uomName" placeholder="输入单位名称" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品规格:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   specification" name="specification" placeholder="输入商品规格" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">尝鲜价:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d   firstPrice" name="firstPrice" placeholder="输入尝鲜价">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">参考面价:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d   partPrice" name="partPrice" placeholder="输入参考面价">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">成本价:</label>
+                        <div class="layui-input-inline">
+                            <input type="number" class="layui-input input-d   partCost" name="partCost" placeholder="输入成本价">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">商品描述:</label>
+                        <div class="layui-input-inline">
+                            <textarea type="text" class="layui-input input-d   partBewrite" name="partBewrite" placeholder="输入商品描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否推荐:</label>
+                        <div class="layui-input-inline" id="top">
+                            <input type="radio" name="isRecommend" value="是" title="是">
+                            <input type="radio" name="isRecommend" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类别名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="productCodeName" lay-filter="productCodeName" class="productCodeName">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类别代号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   productCode" name="productCode" placeholder="输入类别代号" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">经营商起售价:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d   salePrice" name="salePrice" placeholder="输入经营商起售价">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">辅助单位:</label>
+                        <div class="layui-input-inline ">
+                            <select name="secondUomName" lay-filter="secondUomName" class="secondUomName">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上架状态:</label>
+                        <div class="layui-input-inline" id="statess">
+                            <input type="radio" name="shelvesState" value="是" title="是">
+                            <input type="radio" name="shelvesState" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">参数描述:</label>
+                        <div class="layui-input-inline">
+                            <textarea type="text" class="layui-input input-d   paraDescription" name="paraDescription" placeholder="输入参数描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">平台账号:</label>
+                        <div class="layui-input-inline ">
+                            <input type="text" class="layui-input input-d  webId" placeholder="输入平台账号" name="webId" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="xiu">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">修改时间:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="tesss2" class="layui-input input-d   editTime" name="editTime" placeholder="输入时间">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+<script src="../../../../js/module/jquery-3.4.1.min.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../js/common/api.js"></script>
+
+</html>
+
+<script>
+    layui.use(["table", "laydate", "layer", "form"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            obj = {},
+            table = layui.table;
+
+        laydate.render({
+            elem: '#tesss' //指定元素
+        });
+        laydate.render({
+            elem: '#tesss1' //指定元素
+        });
+
+        laydate.render({
+            elem: '#tesss2' //指定元素
+        });
+
+        laydate.render({
+            elem: '#tesss3' //指定元素
+        });
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../goodsshelves.html";
+        });
+
+
+        //商品名称|
+        $(".description").on("mouseover", function() {
+            $("#shousuo").show();
+        })
+        $(".description").mouseout(function() {
+            $("#shousuo").hide();
+        })
+        $("#shousuo").mouseover(function() {
+            $(this).show();
+        })
+
+        $("#shousuo").click(function() {
+            layer.open({
+                type: 1,
+                title: "物料查询",
+                shadeClose: true, //是否点击遮罩关闭
+                anim: 5, //弹出动画
+                scrollbar: false, //窗口外滚动条是否出现
+                skin: 'layui-layer-rim', //加上边框
+                area: ['860px', '440px'], //宽高
+                content: '<div id="sssd"></div>',
+                success: function(layero, index) {
+                    $("#sssd").append('<div  class="searchd"><div  class="wusss"> <label class="layui-form-label"  style="width:100px;">物料代号:</label><input type="text" class="layui-input " id="a"></div><div  class="wusss"> <label class="layui-form-label"  style="width:100px;">物料名称:</label><input type="text" class="layui-input " id="b"></div><div style="margin-left:10px;"><button  class="layui-btn layui-btn-xs  search" >查询</button><button  class="layui-btn layui-btn-xs  reset">清除</button></div></div>')
+                    $("#sssd").append(' <table class="layui-hide" id="gylMaterialmaintain" lay-filter="gylMaterialmaintain"></table>');
+                    $("#sssd").append('<div  class="layque"><button type="button" class="layui-btn   queding">确定</button><button type="button" class="layui-btn  quxiao">取消</button></div>')
+                    func();
+                }
+            });
+        })
+
+        function func() {
+            var tableIns = table.render({
+                elem: "#gylMaterialmaintain",
+                url: base + "coa/getProductList",
+                method: "GET",
+                where: {},
+                headers: {
+                    Authorization: "Bearer" + " " + sessions
+                },
+                request: {
+                    pageName: "currentPage",
+                    limitName: "pageSize"
+                },
+
+                limits: [10, 20],
+                parseData: function(res) {
+                    //res 即为原始返回的数据
+                    console.log(res);
+                    return {
+                        code: res.code, //解析接口状态
+                        msg: res.message, //解析提示文本
+                        totalNum: res.ipage.total, //解析数据长度
+                        lists: res.ipage.records //解析数据列表
+                    };
+                },
+                response: {
+                    statusName: "code", //数据状态的字段名称，默认：code
+                    statusCode: 10000, //成功的状态码，默认：0
+                    msgName: "message", //状态信息的字段名称，默认：msg
+                    countName: "totalNum", //数据总数的字段名称，默认：count
+                    dataName: "lists" //数据列表的字段名称，默认：data
+                },
+
+                cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                page: {
+                    //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ["prev", "page", "next", "skip", "count"], //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    groups: 5, //只显示 1 个连续页码
+                    first: true, //不显示首页
+                    last: true, //不显示尾页
+                    prev: "上一页",
+                    next: "下一页",
+                    theme: "#c81623"
+                },
+                // height: 'full-20',//满高
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        fixed: "left"
+                    }, {
+                        field: "createTime",
+                        title: "创建时间",
+                        minWidth: 120,
+                        sort: true,
+                        align: "center",
+                        templet: function(d) {
+                            var numv = null;
+                            if (d.createTime == "" || d.createTime == null) {
+                                numv = " ";
+                            } else {
+                                numv = d.createTime = layui.util.toDateString(
+                                    d.createTime,
+                                    "yyyy-MM-dd"
+                                );
+                            }
+                            return numv;
+                        }
+                    }, {
+                        field: "artId",
+                        title: "物料代号",
+                        minWidth: 110,
+                        align: "center"
+                    }, {
+                        field: "description",
+                        title: "名称",
+                        minWidth: 140,
+                        align: "center"
+                    }, {
+                        field: "specification",
+                        title: "规格",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "productCodeName",
+                        title: "类别",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "locationName",
+                        title: "仓库",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "vendorName",
+                        title: "来源",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "unitBuyCost",
+                        title: "参考进价",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "unitSaleCost",
+                        title: "参考售价",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "editTime",
+                        title: "修改时间",
+                        minWidth: 130,
+                        sort: true,
+                        align: "center",
+                        templet: function(d) {
+                            var numv = null;
+                            if (d.editTime == "" || d.editTime == null) {
+                                numv = " ";
+                            } else {
+                                numv = d.editTime = layui.util.toDateString(
+                                    d.editTime,
+                                    "yyyy-MM-dd"
+                                );
+                            }
+                            return numv;
+                        }
+                    }]
+                ]
+            });
+
+
+            /*查询*/
+            $(".search").click(function() {
+                if ($("#a").val() == "" && $("#b").val() == "") {
+                    layer.msg("请输入查询条件！", {
+                        time: 1000,
+                        offset: "t"
+                    });
+                    return;
+                }
+
+                var datelist = {
+                    artId: $("#a").val(),
+                    description: $("#b").val()
+                };
+
+                tableIns.reload({
+                    where: datelist,
+                    request: {
+                        pageName: "currentPage", //页码的参数名称，默认：page
+                        limitName: "pageSize" //每页数据量的参数名，默认：limit
+                    },
+                    page: {
+                        curr: 1, //重新从第 1 页开始
+                        layout: ["prev", "page", "next", "skip", "count"]
+                    }
+                });
+            });
+
+            /*重置*/
+            $(".reset").click(function() {
+                $("#a").val("");
+                $("#b").val("");
+                tableIns.reload({
+                    where: {},
+                    page: {
+                        curr: 1, //重新从第 1 页开始
+                        layout: ["prev", "page", "next", "skip", "count"]
+                    }
+                });
+            });
+
+            //取消
+            $(".quxiao").click(function() {
+                layer.closeAll();
+            })
+
+            //确定
+            $(".queding").click(function() {
+                var checkStatus = table.checkStatus("gylMaterialmaintain");
+                if (checkStatus.data.length === 0) {
+                    layer.msg('请选择一行');
+                } else if (checkStatus.data.length > 1) {
+                    layer.msg('只能同时编辑一个');
+                } else {
+
+                    $(".description").val(checkStatus.data[0].description);
+                    $(".partId").val(checkStatus.data[0].artId);
+                    $(".specification").val(checkStatus.data[0].specification);
+                    $(".partPrice").val(checkStatus.data[0].unitSaleCost);
+                    $(".uomName").val(checkStatus.data[0].unitName);
+                    layer.closeAll();
+                }
+                return
+            })
+
+        }
+
+
+
+
+        //类别名称
+        obj.productCodeName = "";
+        obj.productCode = "";
+        noAjax("coa/getShelvesProductTypeList", {}, "get").done(function(resp) {
+            console.log(resp)
+            $.each(resp.ipage.records, function(v, item) {
+                $(".productCodeName").append('<option  value="' + item.productCode + '">' + item.description + '</option>');
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(productCodeName)', function(data) {
+            obj.productCodeName = $(this)[0].innerText;
+            obj.productCode = data.value;
+            $(".productCode").val(data.value);
+            return
+        });
+
+
+
+        //辅助单位
+        obj.secondUomName = "";
+        noAjax("coa/getUnitsList", {}, "get").done(function(resp) {
+            console.log(resp, "[[[[")
+            $.each(resp.ipage.records, function(v, item) {
+                $(".secondUomName").append('<option  value="' + item.description + '">' + item.description + '</option>');
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(secondUomName)', function(data) {
+            obj.secondUomName = data.value;
+            return
+        });
+
+
+        //所属平台账号
+        noAjax("user/getUser", {}, "get").done(function(resp) {
+            $(".webId").val(resp.realName)
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getShelvesProductList", {
+            id: urls
+        }, "get").done(function(resp) {
+            console.log(resp.ipage.records);
+            if (urls != "") {
+                $("#xiu").show();
+                var ss = resp.ipage.records[0].createTime;
+                resp.ipage.records[0].createTime = ss.substring(0, 10);
+                var sss = resp.ipage.records[0].shelvesTime;
+                resp.ipage.records[0].shelvesTime = sss.substring(0, 10);
+                var sssew = resp.ipage.records[0].unshelvesTime;
+                resp.ipage.records[0].unshelvesTime = sssew.substring(0, 10);
+            } else {
+                $("#xiu").hide();
+            }
+            form.val("example", resp.ipage.records[0])
+
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+
+        $("#queding").click(function() {
+
+            if ($("#tesss1").val() == "") {
+                alerts("请选择创建时间")
+                return
+            }
+            if ($("#tesss").val() == "") {
+                alerts("请选择上架时间")
+                return
+            }
+            if ($(".shelvesNum").val() == "") {
+                alerts("请输入上架数量")
+                return
+            }
+            if ($(".unshelvesTime").val() == "") {
+                alerts("请选择下架时间")
+                return
+            }
+            if ($(".barcode").val() == "") {
+                alerts("请输入条码")
+                return
+            }
+            if ($(".brandName").val() == "") {
+                alerts("请输入品牌")
+                return
+            }
+            if ($(".buyminnum").val() == "") {
+                alerts("请输入起订量")
+                return
+            }
+            if ($(".conversion").val() == "") {
+                alerts("请输入单位换算率")
+                return
+            }
+            if ($(".description").val() == "") {
+                alerts("请选择商品名称")
+                return
+            }
+            if ($(".firstPrice").val() == "") {
+                alerts("请输入尝鲜价")
+                return
+            }
+            if ($(".partCost").val() == "") {
+                alerts("请输入尝鲜价")
+                return
+            }
+            if ($(".partBewrite").val() == "") {
+                alerts("请输入商品描述")
+                return
+            }
+            if ($(".productCodeName").val() == "") {
+                alerts("选择类别名称")
+                return
+            }
+            if ($(".salePrice").val() == "") {
+                alerts("请输入经营商起售价")
+                return
+            }
+            if ($(".secondUomName").val() == "") {
+                alerts("选择辅助单位")
+                return
+            }
+            if ($(".paraDescription").val() == "") {
+                alerts("请输入参数描述")
+                return
+            }
+
+
+            obj.shelvesTime = $("#tesss").val() + " " + "00:00:00";
+            obj.barcode = $(".barcode").val();
+            obj.brandName = $(".brandName").val();
+            obj.buyminnum = $(".buyminnum").val();
+            obj.conversion = $(".conversion").val();
+            obj.createTime = $("#tesss1").val() + " " + "00:00:00";
+            obj.description = $(".description").val();
+            obj.partId = $(".partId").val();
+            obj.uomName = $(".uomName").val();
+            obj.specification = $(".specification").val();
+            obj.firstPrice = $(".firstPrice").val();
+            obj.isRecommend = $('#top input[type="radio"]:checked').val();
+            obj.partPrice = $(".partPrice").val();
+            obj.partCost = $(".partCost").val();
+            obj.paraDescription = $(".paraDescription").val();
+            obj.partBewrite = $(".partBewrite").val();
+            obj.salePrice = $(".salePrice").val();
+            obj.shelvesNum = $(".shelvesNum").val();
+            obj.shelvesState = $(".shelvesState").val();
+            obj.shelvesState = $('#statess input[type="radio"]:checked').val();
+            obj.unshelvesTime = $("#tesss1").val() + " " + "00:00:00";
+            obj.webId = $(".webId").val();
+
+
+            console.log(obj);
+
+            if (urls != "") {
+                obj.id = urls;
+                obj.editTime = $("#tesss2").val() + " " + "00:00:00";
+                obj = JSON.stringify(obj);
+                handleAjax("coa/updateShelvesProduct", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../goodsshelves.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                obj.editTime = "";
+                obj = JSON.stringify(obj);
+
+                handleAjax("coa/addShelvesProduct", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    console.log(resp)
+                    setTimeout(function() {
+                        window.location.href = "../goodsshelves.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+
+        });
+    });
+</script>

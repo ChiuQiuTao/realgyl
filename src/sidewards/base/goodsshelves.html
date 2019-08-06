@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>销售订单</title>
+    <title>上架商品</title>
     <link rel="stylesheet" href="../../../public/dist/css/layui.css">
-    <link rel="stylesheet" href="../../../css/purchaseorder.css">
+    <link rel="stylesheet" href="../../../css/departmentbase.css">
     <link rel="stylesheet" href="../../../public/font/iconfont.css">
 </head>
 
@@ -16,44 +16,31 @@
     <div class="select">
         <div class="select-left">
             <div class="select-item">
-                <div class="select-item-text">
-                    订单单号
+                <div class="select-item-text" style="width: 90px">
+                    商品代号
                 </div>
-                <input type="text" class="layui-input select-item-input" id="a">
+                <input type="text" class="layui-input select-item-input" id="a" search-type="a">
             </div>
-
             <div class="select-item">
                 <div class="select-item-text">
-                    订单状态
+                    商品名称
                 </div>
-                <select name="" id="b" class="select-item-select2 ">
-                    <option value="">--请选择--</option>
-                    <option value="付款">付款</option>
-                    <option value="已付款">已付款</option>
-                    <option value="确认">确认</option>
-                    <option value="已确认">已确认</option>
-                    <option value="取消">取消</option>
-                    <option value="发货">发货</option>
-                    <option value="已发货">已发货</option>
-                    <option value="退款">退款</option>
-                    <option value="退货">退货</option>
-                </select>
+                <input type="text" class="layui-input select-item-input" id="b" search-type="b">
             </div>
-
         </div>
 
         <div class="select-right">
             <div class="select-btn   search" lay-event="search">
                 查询
             </div>
-            <div class="select-btn    reset" lay-event="reset">
+            <div class="select-btn   reset" lay-event="reset">
                 清除
             </div>
         </div>
     </div>
 
     <div class="common-padding">
-        <table class="layui-hide" id="testdome" lay-filter="testdome"></table>
+        <table class="layui-hide" id="gylMaterialwarehouse" lay-filter="gylMaterialwarehouse"></table>
     </div>
 </body>
 <script src="../../../public/dist/layui.js" charset="utf-8"></script>
@@ -71,29 +58,21 @@
     </div>
 </script>
 
-
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
-</script>
-
-
 <script>
-    layui.use(["table", "laydate", "layer", "util"], function() {
+    layui.use(["table", "laydate", "util"], function() {
         var $ = layui.jquery,
             util = layui.util,
             laydate = layui.laydate,
-            layer = layui.layer,
             table = layui.table;
 
 
-
         //监听头部监听
-        table.on('toolbar(testdome)', function(obj) {
+        table.on('toolbar(gylMaterialwarehouse)', function(obj) {
             var checkStatus = table.checkStatus(obj.config.id),
                 data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = "./dialog/addsalesorder.html";
+                    window.location.href = "./dialog/addgoodsshelves.html";
                     break;
                 case 'update':
                     if (data.length === 0) {
@@ -101,7 +80,7 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        window.location.href = "./dialog/addsalesorder.html?id=" + data[0].id;
+                        window.location.href = "./dialog/addgoodsshelves.html?id=" + data[0].id;
                     }
                     break;
                 case 'delete':
@@ -109,7 +88,7 @@
                         layer.msg('请选择一行');
                     } else {
 
-                        noAjax("coa/delOrder", {
+                        noAjax("coa/delShelvesProduct", {
                             id: data[0].id
                         }, "POST").done(function(resp) {
                             layer.msg('操作成功', {
@@ -134,14 +113,36 @@
             };
         });
 
+        //监听表格里面按钮
+        table.on('tool(gylMaterialwarehouse)', function(obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (obj.event === 'showImg') {
+                console.log(data);
+                var photosdata = {
+                    "title": "营业执照", //相册标题
+                    "id": 123, //相册id
+                    "start": 0, //初始显示的图片序号，默认0
+                    "data": [ //相册包含的图片，数组格式
+                        {
+                            "pid": 666, //图片id
+                            "src": data.logoImage, //原图地址
+                            "thumb": data.logoImage //缩略图地址
+                        }
+                    ]
+                }
+                layer.photos({
+                    photos: photosdata,
+                    anim: 5
+                });
+            }
+        });
 
         var tableIns = table.render({
-            elem: "#testdome",
-            url: base + "coa/getOrderList",
+            elem: "#gylMaterialwarehouse",
+            url: base + "coa/getShelvesProductList",
             method: "GET",
-            where: {
-                transType: "销售订单"
-            },
+            where: {},
             headers: {
                 Authorization: "Bearer" + " " + sessions
             },
@@ -153,12 +154,12 @@
             limits: [10, 20],
             parseData: function(res) {
                 //res 即为原始返回的数据
-                console.log(res);
+                console.log(res)
                 return {
                     code: res.code, //解析接口状态
                     msg: res.message, //解析提示文本
-                    totalNum: res.pageBean.totalNum, //解析数据长度
-                    lists: res.pageBean.lists //解析数据列表
+                    totalNum: res.ipage.total, //解析数据长度
+                    lists: res.ipage.records //解析数据列表
                 };
             },
             response: {
@@ -185,132 +186,167 @@
             cols: [
                 [{
                         type: 'checkbox',
-                        fixed: "left",
+                        fixed: "left"
                     }, {
-                        field: "createTime",
-                        title: "创建时间",
-                        minWidth: 120,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.createTime == "" || d.createTime == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.createTime = layui.util.toDateString(
-                                    d.createTime,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
-                        }
-                    }, {
-                        field: "transNo",
-                        title: "订单单号",
+                        field: "partId",
+                        title: "商品代号",
                         minWidth: 110,
                         align: "center"
                     }, {
-                        field: "transDate",
-                        title: "订单日期",
-                        minWidth: 120,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.transDate == "" || d.transDate == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.transDate = layui.util.toDateString(
-                                    d.transDate,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
-                        }
-                    }, {
-                        field: "isLoan",
-                        title: "收款方式",
+                        field: "description",
+                        title: "商品名称",
                         minWidth: 140,
                         align: "center"
                     }, {
-                        field: "transStatus",
-                        title: "收款状态",
+                        field: "productCodeName",
+                        title: "类别名称",
                         minWidth: 110,
                         sort: true,
                         align: "center"
                     }, {
-                        field: "customerVendorName",
-                        title: "客户简称",
-                        minWidth: 100,
+                        field: "specification",
+                        title: "商品规格",
+                        minWidth: 110,
                         sort: true,
                         align: "center"
                     }, {
-                        field: "salesman",
-                        title: "销售员名称",
-                        minWidth: 100,
+                        field: "brandName",
+                        title: "品牌",
+                        minWidth: 110,
                         sort: true,
                         align: "center"
                     }, {
-                        field: "approved",
-                        title: "批准",
-                        minWidth: 100,
+                        field: "uomName",
+                        title: "单位",
+                        minWidth: 110,
                         sort: true,
                         align: "center"
                     }, {
-                        field: "closed",
-                        title: "关闭",
-                        minWidth: 100,
+                        field: "secondUomName",
+                        title: "辅助单位",
+                        minWidth: 110,
                         sort: true,
                         align: "center"
                     }, {
-                        field: "estShipDate	",
-                        title: "预交日",
+                        field: "shelvesTime",
+                        title: "下架时间",
                         minWidth: 120,
                         sort: true,
                         align: "center",
+
                         templet: function(d) {
                             var numv = null;
-                            if (d.estShipDate == "" || d.estShipDate == null) {
+                            if (d.shelvesTime == "" || d.shelvesTime == null) {
                                 numv = " ";
                             } else {
-                                numv = d.estShipDate = layui.util.toDateString(
-                                    d.estShipDate,
+                                numv = d.shelvesTime = layui.util.toDateString(
+                                    d.shelvesTime,
                                     "yyyy-MM-dd"
                                 );
                             }
                             return numv;
                         }
+                    }, {
+                        field: "shelvesNum",
+                        title: "上架数量",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "partPrice",
+                        title: "参考面价",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "buyminnum",
+                        title: "起订量",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "barcode",
+                        title: "条码",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "productCodeName",
+                        title: "上架商品类别",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "partBewrite",
+                        title: "商品描述",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "conversion",
+                        title: "辅助单位换算率",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
                     },
 
                     {
-                        field: "shipToId",
-                        title: "发货地址",
+                        field: "conversion",
+                        title: "辅助单位换算率",
+                        minWidth: 110,
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: "unshelvesTime",
+                        title: "下架时间",
+                        minWidth: 120,
+                        sort: true,
+                        align: "center",
+
+                        templet: function(d) {
+                            var numv = null;
+                            if (d.unshelvesTime == "" || d.unshelvesTime == null) {
+                                numv = " ";
+                            } else {
+                                numv = d.unshelvesTime = layui.util.toDateString(
+                                    d.unshelvesTime,
+                                    "yyyy-MM-dd"
+                                );
+                            }
+                            return numv;
+                        }
+                    }, {
+                        field: "isRecommend",
+                        title: "推荐商品",
                         minWidth: 100,
                         sort: true,
                         align: "center"
                     }, {
-                        field: "remark",
-                        title: "备注",
+                        field: "paraDescription",
+                        title: "参数描述",
                         minWidth: 100,
+                        sort: true,
                         align: "center"
                     }, {
-                        field: "userName",
-                        title: "制表人名称",
+                        field: "shelvesState",
+                        title: "是否上架",
                         minWidth: 100,
+                        sort: true,
                         align: "center"
                     }, {
-                        field: "editTime",
-                        title: "单身数据",
-                        minWidth: 80,
-                        align: "center",
-                        toolbar: '#barDemo'
-                    }, {
+                        field: "salePrice",
+                        title: "经销商起售价",
+                        minWidth: 100,
+                        sort: true,
+                        align: "center"
+                    },
+
+                    {
                         field: "editTime",
                         title: "修改时间",
                         minWidth: 130,
                         sort: true,
                         align: "center",
-                        fixed: 'right',
                         templet: function(d) {
                             var numv = null;
                             if (d.editTime == "" || d.editTime == null) {
@@ -323,7 +359,7 @@
                             }
                             return numv;
                         }
-                    },
+                    }
                 ]
             ]
         });
@@ -339,9 +375,8 @@
             }
 
             var datelist = {
-                transNo: $("#a").val(),
-                transStatus: $("#b").val(),
-                transType: "销售订单"
+                partId: $("#a").val(),
+                description: $("#b").val()
             };
 
             tableIns.reload({
@@ -362,78 +397,12 @@
             $("#a").val("");
             $("#b").val("");
             tableIns.reload({
-                where: {
-                    transType: "销售订单"
-                },
+                where: {},
                 page: {
                     curr: 1, //重新从第 1 页开始
                     layout: ["prev", "page", "next", "skip", "count"]
                 }
             });
-        });
-
-
-
-        //查看
-        var rys = null;
-        table.on('tool(testdome)', function(obj) {
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            if (layEvent === 'edit') { //查看
-                layer.open({
-                    type: 1,
-                    title: "单身数据",
-                    shadeClose: true, //是否点击遮罩关闭
-                    anim: 5, //弹出动画
-                    scrollbar: false, //窗口外滚动条是否出现
-                    skin: 'layui-layer-rim', //加上边框
-                    area: ['860px', '300px'], //宽高
-                    content: '<div id="sssd"  style="margin:10px;"></div>',
-                    success: function(layero, index) {
-                        console.log(data.coOrderSingle)
-                        $.each(data.coOrderSingle, function(v, its) {
-                            rys = '<tr>' +
-                                '<td>' + its.partDescription + '</td>' +
-                                '<td>' + its.partId + '</td>' +
-                                '<td>' + its.partSpecification + '</td>' +
-                                '<td>' + its.quantity + '</td>' +
-                                '<td>' + its.unit + '</td>' +
-                                '<td>' + its.taxRate + '</td>' +
-                                '<td>' + its.taxPrice + '</td>' +
-                                '<td>' + its.amount + '</td>' +
-                                '<td>' + its.allAmt + '</td>' +
-                                '<td>' + its.zkRate + '</td>' +
-                                '<td>' + its.locationName + '</td>' +
-                                '<td>' + its.remark + '</td>' +
-                                '<td>' + its.perQty + '</td>' +
-                                '</tr>'
-                        })
-                        console.log(rys)
-
-                        $("#sssd").html('<table lay-filter="parse-table-demo">' +
-                            '<thead> <tr>' +
-                            '<th lay-data="{field:\'username\', minWidth:100}">物料名称</th>' +
-                            '<th lay-data="{field:\'d\', minWidth:100}">材料代号</th>' +
-                            '<th lay-data="{field:\'userwname\', minWidth:100}">物料规格</th>' +
-                            '<th lay-data="{field:\'w\', minWidth:100}">采购数量</th>' +
-                            '<th lay-data="{field:\'e\', minWidth:100}">单位</th>' +
-                            '<th lay-data="{field:\'r\', minWidth:100}">税率</th>' +
-                            '<th lay-data="{field:\'t\', minWidth:100}">含税单价</th>' +
-                            '<th lay-data="{field:\'y\', minWidth:100}">采购金额</th>' +
-                            '<th lay-data="{field:\'u\', minWidth:100}">价税合计</th>' +
-                            '<th lay-data="{field:\'i\', minWidth:100}">折扣率</th>' +
-                            '<th lay-data="{field:\'o\', minWidth:100}">交货仓库</th>' +
-                            '<th lay-data="{field:\'p\', minWidth:100}">备注</th>' +
-                            '<th lay-data="{field:\'q\', minWidth:100}">装箱数量/箱</th>' +
-                            '</tr> ' +
-                            '</thead>' +
-                            '<tbody>' + rys + '</tbody>' +
-                            '</table> ')
-                        table.init('parse-table-demo', { //转化静态表格
-                        });
-                    }
-                });
-            }
         });
     });
 </script>

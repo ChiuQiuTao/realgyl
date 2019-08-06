@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>员工资料</title>
+    <title>应付账单</title>
     <link rel="stylesheet" href="../../../public/dist/css/layui.css">
     <link rel="stylesheet" href="../../../css/departmentbase.css">
     <link rel="stylesheet" href="../../../public/font/iconfont.css">
@@ -17,30 +17,33 @@
         <div class="select-left">
             <div class="select-item">
                 <div class="select-item-text" style="width: 90px">
-                    员工代号
+                    账单单号
                 </div>
                 <input type="text" class="layui-input select-item-input" id="a" search-type="a">
             </div>
-            <div class="select-item">
+            <div class="select-item" style="margin-left: 20px;">
                 <div class="select-item-text">
-                    员工名称
+                    供应商名称
                 </div>
-                <input type="text" class="layui-input select-item-input" id="b" search-type="b">
+
+                <select name="" id="b" class="select-item-select2">
+                    <option value="">--请选择--</option>
+                </select>
             </div>
         </div>
 
         <div class="select-right">
-            <div class="select-btn  search " lay-event="search">
+            <div class="select-btn  search" lay-event="search">
                 查询
             </div>
-            <div class="select-btn   reset" lay-event="reset">
+            <div class="select-btn reset " lay-event="reset">
                 清除
             </div>
         </div>
     </div>
 
     <div class="common-padding">
-        <table class="layui-hide" id="gylEmployeesdata" lay-filter="gylEmployeesdata"></table>
+        <table class="layui-hide" id="gylMaterialmaintain" lay-filter="gylMaterialmaintain"></table>
     </div>
 </body>
 <script src="../../../public/dist/layui.js" charset="utf-8"></script>
@@ -58,22 +61,38 @@
     </div>
 </script>
 
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+</script>
 
 <script>
-    layui.use(["table", "laydate", "util"], function() {
+    layui.use(["table", "laydate", "layer", "util", "form"], function() {
         var $ = layui.jquery,
             util = layui.util,
+            layer = layui.layer,
+            form = layui.form,
             laydate = layui.laydate,
             table = layui.table;
 
+        //供应商
+        noAjax("coa/getSuppliersList", {}, "get").done(function(resp) {
+            $.each(resp.ipage.records, function(v, item) {
+                $("#b").append('<option  value="' + item.fullName + '">' + item.fullName + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
 
         //监听头部监听
-        table.on('toolbar(gylEmployeesdata)', function(obj) {
+        table.on('toolbar(gylMaterialmaintain)', function(obj) {
             var checkStatus = table.checkStatus(obj.config.id),
                 data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = "./dialog/addEmployeesdata.html";
+                    window.location.href = "./dialog/addbills.html";
                     break;
                 case 'update':
                     if (data.length === 0) {
@@ -81,7 +100,7 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        window.location.href = "./dialog/addEmployeesdata.html?id=" + data[0].id;
+                        window.location.href = "./dialog/addbills.html?id=" + data[0].id;
                     }
                     break;
                 case 'delete':
@@ -89,7 +108,7 @@
                         layer.msg('请选择一行');
                     } else {
 
-                        noAjax("coa/delEmployee", {
+                        noAjax("coa/delAccount", {
                             id: data[0].id
                         }, "POST").done(function(resp) {
                             layer.msg('操作成功', {
@@ -98,7 +117,9 @@
                             });
                             setTimeout(function() {
                                 tableIns.reload({
-                                    where: {},
+                                    where: {
+                                        billtype: 2
+                                    },
                                     page: {
                                         curr: 1, //重新从第 1 页开始
                                         layout: ['prev', 'page', 'next', 'skip', 'count']
@@ -116,10 +137,12 @@
 
 
         var tableIns = table.render({
-            elem: "#gylEmployeesdata",
-            url: base + "coa/getEmployeeList",
+            elem: "#gylMaterialmaintain",
+            url: base + "coa/getAccountList",
             method: "GET",
-            where: {},
+            where: {
+                billtype: 2
+            },
             headers: {
                 Authorization: "Bearer" + " " + sessions
             },
@@ -135,8 +158,8 @@
                 return {
                     code: res.code, //解析接口状态
                     msg: res.message, //解析提示文本
-                    totalNum: res.ipage.total, //解析数据长度
-                    lists: res.ipage.records //解析数据列表
+                    totalNum: res.pageBean.totalNum, //解析数据长度
+                    lists: res.pageBean.lists //解析数据列表
                 };
             },
             response: {
@@ -165,74 +188,83 @@
                     type: 'checkbox',
                     fixed: "left"
                 }, {
-                    field: "createTime",
-                    title: "创建时间",
+                    field: "billstime",
+                    title: "应付日期",
                     minWidth: 120,
                     sort: true,
                     align: "center",
                     templet: function(d) {
                         var numv = null;
-                        if (d.createTime == "" || d.createTime == null) {
+                        if (d.billstime == "" || d.billstime == null) {
                             numv = " ";
                         } else {
-                            numv = d.createTime = layui.util.toDateString(
-                                d.createTime,
+                            numv = d.billstime = layui.util.toDateString(
+                                d.billstime,
                                 "yyyy-MM-dd"
                             );
                         }
                         return numv;
                     }
                 }, {
-                    field: "employeeId",
-                    title: "员工代号",
+                    field: "billcode",
+                    title: "应付单号",
                     minWidth: 110,
                     align: "center"
                 }, {
-                    field: "name",
-                    title: "员工名称",
+                    field: "csname",
+                    title: "供应商名称",
                     minWidth: 140,
                     align: "center"
                 }, {
-                    field: "sex",
-                    title: "性别(男或女)",
-                    minWidth: 140,
-                    align: "center"
-                }, {
-                    field: "deptId",
-                    title: "部门",
-                    minWidth: 100,
+                    field: "closed",
+                    title: "是否关闭",
+                    minWidth: 110,
                     sort: true,
                     align: "center"
                 }, {
-                    field: "deptName",
-                    title: "部门名称",
+                    field: "paymentterms",
+                    title: "付款条件",
                     minWidth: 100,
-                    sort: true,
                     align: "center"
                 }, {
-                    field: "nationId",
-                    title: "民族",
+                    field: "listername",
+                    title: "制表人名称",
                     minWidth: 100,
-                    sort: true,
                     align: "center"
                 }, {
-                    field: "active",
-                    title: "是否在职",
+                    field: "approve",
+                    title: "批准",
                     minWidth: 100,
-                    sort: true,
                     align: "center"
                 }, {
-                    field: "mob",
-                    title: "手机号",
+                    field: "approver",
+                    title: "审批人名称",
                     minWidth: 100,
-                    sort: true,
                     align: "center"
                 }, {
-                    field: "remark",
-                    title: "备注",
-                    minWidth: 100,
+                    field: "invoicetime",
+                    title: "发票日期",
+                    minWidth: 120,
                     sort: true,
-                    align: "center"
+                    align: "center",
+                    templet: function(d) {
+                        var numv = null;
+                        if (d.invoicetime == "" || d.invoicetime == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.invoicetime = layui.util.toDateString(
+                                d.invoicetime,
+                                "yyyy-MM-dd"
+                            );
+                        }
+                        return numv;
+                    }
+                }, {
+                    field: "editTime",
+                    title: "账单单身",
+                    minWidth: 80,
+                    align: "center",
+                    toolbar: '#barDemo'
                 }, ]
             ]
         });
@@ -248,10 +280,10 @@
             }
 
             var datelist = {
-                employeeId: $("#a").val(),
-                name: $("#b").val()
+                billcode: $("#a").val(),
+                csname: $("#b").val().trim(),
+                billtype: 2
             };
-
             tableIns.reload({
                 where: datelist,
                 request: {
@@ -270,12 +302,76 @@
             $("#a").val("");
             $("#b").val("");
             tableIns.reload({
-                where: {},
+                where: {
+                    billtype: 2
+                },
                 page: {
                     curr: 1, //重新从第 1 页开始
                     layout: ["prev", "page", "next", "skip", "count"]
                 }
             });
         });
+
+        //查看
+        var rys = null;
+        table.on('tool(gylMaterialmaintain)', function(obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent === 'edit') { //查看
+                layer.open({
+                    type: 1,
+                    title: "账单单身",
+                    shadeClose: true, //是否点击遮罩关闭
+                    anim: 5, //弹出动画
+                    scrollbar: false, //窗口外滚动条是否出现
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['860px', '300px'], //宽高
+                    content: '<div id="sssd"  style="margin:10px;"></div>',
+                    success: function(layero, index) {
+                        console.log(data.coProductBillList)
+                        $.each(data.coProductBillList, function(v, its) {
+                            rys = '<tr>' +
+                                '<td>' + its.billcode + '</td>' +
+                                '<td>' + its.productname + '</td>' +
+                                '<td>' + its.productcode + '</td>' +
+                                '<td>' + its.specifications + '</td>' +
+                                '<td>' + its.num + '</td>' +
+                                '<td>' + its.unit + '</td>' +
+                                '<td>' + its.taxrate + '</td>' +
+                                '<td>' + its.unitprice + '</td>' +
+                                '<td>' + its.taxprice + '</td>' +
+                                '<td>' + its.notmoney + '</td>' +
+                                '<td>' + its.money + '</td>' +
+                                '<td>' + its.amountmoney + '</td>' +
+                                '</tr>'
+                        })
+                        console.log(rys)
+
+                        $("#sssd").html('<table lay-filter="parse-table-demo">' +
+                            '<thead> <tr>' +
+                            '<th lay-data="{field:\'df\', minWidth:100}">源单据号</th>' +
+                            '<th lay-data="{field:\'username\', minWidth:100}">物料名称</th>' +
+                            '<th lay-data="{field:\'d\', minWidth:100}">产品代号</th>' +
+                            '<th lay-data="{field:\'userwname\', minWidth:100}">物料规格</th>' +
+                            '<th lay-data="{field:\'w\', minWidth:100}">应付数量</th>' +
+                            '<th lay-data="{field:\'e\', minWidth:100}">单位</th>' +
+                            '<th lay-data="{field:\'r\', minWidth:100}">税率</th>' +
+                            '<th lay-data="{field:\'p\', minWidth:100}">单价</th>' +
+                            '<th lay-data="{field:\'t\', minWidth:100}">含税单价</th>' +
+                            '<th lay-data="{field:\'y\', minWidth:100}">不含税金额</th>' +
+                            '<th lay-data="{field:\'u\', minWidth:100}">含税金额</th>' +
+                            '<th lay-data="{field:\'i\', minWidth:100}">应付金额</th>' +
+                            '</tr> ' +
+                            '</thead>' +
+                            '<tbody>' + rys + '</tbody>' +
+                            '</table> ')
+                        table.init('parse-table-demo', { //转化静态表格
+                        });
+                    }
+                });
+            }
+        });
+
+
     });
 </script>

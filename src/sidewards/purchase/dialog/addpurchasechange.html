@@ -316,32 +316,6 @@
                 return
             }
 
-            if ($(".locationName").val() == "") {
-                alerts("请选择供应商")
-                return
-            }
-            if ($(".productCodeName").val() == "") {
-                alerts("请选择类别名称")
-                return
-            }
-            if ($(".specification").val() == "") {
-                alerts("请输入规格")
-                return
-            }
-            if ($(".unitBuyCost").val() == "") {
-                alerts("请输入参考进价")
-                return
-            }
-            if ($(".unitSaleCost").val() == "") {
-                alerts("请输入参考售价")
-                return
-            }
-
-            if ($(".vendorName").val() == "") {
-                alerts("请选择来源")
-                return
-            }
-
             obj.createTime = $("#tesss").val() + " " + "00:00:00";
             obj.description = $(".house").val();
             obj.qtyOnHand = "";

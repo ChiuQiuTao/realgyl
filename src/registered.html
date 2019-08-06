@@ -13,12 +13,12 @@
 </head>
 
 <body>
-    
+
     <div class="logo">供应链协同管理平台</div>
     <div class="head">
         注册账号
     </div>
-    <div class="input jump1">
+    <!-- <div class="input jump1">
         <div class="Hasregistered" dateurl="1">
             (暂时账号)我要注册
         </div>
@@ -29,7 +29,7 @@
             <div class="btns-item determine">确定</div>
             <div class="btns-item cancels">取消</div>
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -37,7 +37,11 @@
     <div class="input  jump2" style="display:none;">
         <div class="regexsrr">
             <span>邀请码:</span>
-            <input type="text" placeholder="输入邀请码" class="no-invitation">
+            <input type="text" placeholder="输入邀请码" class="no-invitation" maxlength="11">
+        </div>
+        <div class="regexsrr">
+            <span>手机号:</span>
+            <input type="text" placeholder="输入手机号" class="no-invitation1" maxlength="11">
         </div>
         <div class="btns registereds">
             <div class="btns-item nextstep" style="margin:0 auto;padding:4px 110px;">下一步</div>
@@ -46,37 +50,38 @@
 
 
 
+
     <div class="input  jump2-1" style="display:none;">
-        <div class="item itemw">
-            <div class="item-txt">
-                账号名:
-            </div>
-            <input type="text" placeholder="请输入您的账号名" class="layui-input">
-        </div>
-        <div class="item itemw">
-            <div class="item-txt">
-                手机号:
-            </div>
-            <input type="text" placeholder="请输入您的手机号" class="layui-input">
-        </div>
-        <div class="item itemw">
-            <div class="item-txt">
-                验证号:
-            </div>
-            <input type="text" placeholder="请输入您的验证号" class="layui-input" style="width:180px;margin-right: 30px;">
-            <button class="times btns-item">
-                发送
-            </button>
-        </div>
 
         <div class="item itemw">
             <div class="item-txt">
                 企业名:
             </div>
-            <input type="text" placeholder="请输入您的企业名" class="layui-input">
+            <input type="text" placeholder="请输入您的企业名" class="layui-input" id="enterprise">
+        </div>
+        <div class="item itemw">
+            <div class="item-txt">
+                手机号:
+            </div>
+            <input type="text" placeholder="请输入您的手机号" class="layui-input" id="ph" maxlength="11">
+        </div>
+        <div class="item itemw">
+            <div class="item-txt">
+                验证号:
+            </div>
+            <input type="text" placeholder="请输入您的验证号" class="layui-input" id="validation" style="width:180px;margin-right: 30px;">
+            <button class="times btns-item">
+                发送
+            </button>
+        </div>
+        <div class="item itemw">
+            <div class="item-txt">
+                联系人:
+            </div>
+            <input type="text" placeholder="请输入联系人" class="layui-input " id="contacts">
         </div>
 
-        <div class="list">
+        <!-- <div class="list">
             <div class="item itemw plates">
                 <div class="item-txt">
                     企业类型:
@@ -86,7 +91,7 @@
                     <i class="layui-icon">&#xe608;</i>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="btns">
             <div class="btns-item pres">上一步</div>
@@ -102,13 +107,13 @@
             <div class="item-txt">
                 密码:
             </div>
-            <input type="text" placeholder="请输入您的密码" class="layui-input">
+            <input type="text" placeholder="请输入您的密码" class="layui-input" id="passwords">
         </div>
         <div class="item itemw">
             <div class="item-txt">
                 确定密码:
             </div>
-            <input type="text" placeholder="请输入您的确定密码" class="layui-input">
+            <input type="password" placeholder="请输入您的确定密码" class="layui-input" id="passwordq">
         </div>
 
         <div class="btns">
@@ -153,77 +158,117 @@
     </div>
 </body>
 <script src="../js/common/jquery.min.js"></script>
+<script src="../js/common/api.js"></script>
 <script src="../public/dist/layui.js"></script>
+
 
 <script type="text/javascript">
     layui.use("layer", function() {
         var $ = layui.jquery,
             layer = layui.layer,
+            codes = null,
             open = false,
+            obj = {},
             suns = null;
 
         //选中
-        $(".Hasregistered").click(function() {
-            if ($(this).attr("dateurl") == 1) {
-                suns = 1;
-            } else {
-                suns = 2;
-            }
+        // $(".Hasregistered").click(function() {
+        //     if ($(this).attr("dateurl") == 1) {
+        //         suns = 1;
+        //     } else {
+        //         suns = 2;
+        //     }
 
-            $(this).css("backgroundColor", "#c9c9c9").siblings().css("backgroundColor", "#fff");
-            open = true;
-        })
-
+        //     $(this).css("backgroundColor", "#c9c9c9").siblings().css("backgroundColor", "#fff");
+        //     open = true;
+        // })
+        $(".jump2").css("display", "block");
         //确定
-        $(".determine").click(function() {
-            if (open) {
-                console.log(suns)
-                if (suns == 1) {
-                    $(".jump2").css("display", "block");
-                } else {
-                    $(".jump3").css("display", "block");
-                }
-                $(".jump1").css("display", "none");
-            } else {
-                layer.msg('请选择！', {
-                    time: 1000,
-                });
-                return;
-            }
-            return;
-        })
+        // $(".determine").click(function() {
+        //     if (open) {
+        //         console.log(suns)
+        //         if (suns == 1) {
+
+        //         } else {
+        //             $(".jump3").css("display", "block");
+        //         }
+        //         $(".jump1").css("display", "none");
+        //     } else {
+        //         layer.msg('请选择！', {
+        //             time: 1000,
+        //         });
+        //         return;
+        //     }
+        //     return;
+        // })
 
 
         //下一步
         $(".nextstep").click(function() {
             var days = $(".no-invitation").val().trim();
+            var phs = $(".no-invitation1").val().trim();
             if (days == "" || days == " ") {
-                layer.msg('请输入邀请码！', {
+                layer.msg('请输入邀请码', {
                     offset: "200",
                     time: 1000,
                 });
                 $(".no-invitation").val("");
                 return;
-            } else {
-
-                $(".jump2").css("display", "none");
-                $(".jump2-1").css("display", "block");
             }
+            if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phs))) {
+                layer.msg('请输入正确手机号', {
+                    offset: "200",
+                    time: 1000,
+                });
+                $(".no-invitation1").val("");
+                return false;
+            }
+
+            noAjax("coRegisterInvi/checkInviCode", {
+                phone: phs,
+                smscode: days
+            }, "get").done(function(resp) {
+                console.log(resp)
+                layer.msg(resp.message, {
+                    offset: "200",
+                    time: 800,
+                });
+                if (resp.code != 10008 && resp.code == 10000) {
+                    setTimeout(function() {
+                        $(".jump2").css("display", "none");
+                        $(".jump2-1").css("display", "block");
+                    }, 1000);
+                    return
+                }
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
             return;
         })
 
-        //账号的页面
-        $(".add").click(function() {
-            $(".list").append('<div class="item itemw plates"><div class="item-txt">企业类型:</div>' +
-                '<input type="text" placeholder="请输入您的企业类型" class="layui-input"></div>');
-            return;
-        })
+
 
 
         //发送
         var tims = null;
         var numss = 60;
         $(".times").click(function() {
+            if ($("#ph").val() == "") {
+                layer.msg("请输入手机号", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+            if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test($("#ph").val()))) {
+                layer.msg('请输入正确手机号', {
+                    offset: "200",
+                    time: 1000,
+                });
+                $("#ph").val("");
+                return false;
+            }
             var thenss = $(this);
             $(this).attr("disabled", true);
             tims = setInterval(function() {
@@ -236,6 +281,20 @@
                     thenss.removeAttr("disabled");
                 }
             }, 1000);
+
+
+            noAjax("coRegisterInvi/sendCode", {
+                phone: $("#ph").val(),
+            }, "post").done(function(resp) {
+                console.log(resp)
+                layer.msg(resp.message, {
+                    offset: "200",
+                    time: 1000,
+                });
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
             return
         })
 
@@ -250,16 +309,113 @@
 
         //页面||下一步
         $(".nsees").click(function() {
-            $(".jump2-1").hide();
-            $(".jump2-2").show();
+            if ($("#enterprise").val() == "") {
+                layer.msg("请输入您的企业名", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+            if ($("#ph").val() == "") {
+                layer.msg("请输入手机号", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+
+            if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test($("#ph").val()))) {
+                layer.msg('请输入正确手机号', {
+                    offset: "200",
+                    time: 1000,
+                });
+                $("#ph").val("");
+                return false;
+            }
+
+            if ($("#validation").val() == "") {
+                layer.msg("请输入验证号", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+
+            if ($("#contacts").val() == "") {
+                layer.msg("请输入联系人", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+
+
+            noAjax("coRegisterInvi/checkSmsCode", {
+                phone: $("#ph").val(),
+                smscode: $("#validation").val()
+            }, "get").done(function(resp) {
+                console.log(resp)
+                layer.msg(resp.message, {
+                    offset: "200",
+                    time: 800,
+                });
+                if (resp.code != 10008 && resp.code == 10000) {
+                    setTimeout(function() {
+                        $(".jump2-1").hide();
+                        $(".jump2-2").show();
+                    }, 1000);
+                    obj.enterpriseName = $("#enterprise").val();
+                    obj.phone = $("#ph").val();
+                    obj.realName = $('#contacts').val();
+                    return
+                }
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
             return;
         });
 
 
         //密码
         $(".determines").click(function() {
-            $(".jump2-2").hide();
-            $(".jump4").show();
+            if ($("#passwords").val() == "") {
+                layer.msg("请输入密码", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+            if ($("#passwordq").val() == "") {
+                layer.msg("请输入确定密码", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+            if ($("#passwords").val() != $("#passwordq").val()) {
+                layer.msg("密码与确定密码不同", {
+                    offset: "200",
+                    time: 800,
+                });
+                return
+            }
+            obj.password = $("#passwordq").val();
+            noAjax("coRegisterInvi/registerAccount", obj, "post").done(function(resp) {
+                console.log(resp)
+                if (resp.code == 10000) {
+                    layer.msg(resp.message, {
+                        offset: "200",
+                        time: 1000,
+                    });
+                    $(".jump2-2").hide();
+                    $(".jump4").show();
+                    return
+                }
+                return
+            }).fail(function(err) {
+                console.log(err)
+            });
             return;
         });
 

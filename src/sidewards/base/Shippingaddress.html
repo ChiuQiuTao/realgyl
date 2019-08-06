@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>物料维护</title>
+    <title>收货地址</title>
     <link rel="stylesheet" href="../../../public/dist/css/layui.css">
     <link rel="stylesheet" href="../../../css/departmentbase.css">
     <link rel="stylesheet" href="../../../public/font/iconfont.css">
@@ -17,30 +17,30 @@
         <div class="select-left">
             <div class="select-item">
                 <div class="select-item-text" style="width: 90px">
-                    物料代号
+                    地址编号
                 </div>
                 <input type="text" class="layui-input select-item-input" id="a" search-type="a">
             </div>
             <div class="select-item">
                 <div class="select-item-text">
-                    物料名称
+                    地址名
                 </div>
                 <input type="text" class="layui-input select-item-input" id="b" search-type="b">
             </div>
         </div>
 
         <div class="select-right">
-            <div class="select-btn  search" lay-event="search">
+            <div class="select-btn search">
                 查询
             </div>
-            <div class="select-btn reset " lay-event="reset">
+            <div class="select-btn  reset">
                 清除
             </div>
         </div>
     </div>
 
     <div class="common-padding">
-        <table class="layui-hide" id="gylMaterialmaintain" lay-filter="gylMaterialmaintain"></table>
+        <table class="layui-hide" id="gylMaterialwarehouse" lay-filter="gylMaterialwarehouse"></table>
     </div>
 </body>
 <script src="../../../public/dist/layui.js" charset="utf-8"></script>
@@ -67,12 +67,12 @@
 
 
         //监听头部监听
-        table.on('toolbar(gylMaterialmaintain)', function(obj) {
+        table.on('toolbar(gylMaterialwarehouse)', function(obj) {
             var checkStatus = table.checkStatus(obj.config.id),
                 data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = "./dialog/addMaterialmaintain.html";
+                    window.location.href = "./dialog/addShippingaddress.html";
                     break;
                 case 'update':
                     if (data.length === 0) {
@@ -80,7 +80,7 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        window.location.href = "./dialog/addMaterialmaintain.html?id=" + data[0].id;
+                        window.location.href = "./dialog/addShippingaddress.html?id=" + data[0].id;
                     }
                     break;
                 case 'delete':
@@ -88,7 +88,7 @@
                         layer.msg('请选择一行');
                     } else {
 
-                        noAjax("coa/delProduct", {
+                        noAjax("coa/delShippingAddress", {
                             id: data[0].id
                         }, "POST").done(function(resp) {
                             layer.msg('操作成功', {
@@ -115,8 +115,8 @@
 
 
         var tableIns = table.render({
-            elem: "#gylMaterialmaintain",
-            url: base + "coa/getProductList",
+            elem: "#gylMaterialwarehouse",
+            url: base + "coa/getShippingAddressList",
             method: "GET",
             where: {},
             headers: {
@@ -161,100 +161,93 @@
             // height: 'full-20',//满高
             cols: [
                 [{
-                        type: 'checkbox',
-                        fixed: "left"
-                    }, {
-                        field: "createTime",
-                        title: "创建时间",
-                        minWidth: 120,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.createTime == "" || d.createTime == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.createTime = layui.util.toDateString(
-                                    d.createTime,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
+                    type: 'checkbox',
+                    fixed: "left"
+                }, {
+                    field: "addressId",
+                    title: "地址编号",
+                    minWidth: 110,
+                    align: "center"
+                }, {
+                    field: "addressName",
+                    title: "地址名",
+                    minWidth: 140,
+                    align: "center"
+                }, {
+                    field: "contact",
+                    title: "联系人",
+                    minWidth: 110,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "mobile",
+                    title: "手机号",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "telephone",
+                    title: "固定电话",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "province",
+                    title: "省份",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "city",
+                    title: "城市",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "district",
+                    title: "县区",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "streetId",
+                    title: "街道",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "detailedAddr",
+                    title: "详细地址",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "zipcode",
+                    title: "邮政编码",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "remark",
+                    title: "备注",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "isDefault",
+                    title: "是否默认地址",
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        var numv = null;
+                        if (d.isDefault) {
+                            numv = "是"
+                        } else {
+                            numv = "否"
                         }
-                    }, {
-                        field: "artId",
-                        title: "物料代号",
-                        minWidth: 110,
-                        align: "center"
-                    }, {
-                        field: "description",
-                        title: "名称",
-                        minWidth: 140,
-                        align: "center"
-                    }, {
-                        field: "specification",
-                        title: "规格",
-                        minWidth: 110,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "productCodeName",
-                        title: "类别",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "locationName",
-                        title: "仓库",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    },
-                    // {
-                    //     field: "qtyOnHand",
-                    //     title: "库存",
-                    //     minWidth: 100,
-                    //     sort: true,
-                    //     align: "center"
-                    // },
-                    {
-                        field: "vendorName",
-                        title: "来源",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "unitBuyCost",
-                        title: "参考进价",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "unitSaleCost",
-                        title: "参考售价",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "editTime",
-                        title: "修改时间",
-                        minWidth: 130,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.editTime == "" || d.editTime == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.editTime = layui.util.toDateString(
-                                    d.editTime,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
-                        }
+                        return numv;
                     }
-                ]
+                }, ]
             ]
         });
 
@@ -269,8 +262,8 @@
             }
 
             var datelist = {
-                artId: $("#a").val(),
-                description: $("#b").val()
+                addressId: $("#a").val(),
+                addressName: $("#b").val()
             };
 
             tableIns.reload({

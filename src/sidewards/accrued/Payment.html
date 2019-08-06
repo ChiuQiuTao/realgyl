@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>物料维护</title>
+    <title>付款单</title>
     <link rel="stylesheet" href="../../../public/dist/css/layui.css">
     <link rel="stylesheet" href="../../../css/departmentbase.css">
     <link rel="stylesheet" href="../../../public/font/iconfont.css">
@@ -17,15 +17,18 @@
         <div class="select-left">
             <div class="select-item">
                 <div class="select-item-text" style="width: 90px">
-                    物料代号
+                    付款单号
                 </div>
                 <input type="text" class="layui-input select-item-input" id="a" search-type="a">
             </div>
-            <div class="select-item">
+            <div class="select-item" style="margin-left: 20px;">
                 <div class="select-item-text">
-                    物料名称
+                    供应商名称
                 </div>
-                <input type="text" class="layui-input select-item-input" id="b" search-type="b">
+
+                <select name="" id="b" class="select-item-select2">
+                    <option value="">--请选择--</option>
+                </select>
             </div>
         </div>
 
@@ -59,11 +62,23 @@
 </script>
 
 <script>
-    layui.use(["table", "laydate", "util"], function() {
+    layui.use(["table", "laydate", "util", "form"], function() {
         var $ = layui.jquery,
             util = layui.util,
+            form = layui.form,
             laydate = layui.laydate,
             table = layui.table;
+
+        //供应商名称
+        noAjax("coa/getSuppliersList", {}, "get").done(function(resp) {
+            $.each(resp.ipage.records, function(v, item) {
+                $("#b").append('<option  value="' + item.fullName + '">' + item.fullName + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
 
 
         //监听头部监听
@@ -72,7 +87,7 @@
                 data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = "./dialog/addMaterialmaintain.html";
+                    window.location.href = "./dialog/addPayment.html";
                     break;
                 case 'update':
                     if (data.length === 0) {
@@ -80,7 +95,7 @@
                     } else if (data.length > 1) {
                         layer.msg('只能同时编辑一个');
                     } else {
-                        window.location.href = "./dialog/addMaterialmaintain.html?id=" + data[0].id;
+                        window.location.href = "./dialog/addPayment.html?id=" + data[0].id;
                     }
                     break;
                 case 'delete':
@@ -88,7 +103,7 @@
                         layer.msg('请选择一行');
                     } else {
 
-                        noAjax("coa/delProduct", {
+                        noAjax("coa/delPay", {
                             id: data[0].id
                         }, "POST").done(function(resp) {
                             layer.msg('操作成功', {
@@ -116,9 +131,11 @@
 
         var tableIns = table.render({
             elem: "#gylMaterialmaintain",
-            url: base + "coa/getProductList",
+            url: base + "coa/getPayList",
             method: "GET",
-            where: {},
+            where: {
+                paytype: "付款类型"
+            },
             headers: {
                 Authorization: "Bearer" + " " + sessions
             },
@@ -161,100 +178,68 @@
             // height: 'full-20',//满高
             cols: [
                 [{
-                        type: 'checkbox',
-                        fixed: "left"
-                    }, {
-                        field: "createTime",
-                        title: "创建时间",
-                        minWidth: 120,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.createTime == "" || d.createTime == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.createTime = layui.util.toDateString(
-                                    d.createTime,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
+                    type: 'checkbox',
+                    fixed: "left"
+                }, {
+                    field: "paytime",
+                    title: "付款日期",
+                    minWidth: 120,
+                    sort: true,
+                    align: "center",
+                    templet: function(d) {
+                        var numv = null;
+                        if (d.paytime == "" || d.paytime == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.paytime = layui.util.toDateString(
+                                d.paytime,
+                                "yyyy-MM-dd"
+                            );
                         }
-                    }, {
-                        field: "artId",
-                        title: "物料代号",
-                        minWidth: 110,
-                        align: "center"
-                    }, {
-                        field: "description",
-                        title: "名称",
-                        minWidth: 140,
-                        align: "center"
-                    }, {
-                        field: "specification",
-                        title: "规格",
-                        minWidth: 110,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "productCodeName",
-                        title: "类别",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "locationName",
-                        title: "仓库",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    },
-                    // {
-                    //     field: "qtyOnHand",
-                    //     title: "库存",
-                    //     minWidth: 100,
-                    //     sort: true,
-                    //     align: "center"
-                    // },
-                    {
-                        field: "vendorName",
-                        title: "来源",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "unitBuyCost",
-                        title: "参考进价",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "unitSaleCost",
-                        title: "参考售价",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "editTime",
-                        title: "修改时间",
-                        minWidth: 130,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.editTime == "" || d.editTime == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.editTime = layui.util.toDateString(
-                                    d.editTime,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
-                        }
+                        return numv;
                     }
-                ]
+                }, {
+                    field: "paycode",
+                    title: "付款单号",
+                    minWidth: 110,
+                    align: "center"
+                }, {
+                    field: "csname",
+                    title: "供应商名称",
+                    minWidth: 140,
+                    align: "center"
+                }, {
+                    field: "payamount",
+                    title: "付款金额",
+                    minWidth: 110,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "paymethod",
+                    title: "付款方式",
+                    minWidth: 100,
+                    align: "center"
+                }, {
+                    field: "listername",
+                    title: "制表人名称",
+                    minWidth: 100,
+                    align: "center"
+                }, {
+                    field: "approve",
+                    title: "批准",
+                    minWidth: 100,
+                    align: "center"
+                }, {
+                    field: "approver",
+                    title: "审批人名称",
+                    minWidth: 100,
+                    align: "center"
+                }, {
+                    field: "remark",
+                    title: "备注",
+                    minWidth: 100,
+                    align: "center"
+                }, ]
             ]
         });
 
@@ -269,10 +254,12 @@
             }
 
             var datelist = {
-                artId: $("#a").val(),
-                description: $("#b").val()
+                paycode: $("#a").val(),
+                csname: $("#b").val().trim(),
+                paytype: "付款类型"
             };
 
+            console.log($("#b").val())
             tableIns.reload({
                 where: datelist,
                 request: {
@@ -291,7 +278,9 @@
             $("#a").val("");
             $("#b").val("");
             tableIns.reload({
-                where: {},
+                where: {
+                    paytype: "付款类型"
+                },
                 page: {
                     curr: 1, //重新从第 1 页开始
                     layout: ["prev", "page", "next", "skip", "count"]

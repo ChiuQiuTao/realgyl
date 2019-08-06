@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>商品类别</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+</head>
+
+<body>
+
+    <form class="layui-form" action="" id="example" lay-filter="example">
+        <div class="select common">
+            <div class="select-title"> 上架商品类别</div>
+            <div class="select-con">
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">物料类别:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  description" placeholder="输入物料类别" name="description">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类别图标:</label>
+                        <div class="layui-input-inline" id="hether">
+                            <img alt="" style="width:100px;height: 40px;" id="picture">
+                            <button type="button" class="layui-btn  layui-btn-sm" id="testsd">点击上传</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上层类别:</label>
+                        <div class="layui-input-inline ">
+                            <select name="parentName" lay-filter="parentName" class="parentName">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类别代号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  parentId" placeholder="输入上层类别代号" name="parentId" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">仓库名称:</label>
+                        <div class="layui-input-inline ">
+                            <select name="locationName" lay-filter="locationName" class="locationName">
+                                  <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">仓库代号:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input input-d  locationId" placeholder="输入仓库代号" name="locationId" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否推荐:</label>
+                        <div class="layui-input-inline" id="top">
+                            <input type="radio" name="isRecommend" value="是" title="是">
+                            <input type="radio" name="isRecommend" value="否" title="否">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">平台账号:</label>
+                        <div class="layui-input-inline ">
+                            <input type="text" class="layui-input input-d  webId" placeholder="输入平台账号" name="webId" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="select-btn" style="margin-left:30px;">
+                    <div class="layui-bg-green comquery queding" id="queding">确定</div>
+                    <div class="layui-bg-green comquery cancels">取消</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+<script src="../../../../js/module/jquery-3.4.1.min.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../js/common/api.js"></script>
+<script type="text/javascript">
+    layui.use(["laydate", "form", "upload"], function() {
+        var $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            upload = layui.upload,
+            obj = {};
+
+
+        //取消
+        $(".cancels").click(function() {
+            window.location.href = "../goodscategory.html";
+        });
+
+
+        //仓库名称
+        obj.locationName = "";
+        obj.locationId = "";
+        noAjax("coa/getLocationList", {}, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            $.each(resp.ipage.records, function(v, item) {
+                $(".locationName").append('<option  value="' + item.locationId + '">' + item.description + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(locationName)', function(data) {
+            obj.locationName = $(this)[0].innerText;
+            obj.locationId = data.value;
+            $(".locationId").val(data.value);
+            return
+        });
+
+        //上传图片
+        upload.render({
+            elem: '#testsd',
+            url: base + 'common/upload',
+            method: "post",
+            data: {
+                file: "物料类别",
+            },
+            headers: {
+                Authorization: "Bearer" + " " + sessions
+            },
+            done: function(res) {
+                console.log(res)
+                $("#picture").attr("src", res.list[0]);
+                obj.logoImage = res.list[0];
+            },
+            error: function() {
+                //请求异常回调
+            }
+        });
+
+
+        //平台账号
+        noAjax("user/getUser", {}, "get").done(function(resp) {
+            $(".webId").val(resp.realName)
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+        //上级类别
+        obj.parentName = "";
+        obj.parentId = "";
+        noAjax("coa/getShelvesProductTypeList", {}, "get").done(function(resp) {
+            console.log(resp.ipage.records)
+            $.each(resp.ipage.records, function(v, item) {
+                $(".parentName").append('<option  value="' + item.productCode + '">' + item.description + '</option>')
+            })
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+        form.on('select(parentName)', function(data) {
+            console.log(data)
+            obj.parentName = $(this)[0].innerText;
+            obj.parentId = data.value;
+            $(".parentId").val(data.value);
+            return
+        });
+
+        //编辑
+        var urls = window.location.search;
+        urls = urls.substring(4);
+        console.log(urls)
+        noAjax("coa/getShelvesProductTypeList", {
+            id: urls
+        }, "get").done(function(resp) {
+            console.log(resp)
+            $("#picture").attr("src", resp.ipage.records[0].logoImage)
+            form.val("example", resp.ipage.records[0])
+            form.render('select');
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
+
+        //确定
+        $("#queding").click(function() {
+
+            if ($(".description").val() == "") {
+                alerts("请输入物料类别")
+                return
+            }
+            if ($('#top input[type="radio"]:checked').val() == "") {
+                alerts("请选择是否推荐")
+                return
+            }
+            if (obj.logoImage == "") {
+                alerts("请选择图片")
+                return
+            }
+
+
+            obj.description = $(".description").val();
+            obj.isRecommend = $('#top input[type="radio"]:checked').val();
+            obj.paraGroupName = "";
+            obj.paraGroupId = "";
+            obj.webId = $(".webId").val();
+
+
+
+            if (urls != "") {
+                obj.id = urls;
+                obj = JSON.stringify(obj);
+                handleAjax("coa/updateShelvesProductType", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../goodscategory.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+
+            } else {
+                obj = JSON.stringify(obj);
+                handleAjax("coa/addShelvesProductType", obj, "POST", "utf-8").done(function(resp) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.href = "../goodscategory.html";
+                    }, 1500)
+                    return
+                }).fail(function(err) {
+                    console.log(err)
+                });
+            }
+
+        });
+    });
+</script>
+
+</html>
