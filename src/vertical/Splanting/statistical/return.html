@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>农产品退货统计</title>
+    <link rel="stylesheet" href="../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../public/font/iconfont.css">
+    <link rel="stylesheet" href="../../../../css/twocss/commit.css">
+    <script src="../../../../public/mui/echarts-all.js"></script>
+</head>
+
+<body>
+    <form class="layui-form" action="">
+        <div class="select common">
+            <div class="select-title">查询条件</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">日期:</label>
+                            <input type="text" class="layui-input" id="startDate" />
+                            <div style="margin:0 10px;">至</div>
+                            <input type="text" class="layui-input" id="endDate" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">名称:</label>
+                        <div class="layui-input-inline">
+                            <select class="plot" lay-filter="plantCommodityId" id="plantCommodityId">
+                                <option value="">请选择</option>
+                           </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客户名称:</label>
+                        <div class="layui-input-inline">
+                            <select class="plot" lay-filter="clientId" id="clientId">
+                                <option value="">请选择</option>
+                           </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">统计粒度:</label>
+                        <div class="layui-input-inline">
+                            <select class="bases" lay-filter="particle" id="particle">
+                                <option value="">请选择</option>
+                                <option value="年">年</option>
+                                <option value="月">月</option>
+                                <option value="周">周</option>
+                                <option value="日">日</option>
+                           </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="select-btn">
+                    <div class="layui-bg-green comquery Rawquery">查询</div>
+                    <div class="layui-bg-green comquery agains">重置</div>
+                </div>
+            </div>
+        </div>
+        
+
+    </form>
+
+    <div class="common-padding">
+        <div id="main" style="width: 100%;height:400px;background-color: #fff"></div>
+    </div>
+</body>
+
+
+
+<script src="../../../../js/common/jquery.min.js"></script>
+<script src="../../../../js/common/api.js"></script>
+<script src="../../../../public/dist/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['table', "laydate", "form", "layer"], function() {
+        var $ = layui.jquery,
+            table = layui.table,
+            form = layui.form,
+            layer = layui.layer,
+            datelist = {},
+            laydate = layui.laydate;
+        
+        laydate.render({
+            elem: '#startDate' //指定元素 
+        });
+        laydate.render({
+            elem: '#endDate' //指定元素
+        });
+
+
+        
+
+        
+        
+        // 获取农产品全部列表
+        getAllCommodityList();
+        function getAllCommodityList(){
+            var plantCommodityId = document.querySelector('#plantCommodityId');
+            Theoldcuiway('plant/getAllCommodityList', { 
+            }, "GET").done(function(resp) {
+                console.log(111)
+                console.log(resp);
+                for(var i=0;i<resp.data.length;i++){
+                    plantCommodityId.innerHTML = plantCommodityId.innerHTML+'<option value="'+resp.data[i].plantCommodityId+'">'+resp.data[i].productname+'</option>';
+                }
+                layui.form.render("select");
+                return
+            }).fail(function(err) {
+            }); 
+        }
+        
+        // 供应商/客户 列表
+        getSupplierAndClient();
+        function getSupplierAndClient(){
+            var clientId = document.querySelector('#clientId');
+            Theoldcuiway('plant/getSupplierAndClient', { 
+                type:1,
+                enterpriseclass:2
+            }, "GET").done(function(resp) {
+                console.log(111)
+                console.log(resp);
+                for(var i=0;i<resp.data.length;i++){
+                    clientId.innerHTML = clientId.innerHTML+'<option value="'+resp.data[i].id+'">'+resp.data[i].name+'</option>';
+                }
+                layui.form.render("select");
+                return
+            }).fail(function(err) {
+            }); 
+        }
+        document.querySelector('.Rawquery').addEventListener('click',function(){
+            getPlantTestStatistics();
+        })
+        function getPlantTestStatistics(){
+            var plantCommodityId = document.querySelector('#plantCommodityId').value;
+            var particle = document.querySelector('#particle').value;
+            var startDate = document.querySelector('#startDate').value;
+            var endDate = document.querySelector('#endDate').value;
+            var clientId = document.querySelector('#clientId').value;
+
+            Theoldcuiway('plant/Statistics/getPlantReturnStatistics', { 
+                plantCommodityId:plantCommodityId,
+                particle:particle,
+                startDate:startDate,
+                endDate:endDate,
+                clientId:clientId
+            }, "GET").done(function(resp) {
+                console.log(resp.data);
+                var xdata=[];
+                var ydata=[];
+                for(var i=0;i<resp.data.length;i++){
+                    xdata.push(resp.data[i].groupby);
+                    ydata.push(resp.data[i].sum);
+                    console.log(11);
+                }
+                console.log(xdata);
+                console.log(ydata);
+                // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+                // 使用刚指定的配置项和数据显示图表。
+                var option = {
+                    xAxis: {
+                        type: 'category',
+                        data: xdata
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: ydata,
+                        type: 'line'
+                    }]
+                };
+                myChart.setOption(option);
+                return
+            }).fail(function(err) {
+            }); 
+        }
+     
+
+
+        
+
+      
+       
+
+    })
+</script>
+
+</html>

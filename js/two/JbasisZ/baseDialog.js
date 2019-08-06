@@ -9,7 +9,7 @@
             getckrzr();
             function getckrzr(){
                 Theoldcuiway(
-                    "plant/getckrzr", {
+                    "plant/getPlantChargePerson", {
                     },
                     "GET"
                 )
@@ -18,7 +18,7 @@
                     var selectInner='';
                     var chargeperson = document.querySelector('#chargeperson');
                     for(var i=0;i<resp.data.length;i++){
-                        chargeperson.innerHTML = chargeperson.innerHTML+'<option value="'+resp.data[i].personname+'" class="persontypeitem">'+resp.data[i].personname+'</option>'
+                        chargeperson.innerHTML = chargeperson.innerHTML+'<option value="'+resp.data[i].name+'" class="persontypeitem">'+resp.data[i].name+'</option>'
                     }
                     layui.form.render();
                     return;
@@ -64,10 +64,9 @@
                 var coveredarea = document.querySelector('#coveredarea').value;
                 var environment = document.querySelector('#environment').value;
                 var remarks = document.querySelector('#remarks').value;
-                Theoldcuiway('plant/saveJdxx', { 
+                Theoldcuiway('plant/basis/updatePlantBase', { 
                     id:id,
-                    systype: 1,
-                    landname:landname,
+                    basename:landname,
                     chargeperson: chargeperson,
                     phone: phone,
                     address: address,
@@ -94,11 +93,11 @@
             //     return times;
             // }
             function getdetail(id){
-                Theoldcuiway('plant/getJdxx', 
-                { jdxxId: id },
+                Theoldcuiway('plant/basis/getPlantBase', 
+                { id: id },
                  "GET").done(function(resp) {
                     console.log(resp);
-                    document.querySelector('#landname').value=resp.data.landname;
+                    document.querySelector('#landname').value=resp.data.basename;
                     document.querySelector('#chargeperson').value=resp.data.chargeperson;
                     document.querySelector('#phone').value=resp.data.phone;
                     document.querySelector('#address').value=resp.data.address;
@@ -123,10 +122,9 @@
                 var environment = document.querySelector('#environment').value;
                 var remarks = document.querySelector('#remarks').value;
                 Theoldcuiway(
-                    "plant/saveJdxx", {
+                    "plant/basis/savePlantBase", {
                         // id:'1',
-                        systype: 1,
-                        landname:landname,
+                        basename:landname,
                         chargeperson:chargeperson,
                         phone:phone,
                         address:address,

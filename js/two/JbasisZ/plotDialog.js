@@ -1,21 +1,31 @@
 (function(){
     (function(){
-        layui.use(['table', "laydate"], function() {
-            var laydate = layui.laydate;
-           
+        layui.use(['upload', 'form', 'element', 'table', "layer", "laydate", "util"], function() {
+            var $ = layui.jquery,
+            table = layui.table,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            util = layui.util,
+            form = layui.form,
+            element = layui.element,
+            upload = layui.upload;
+            var basename = '';
             document.querySelector('#addBasStandard').addEventListener('click',function(){
                 addBasStandard();
             })
+            form.on('select(landnameP)', function(data){
+                console.log(data);
+                basename=data.elem[data.elem.selectedIndex].innerHTML
+            });   
             getjdxxs();
             function getjdxxs(){
-                Theoldcuiway('plant/jdxxs', 
-                { sysType: '1',
-                landName:'' },
+                Theoldcuiway('plant/getPlantBaseList', 
+                { },
                  "GET").done(function(resp) {
                     console.log(resp);
                     var landnameP = document.querySelector('#landnameP');
-                    for(var i=0;i<resp.data.content.length;i++){
-                        landnameP.innerHTML = landnameP.innerHTML+'<option value="'+resp.data.content[i].landname+'" class="persontypeitem">'+resp.data.content[i].landname+'</option>'
+                    for(var i=0;i<resp.data.length;i++){
+                        landnameP.innerHTML = landnameP.innerHTML+'<option value="'+resp.data[i].baseid+'" class="persontypeitem">'+resp.data[i].basename+'</option>'
                     }
                     layui.form.render();
                     return
@@ -52,19 +62,38 @@
                 }
                 
             }
+            //指定允许上传的文件类型
+            layui.upload.render({
+                elem: '#selectImg'
+                ,url: baseaip+"plant/file/upload"
+                ,headers: {
+                    Authorization: "Bearer" + " " + sessions
+                }
+                ,accept: 'file'
+                ,exts: 'doc|docx|pdf|png|jpg'
+                ,field:"file"
+                ,done: function(res){
+                    var filePath = res.data;
+                    filePath = filePath.substring(0,filePath.length - 1 );
+                    document.querySelector("#imgpath").value=filePath;
+                    $('#showimg').attr('src', filePath)
+                    console.log(filePath);
+                }
+            });
             function updateId(id){
                 var landname = document.querySelector('#landname').value;
                 var landnameP = document.querySelector('#landnameP').value;
                 var floorarea = document.querySelector('#floorarea').value;
                 var remarks = document.querySelector('#remarks').value;
-                Theoldcuiway('plant/saveJdxx', { 
+                var imgs = document.querySelector("#imgpath").value;
+                Theoldcuiway('plant/basis/updatePlantLand', { 
                     id:id,
-                    systype: 1,
                     landname:landname,
-                    parentid:landnameP,
-                    floorarea:floorarea,
+                    basename:basename,
+                    baseid:landnameP,
+                    area:floorarea,
                     remarks:remarks,
-                    landlevel:'2'
+                    imgs:imgs
                 }, "POST").done(function(resp) {
                     console.log(resp)
                     layer.msg('修改成功');
@@ -79,14 +108,17 @@
             }
            
             function getdetail(id){
-                Theoldcuiway('plant/getDkxx', 
-                { jdxxId: id },
+                Theoldcuiway('plant/basis/getPlantLand', 
+                { id: id },
                  "GET").done(function(resp) {
                     console.log(resp);
                     document.querySelector('#landname').value=resp.data.landname;
-                    document.querySelector('#landnameP').value=resp.data.parentid;
-                    document.querySelector('#floorarea').value=resp.data.floorarea;
+                    document.querySelector('#landnameP').value=resp.data.baseid;
+                    document.querySelector('#floorarea').value=resp.data.area;
                     document.querySelector('#remarks').value=resp.data.remarks;
+                    basename=basename;
+                    $('#showimg').attr('src',resp.data.imgs);
+                    document.querySelector('#imgpath').value=resp.data.imgs;
                     layui.form.render();
                     return
                 }).fail(function(err) {
@@ -99,14 +131,15 @@
                 var landnameP = document.querySelector('#landnameP').value;
                 var floorarea = document.querySelector('#floorarea').value;
                 var remarks = document.querySelector('#remarks').value;
+                var imgs = document.querySelector("#imgpath").value;
                 Theoldcuiway(
-                    "plant/saveDkxx", {
-                        systype: 1,
+                    "plant/basis/savePlantLand", {
                         landname:landname,
-                        parentid:landnameP,
-                        floorarea:floorarea,
+                        basename:basename,
+                        baseid:landnameP,
+                        area:floorarea,
                         remarks:remarks,
-                        landlevel:'2'
+                        imgs:imgs
                     },
                     "POST"
                 )

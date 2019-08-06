@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>投入品投放</title>
+    <link rel="stylesheet" href="../../../../../public/dist/css/layui.css">
+    <link rel="stylesheet" href="../../../../../public/font/iconfont.css">
+    <link rel="stylesheet" href="../../../../../css/twocss/Jbasis/supplierDialog.css">
+</head>
+<body>
+    <!-- 企业供应商 -->
+    <form class="layui-form" action="">
+        <div class="select common">
+            <div class="select-title">基础信息</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">采收日期:</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="orderdate" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">负责人:</label>
+                        <div class="layui-input-inline">
+                            <select name="chargeperson" lay-verify="" id="chargeperson" lay-filter="chargeperson">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">基地:</label>
+                        <div class="layui-input-inline">
+                            <select name="baseid" lay-verify="" id="baseid" lay-filter="baseid">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">地块:</label>
+                        <div class="layui-input-inline">
+                            <select name="landid" lay-verify="" id="landid" lay-filter="landid">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="layui-hide" id="test" lay-filter="testdome"></table>
+                
+                
+              
+            </div>
+        </div>
+        <div class="select common showharvest" style="display: none;">
+            <div class="select-title">农产品采收信息</div>
+            <div class="select-con">
+                <div class="layui-form-item">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">采收重量(KG):</label>
+                            <div class="layui-input-inline">
+                                <input type="number" class="layui-input" id="weight"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">采收批次:</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="pickBatch" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">仓库名称:</label>
+                            <div class="layui-input-inline">
+                                <select name="storageid" lay-verify="" id="storageid" lay-filter="storageid">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">二级仓库名称:</label>
+                            <div class="layui-input-inline">
+                                <select name="areaid" lay-verify="" id="areaid" lay-filter="areaid">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="select-hand-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">品级:</label>
+                            <div class="layui-input-inline">
+                                <input class="layui-input" id="level" type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="select-btn">
+            <div class="layui-bg-green comquery " id="uploadImg">确定</div>
+            <!-- <div class="layui-bg-green comquery" id="update" style="display:none">确定</div> -->
+            <!-- <div class="layui-bg-green comquery" id="updateImg" style="display:none">确定</div> -->
+            <div class="layui-bg-green comquery cancels">取消</div>
+        </div>
+      
+       
+    
+    </form>
+
+
+</body>
+<!-- 头部 -->
+<script type="text/html" id="toolbarinter">
+    <div class="layui-btn-container ">
+        <a class="layui-btn  layui-btn-sm colors" lay-event="harvest"><i class="layui-icon"></i></i>采收</a>
+        <!-- <button class="layui-btn  layui-btn-sm colors" lay-event="update"><i class="layui-icon"></i>查看</button> -->
+        <!-- <a class="layui-btn  layui-btn-sm colors" lay-event="delete"><i class="layui-icon"></i>删除</a> -->
+    </div>
+</script>
+<script src="../../../../../js/common/jquery.min.js"></script>
+<script src="../../../../../js/common/api.js"></script>
+<script src="../../../../../public/dist/layui.js" charset="utf-8"></script>
+<script src="../../../../../js/common/template-web.js"></script>
+<script src="../../../../../js/two/planting/harvestDialog.js"></script>
+
+</html>

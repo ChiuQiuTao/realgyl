@@ -33,8 +33,8 @@
 
             function deleteId(id){
                 Theoldcuiway(
-                    "plant/deleteDkxx", {
-                        jdxxId:id,
+                    "plant/basis/deletePlantLand", {
+                        id:id,
                     },
                     "POST"
                 )
@@ -59,11 +59,10 @@
             //获取列表
             var tableIns = table.render({
                 elem: "#test",
-                url: baseaip + "plant/dkxxs",
+                url: baseaip + "plant/basis/getPlantLands",
                 method: "GET",
                 where: {
-                sysType: "1",
-                landName: landName
+                landname: landName
                 },
                 headers: {
                 Authorization: "Bearer" + " " + sessions
@@ -79,8 +78,8 @@
                 return {
                     code: res.code, //解析接口状态
                     msg: res.msg, //解析提示文本
-                    totalNum: res.data.totalElements, //解析数据长度
-                    lists: res.data.content //解析数据列表
+                    totalNum: res.data.total, //解析数据长度
+                    lists: res.data.records //解析数据列表
                 };
                 },
                 toolbar: "#toolbarinter",
@@ -121,13 +120,13 @@
                     align: "center"
                     },
                     {
-                    field: "parentid",
+                    field: "basename",
                     title: "基地名称",
                     minWidth: 120,
                     align: "center"
                     },
                     {
-                    field: "floorarea",
+                    field: "area",
                     title: "面积",
                     minWidth: 120,
                     align: "center"

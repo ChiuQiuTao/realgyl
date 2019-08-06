@@ -34,6 +34,7 @@
                 }
                 getEnterpriseById(res.id);
                 // updateImg(res.id);
+                console.log(res.id)
                 document.querySelector('#update').addEventListener('click',function(){
                     updateInfo(res.id);
                 })
@@ -43,8 +44,8 @@
         }
         function getEnterpriseById(id){
             console.log(id)
-            Theoldcuiway('plant/getGYSXX', 
-            { qykhxxId: id },
+            Theoldcuiway('plant/basis/getPlantEnterpriseaudit', 
+            { id: id },
              "GET").done(function(resp) {
                 console.log(resp)
                 getProvince();
@@ -64,7 +65,6 @@
                     document.querySelector('#city').value = resp.data.city;
                     document.querySelector('#district').value = resp.data.district;
                     layui.form.render();
-
                 },500)
                 return
             }).fail(function(err) {
@@ -139,7 +139,10 @@
         //指定允许上传的文件类型
         layui.upload.render({
             elem: '#selectImg'
-            ,url: baseaip+"file/upload"
+            ,url: baseaip+"plant/file/upload"
+            ,headers: {
+                Authorization: "Bearer" + " " + sessions
+            }
             ,accept: 'file'
             ,exts: 'doc|docx|pdf|png|jpg'
             ,field:"file"
@@ -153,9 +156,10 @@
         });
         //新增
         function uploadImg(){
+            var imgs = $('#imgpath').val();
             Theoldcuiway(
-                "plant/saveGYSXX", {
-                    systype:1,
+                "plant/basis/savePlantEnterpriseaudit", {
+                    enterpriseclass:1,
                     license:$('#license').val(),
                     enterprisename:$('#enterprisename').val(),
                     state:$('#state').val(),
@@ -164,11 +168,10 @@
                     district:$('#district').val(),
                     address:$('#address').val(),
                     corporation:$('#corporation').val(),
-                    enterpriseclass:'3',
                     linkphone:$('#linkphone').val(),
                     linkman:$('#linkman').val(),
                     remark:$('#remark').val(),
-                    imgs:$('#imgpath').val(),
+                    imgs:imgs,
                     // auditstaus:0,
                 },
                 "POST"
@@ -189,9 +192,8 @@
         
         //更新
         function updateInfo(id){
-            Theoldcuiway('plant/updateGYSXX', { 
+            Theoldcuiway('plant/basis/updatePlantEnterpriseaudit', { 
                 id:id,
-                systype:1,
                 license:$('#license').val(),
                 enterprisename:$('#enterprisename').val(),
                 state:$('#state').val(),
@@ -200,7 +202,7 @@
                 district:$('#district').val(),
                 address:$('#address').val(),
                 corporation:$('#corporation').val(),
-                enterpriseclass:'3',
+                enterpriseclass:'1',
                 linkphone:$('#linkphone').val(),
                 linkman:$('#linkman').val(),
                 remark:$('#remark').val(),
