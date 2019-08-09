@@ -202,7 +202,7 @@
                 if (resp.list[0].linkman != null && resp.list[0].businessNo != null) {
                     $(".header-icon>i").attr("class", "layui-icon layui-icon-ok-circle");
                     $("#rerererre").css("display", "none");
-
+                    $("#ok5").attr("src", resp.list[0].businessNo);
                 } else {
                     $(".header-icon>i").attr("class", "layui-icon layui-icon-circle");
                     $("#rerererre").css("display", "block");
@@ -361,17 +361,16 @@
             obj = JSON.stringify(obj);
             handleAjax('coa/addCoBusinessInfo', obj, "GET", "utf-8").done(function(resp) {
                 console.log(resp)
-
-                // if () {
-                //     layer.msg('操作成功', {
-                //         icon: 1,
-                //         time: 1000
-                //     });
-                //     setTimeout(function() {
-                //         window.location.reload();
-                //     }, 1500)
-                //     return
-                // }
+                if (resp.code == 10000) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1500)
+                    return
+                }
                 return
             }).fail(function(err) {
                 console.log(err)
