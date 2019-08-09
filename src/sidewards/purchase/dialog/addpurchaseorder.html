@@ -1759,8 +1759,12 @@
 
                 var opttext = $('select[name="currencyId"]').find("option:selected").text();
                 $('select[name="currencyId"]').next().find("input").val(opttext);
-
                 form.render("select");
+                $('.currencyId').siblings("div.layui-form-select").find('dl').find('dd[lay-value="' + resp.pageBean.lists[0].exchangeRate + '"]').click();
+                $('.salesman').siblings("div.layui-form-select").find('dl').find('dd[lay-value="' + resp.pageBean.lists[0].salesmanId + '"]').click();
+                $('.taxId').siblings("div.layui-form-select").find('dl').find('dd[lay-value="' + resp.pageBean.lists[0].taxRate * 100 + '%"]').click();
+                $('.transStatus').siblings("div.layui-form-select").find('dl').find('dd[lay-value="' + resp.pageBean.lists[0].transStatus * 100 + '%"]').click();
+
             } else {
                 $("#xiu").hide();
             }

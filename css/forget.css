@@ -169,3 +169,16 @@ body {
 .typeof {
     position: relative;
 }
+
+.buts {
+    width: 100px;
+    height: 36px;
+    background-color: #2F4056;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #fff;
+    margin-left: 20px;
+    cursor: pointer;
+}

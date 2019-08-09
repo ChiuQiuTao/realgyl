@@ -816,6 +816,10 @@
 
                 form.val("example", resp.pageBean.lists[0])
                 form.render('select');
+
+                $('.csname').siblings("div.layui-form-select").find('dl').find('dd[lay-value=' + resp.pageBean.lists[0].cscode + ']').click();
+                $('.taxitems').siblings("div.layui-form-select").find('dl').find('dd[lay-value="' + resp.pageBean.lists[0].taxrate + '"]').click();
+
             }
             return
         }).fail(function(err) {

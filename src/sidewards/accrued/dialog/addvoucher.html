@@ -259,6 +259,10 @@
 
                 form.val("example", resp.ipage.records[0])
                 form.render('select');
+
+                $('.csname').siblings("div.layui-form-select").find('dl').find('dd[lay-value=' + resp.ipage.records[0].cscode + ']').click();
+                $('.curcode').siblings("div.layui-form-select").find('dl').find('dd[lay-value="' + resp.ipage.records[0].exchangerate + '" ]').click();
+
             }
             return
         }).fail(function(err) {
