@@ -82,11 +82,49 @@
                                 <input type="text" class="layui-input select-item-input   linkman">
                             </div>
 
-                            <div class="select-item">
-                                <div class="select-item-text">
-                                    联系人电话
+                        <div class="select-item">
+                            <div class="select-item-text">
+                                联系人电话
+                            </div>
+                            <input type="text" class="layui-input select-item-input">
+                        </div>
+                        <div class="select-item">
+                            <div class="layui-inline">
+                                <div class="layui-inline-sel" style="display: flex;">
+                                    
+                                    <select name="province" lay-filter="province" class="province" id='province' name="s8">
+                                        <option value="">省</option>
+                                    </select>
+        
                                 </div>
-                                <input type="text" class="layui-input select-item-input   telephone" maxlength="11">
+                            </div>
+                        </div>
+                        <div class="select-item">
+                            <div class="layui-inline">
+                                <div class="layui-inline-sel" style="display: flex;">
+                                   
+                                    <select name="city" lay-filter="city" class="city" id='city' name="s9">
+                                        <option value="">市</option>
+                                    </select>
+        
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="select-item">
+                            <div class="layui-inline">
+                                <div class="layui-inline-sel" style="display: flex;">
+                                   
+                                   
+                                    <select name="area" lay-filter="area" class="area" id='district' name="s10">
+                                        <option value="">区</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="select-item">
+                            <div class="select-item-text">
+                                省
                             </div>
 
                             <div class="select-item">
@@ -105,8 +143,12 @@
                                 </div>
                                 <select name="sen" lay-filter="sen" class="select-item-select2" id="sheng"></select>
                             </div>
+                            <select class="select-item-select2" id="qu" lay-filter="qus" name="qu">
+                           
+                        </select>
+                        </div> -->
 
-                            <div class="select-item">
+                            <!-- <div class="select-item">
                                 <div class="select-item-text">
                                     市
                                 </div>
@@ -118,7 +160,7 @@
                                     区
                                 </div>
                                 <select class="select-item-select2" id="qu" lay-filter="qus" name="qu"></select>
-                            </div>
+                            </div> -->
 
 
                             <div class="select-item2">
@@ -171,7 +213,7 @@
 <!-- <script src="../../../js/enterprisecertification.js" charset="utf-8"></script> -->
 <script src="../../../js/common/jquery.min.js"></script>
 <script src="../../../js/common/api.js"></script>
-<script src="../../../js/module/jquery-3.4.1.min.js"></script>
+<!-- <script src="../../../js/module/jquery-3.4.1.min.js"></script> -->
 <script>
 </script>
 
@@ -215,52 +257,109 @@
         });
 
 
-        //省
-        handleAjax('enterprise/getProvincecity', {}, "GET").done(function(resp) {
-            console.log(resp)
-            $.each(resp.list, function(index, item) {
-                $('#sheng').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
+    getProvince();
+    //选择框列表加载
+    function getProvince(e) {
+        handleAjax('enterprise/getProvincecity', { parentid: e }, "GET").done(function(resp) {
+                $.each(resp.list, function(index, item) {
+                    $('.province').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+                return
+            }).fail(function(err) {
+                console.log(err)
+
             });
-            form.render();
-            return
-        }).fail(function(err) {
-            console.log(err)
+        }
+
+        function getCity(e) {
+            handleAjax('enterprise/getProvincecity', { parentid: e }, "GET").done(function(resp) {
+
+
+                $.each(resp.list, function(index, item) {
+                    $('.city').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+                return
+            }).fail(function(err) {
+                console.log(err)
+
+            });
+        }
+
+        function getArea(e) {
+            handleAjax('enterprise/getProvincecity', { parentid: e }, "GET").done(function(resp) {
+
+
+                $.each(resp.list, function(index, item) {
+                    $('.area').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
+                });
+                layui.form.render("select");
+                return
+            }).fail(function(err) {
+                console.log(err)
+
+            });
+        }
+
+
+        form.on('select(province)', function(data) {
+            console.log(data.value); //得到被选中的值
+            document.querySelector('.city').innerHTML = '<option value="">市</option>';
+            document.querySelector('.area').innerHTML = '<option value="">区</option>';
+            getCity(data.value);
+        });
+        form.on('select(city)', function(data) {
+            console.log(data.value); //得到被选中的值
+            document.querySelector('.area').innerHTML = '<option value="">区</option>';
+            getArea(data.value);
         });
 
 
-        //市
-        form.on('select(sen)', function(data) {
-            obj.state = $(this)[0].innerText
-            handleAjax('enterprise/getProvincecity', {
-                parentid: data.value
-            }, "GET").done(function(resp) {
-                $.each(resp.list, function(index, item) {
-                    $('#shi').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
-                });
-                layui.form.render("select");
-                return
-            }).fail(function(err) {
-                console.log(err)
-            });
-            return
-        })
+        // //省
+        // handleAjax('enterprise/getProvincecity', {}, "GET").done(function(resp) {
+        //     console.log(resp)
+        //     $.each(resp.list, function(index, item) {
+        //         $('#sheng').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
+        //     });
+        //     form.render();
+        //     return
+        // }).fail(function(err) {
+        //     console.log(err)
+        // });
 
-        //区
-        form.on('select(shis)', function(data) {
-            obj.city = $(this)[0].innerText
-            handleAjax('enterprise/getProvincecity', {
-                parentid: data.value
-            }, "GET").done(function(resp) {
-                $.each(resp.list, function(index, item) {
-                    $('#qu').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
-                });
-                layui.form.render("select");
-                return
-            }).fail(function(err) {
-                console.log(err)
-            });
-            return
-        })
+
+        // //市
+        // form.on('select(sen)', function(data) {
+        //     handleAjax('enterprise/getProvincecity', {
+        //         parentid: data.value
+        //     }, "GET").done(function(resp) {
+        //         $.each(resp.list, function(index, item) {
+        //             $('#shi').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
+        //         });
+        //         layui.form.render("select");
+        //         return
+        //     }).fail(function(err) {
+        //         console.log(err)
+        //     });
+        //     return
+        // })
+
+        // //区
+        // form.on('select(shis)', function(data) {
+        //     handleAjax('enterprise/getProvincecity', {
+        //         parentid: data.value
+        //     }, "GET").done(function(resp) {
+        //         $.each(resp.list, function(index, item) {
+        //             $('#qu').append(new Option(item.fullName, item.code)); // 下拉菜单里添加元素
+        //         });
+        //         layui.form.render("select");
+        //         return
+        //     }).fail(function(err) {
+        //         console.log(err)
+        //     });
+        //     return
+        // })
 
 
         //区
@@ -273,47 +372,79 @@
         //上传图片营业
         upload.render({
             elem: '#shang',
-            url: base + 'common/upload',
-            method: "post",
-            data: {
-                file: "营业执照",
-            },
-            headers: {
-                Authorization: "Bearer" + " " + sessions
-            },
+            url: base + "common/upload",
+            accept: 'file',
+            field: "file",
+            headers: {Authorization: 'Bearer'+' '+sessions},
             done: function(res) {
-                console.log(res)
-                $("#ingss").attr("src", res.list[0]);
-                obj.idCardImage = res.list[0];
+                console.log(res);
+                var ss = res.list[0];
+                layer.msg(res.message);
+                $("#ingss").attr("src", ss);
                 $("#ok1").text("已录入");
                 $("#ok2").text("已录入");
                 $("#ok4").text("已录入");
-                $("#ok5").attr("src", res.list[0]);
-
-                $(".header-icon").eq(0).children().attr("class", "layui-icon layui-icon-ok-circle");
-                $(".header-icon").eq(1).children().attr("class", "layui-icon layui-icon-ok-circle");
+                $("#ok5").attr("src", ss);
+                obj.ying = ss;
             },
-            error: function() {
-                //请求异常回调
+            error: function(res) {
+                layer.msg(res.message);
+            }
+        });
+
+        //上传图片|法人
+        var uploadInst = upload.render({
+            elem: '#faren',
+            url: base + "common/upload",
+            accept: 'file',
+            field: "file",
+            headers: {Authorization: 'Bearer'+' '+sessions},
+            done: function(res) {
+                console.log(res);
+                var ss = res.list[0];
+                layer.msg(res.message);
+                $("#fardden").attr("src", ss);
+                $("#ok2").text("已录入");
+                obj.faren = ss;
+            },
+            error: function(res) {
+                layer.msg(res.message);
             }
         });
 
 
-        $(".telephone").blur(function() {
-            if (!(/^1[3456789]\d{9}$/.test($(this).val()))) {
-                alert("请输入正确的手机号");
-                $(this).val("");
-                return false;
-            }
-        })
+        Theoldcuiway('dictionaries/query', {
+            type: "fsfsfssfuieinxhbe",
+            keyword: "objniukey"
+        }, "GET").done(function(resp) {
+            console.log(resp)
+                // resp = JSON.parse(resp.data.content)
+            // if (resp.length <= 0) {
 
-        $(".tip-btn").click(function() {
-            if ($(this).text() == "长期") {
-                $(this).text("短期");
-            } else {
-                $(this).text("长期");
-            }
-        })
+            //     $("#rerererre").css("display", "block");
+            // } else {
+            //     $("#rerererre").css("display", "none");
+            //     $("#ok3").text("已录入");
+            //     $("#ok1").text("已录入");
+            //     $("#ok2").text("已录入");
+            //     $("#bao").css("display", "none");
+            //     $("#shang").css("display", "none");
+            //     $("#faren").css("display", "none");
+            //     $("#ok4").css("display", "none");
+
+            // }
+            resp = resp.data.content[0].context;
+            resp = JSON.parse(resp)
+            console.log(resp)
+            $("#fardden").attr("src", resp.faren);
+            $("#ok5").attr("src", resp.ying);
+            $("#ingss").attr("src", resp.ying);
+            return
+        }).fail(function(err) {
+            console.log(err)
+        });
+
+
 
         $("#bao").click(function() {
 
@@ -330,12 +461,12 @@
                 return
             }
 
-            if ($("#shi").val() == null) {
+            if ($("#city").val() == null) {
                 layer.msg("请选择市区");
                 return
             }
 
-            if ($("#qu").val() == null) {
+            if ($("#district").val() == null) {
                 layer.msg("请选择区域");
                 return
             }
@@ -351,15 +482,15 @@
                 return
             }
 
+            obj = JSON.stringify(obj)
 
-            obj.linkman = $(".linkman").val();
-            obj.telephone = $(".telephone").val();
-            obj.validDate = $("#youx").val() + "  " + "00:00:00";
-            obj.licenseImage = $(".dizi").val();
-            obj.isLongTime = $(".tip-btn").text().trim();
 
-            obj = JSON.stringify(obj);
-            handleAjax('coa/addCoBusinessInfo', obj, "GET", "utf-8").done(function(resp) {
+
+            Theoldcuiway('coa/addCoBusinessInfo', {
+                type: "fsfsfssfuieinxhbe",
+                context: obj,
+                keyword: "objniukey"
+            }, "POST").done(function(resp) {
                 console.log(resp)
                 if (resp.code == 10000) {
                     layer.msg('操作成功', {

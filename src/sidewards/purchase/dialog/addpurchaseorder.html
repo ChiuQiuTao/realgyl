@@ -922,6 +922,7 @@
             //确定
             $(".quedings").click(function() {
                 var checkStatus = table.checkStatus("gylMaterialwarehouse");
+                console.log(checkStatus.data.length)
                 if (checkStatus.data.length === 0) {
                     layer.msg('请选择一行');
                 } else if (checkStatus.data.length > 1) {

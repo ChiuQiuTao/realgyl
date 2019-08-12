@@ -16,11 +16,11 @@
 <body>
     <div class="login">
         <div class="logo">
-            <div class="foreign">JLFZFDA</div>
-            <div class="china">
+            <div class="foreign">供应链协同管理平台</div>
+            <!-- <div class="china">
                 <div class="top">吉林(中国-新加坡)食品区食品药品监督管理局</div>
                 <div class="bottom">供应链协同管理平台</div>
-            </div>
+            </div> -->
 
         </div>
         <div class="login-hand">
@@ -42,7 +42,8 @@
     <div class="logininfo">
         上次登录时间:2018-01-01
     </div>
-    <ul class="layui-nav layui-bg-cyan" lay-filter="header_nav">
+    <!-- 添加class 改为竖直导航栏-->
+    <ul class="layui-nav layui-nav-tree layui-nav-side layui-bg-cyan" lay-filter="header_nav">
         <li class="layui-nav-item layui-this"><a href="">首页</a></li>
         <li class="layui-nav-item">
             <a href="javascript:;">采购</a>
@@ -209,7 +210,7 @@
         </li>
     </ul>
 
-    <div class="layui-tab" lay-allowclose="true" lay-filter="demodemo">
+    <div class="layui-tab layui-tab-all" lay-allowclose="true" lay-filter="demodemo">
         <ul class="layui-tab-title">
             <li class="layui-this" lay-id="0">首页</li>
         </ul>
@@ -434,8 +435,8 @@
                             </div>
 
                             <div class="input-item">
-                                <div class="btn" lay-event="search">查询</div>
-                                <div class="btn" lay-event="reset">清除</div>
+                                <div class="btn search" lay-event="search">查询</div>
+                                <div class="btn reset" lay-event="reset">清除</div>
                             </div>
                         </div>
                         <div class="common-padding">
@@ -447,8 +448,14 @@
             </div>
         </div>
     </div>
-
-    <div class="tzvertical">安全追溯平台导航</div>
+    <!-- 底部固定区域 -->
+    <div class="layui-footer">
+        © layui.com - 底部固定区域
+        © layui.com - 底部固定区域
+        © layui.com - 底部固定区域
+        © layui.com - 底部固定区域
+    </div>
+    <!-- <div class="tzvertical">安全追溯平台导航</div> -->
 </body>
 <script>
     console.log(getExploreName());
@@ -545,8 +552,7 @@
                 element.tabDelete('demodemo', id);
                 element.tabAdd('demodemo', {
                     title: title,
-                    content: '<iframe data-frameid="' + id + '" frameborder="0" name="content" scrolling="true" width="100%" height="100%" src="' + obj.url + '"></iframe>' //支持传入html
-                        ,
+                    content: '<iframe data-frameid="' + id + '" frameborder="0" name="content" scrolling="true" width="100%" height="100%" src="' + obj.url + '"></iframe>' ,//支持传入html
                     id: id
                 });
                 //切换到指定Tab项
@@ -577,11 +583,11 @@
     //   var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
     // });
 </script>
-<script>
+<!-- <script>
     document.querySelector('.tzvertical').addEventListener('click', function() {
         window.location.href = "./src/vertical/twoindex.html";
     })
-</script>
+</script> -->
 
 <script>
     layui.config({

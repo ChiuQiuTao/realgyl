@@ -11,21 +11,23 @@
 </head>
 
 <body>
-    <div class="background">
+    <!-- <div class="background">
         <canvas id="canvas" width="980" height="626"></canvas>
-    </div>
-
-    <div class="content">
+    </div> -->
+    <div id="particles-js"></div>
+    <div class="content">  
         <div class="dialog">
-            <div class="title">安全追溯与供应链协同平台</div>
+            <div class="title"><span>供应链</span>协同平台</div>
             <div class="input">
-                <input type="text" class="login-use" placeholder="请输入账号">
+                <img src="../public/user.png" alt="">
+                <input type="text" class="login-use" placeholder="用户名">
             </div>
             <div class="input">
-                <input type="password" class="login-pass" placeholder="请输入密码">
+                <img src="../public/password.png" alt="">
+                <input type="password" class="login-pass" placeholder="密码">
             </div>
             <div class="code">
-                <input type="text" placeholder="请输入验证码" class="login-tex">
+                <input type="text" placeholder="验证码" class="login-tex">
                 <div id="v_container">
                     <canvas id="verifyCanvas" width="135" height="40" style="cursor: pointer;"></canvas>
                 </div>
@@ -47,7 +49,7 @@
 
 </html>
 <script type="text/javascript" src="../js/common/jquery.min.js"></script>
-<script src="../js/login.js"></script>
+<script src="../js/particles.min.js"></script>
 <script src="../js/common/api.js"></script>
 <script src="../js/common/code.js"></script>
 <script src="../public/dist/layui.js"></script>
