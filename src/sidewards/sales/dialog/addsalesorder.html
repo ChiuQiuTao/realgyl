@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <!-- <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">审批时间:</label>
                         <div class="layui-input-inline">
@@ -80,7 +80,7 @@
                             <input type="radio" name="closed" value="否" title="否">
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
 
@@ -235,7 +235,7 @@
                     </div>
                 </div>
 
-
+<!-- 
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">收款状态:</label>
@@ -256,7 +256,7 @@
                             <input type="text" class="layui-input isLoan" name="isLoan" placeholder="输入收款方式">
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="layui-form-item">
                     <div class="layui-inline">
@@ -299,15 +299,19 @@
                         <div class="layui-input-inline ">
                             <select name="transStatus" lay-filter="transStatus" class="transStatus">
                                 <option value="">---请选择---</option>
-                                <option value="确认">确认</option>
-                                <option value="已确认">已确认</option>
-                                <option value="付款">付款</option>
-                                <option value="已付款"> 已付款</option>
-                                <option value="取消">取消</option>
-                                <option value="发货">发货</option>
-                                <option value="已发货">已发货</option>
-                                <option value="退款">退款</option>
-                                <option value="退货"> 退货</option>
+                                <option value="10">采购订单提交待审核</option>
+                                <option value="20">采购订单审核通过</option>
+                                <option value="15">采购订单审核不通过</option>
+                                <option value="30">采购订单待付款</option>
+                                <option value="35">销售订单审核不通过</option>
+                                <option value="40">采购订单付款完成</option>
+                                <option value="50">销售订单发货</option>
+                                <option value="60">采购订单收货</option>
+                                <option value="70">采购订单申请退货</option>
+                                <option value="80">采购方待退货</option>
+                                <option value="85">销售方不同意退货</option>
+                                <option value="90">采购退货</option>
+                                <option value="100">销售收获并退款</option>
                             </select>
                         </div>
                     </div>
@@ -351,7 +355,7 @@
                         <th lay-data='{align: "center", minWidth: 120,field:"taxPrice"}'>含税单价</th>
                         <th lay-data='{align: "center", minWidth: 120,field:"amount"}'>订货金额</th>
                         <th lay-data='{align: "center", minWidth: 120,field:"allAmt"}'>价税合计</th>
-                        <th lay-data='{align: "center", minWidth: 120,field:"zkRate"}'>折扣率 </th>
+                        <!-- <th lay-data='{align: "center", minWidth: 120,field:"zkRate"}'>折扣率 </th> -->
                         <th lay-data='{align: "center", minWidth: 120,field:"locationName"}'>交货仓库</th>
                         <!-- <th lay-data='{align: "center", minWidth: 120,field:"estRecvDate"}'>预交日*</th> -->
                         <th lay-data='{align: "center", minWidth: 120,field:"remark"}'>单身备注</th>
@@ -402,11 +406,11 @@
                                 <input type="text" id="heji">
                             </div>
                         </td>
-                        <td>
+                        <!-- <td>
                             <div class="wuliaos">
                                 <input type="text" id="discount">
                             </div>
-                        </td>
+                        </td> -->
                         <td>
                             <select name="locationName" lay-ignore class="locationName" lay-filter="locationName">
                                 <option>--请选择--</option>
@@ -473,11 +477,11 @@
                                 <input type="text" id="heji">
                             </div>
                         </td>
-                        <td>
+                        <!-- <td>
                             <div class="wuliaos">
                                 <input type="text" id="discount">
                             </div>
-                        </td>
+                        </td> -->
                         <td>
                             <select name="locationName" lay-ignore class="locationName" lay-filter="locationName">
                                 <option>--请选择--</option>
@@ -544,11 +548,11 @@
                                 <input type="text" id="heji">
                             </div>
                         </td>
-                        <td>
+                        <!-- <td>
                             <div class="wuliaos">
                                 <input type="text" id="discount">
                             </div>
-                        </td>
+                        </td> -->
                         <td>
                             <select name="locationName" lay-ignore class="locationName" lay-filter="locationName">
                                 <option>--请选择--</option>
@@ -1712,18 +1716,18 @@
         })
 
 
-        //折扣率
-        $(".wuliaos>#discount").blur(function() {
-            var zhes = $(this).val();
-            $(this).parents("td").prev().prev().children().children().children("input").val(Number($(this).parents("td").prev().prev().prev().prev().prev().children().children().children("input").val() * (Number(zhes))).toFixed(2));
-            var jies = $(this);
-            $.each(layui.table.cache.demoss, function(v, item) {
-                if (jies.parents("td").prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children().text() === item.num) {
-                    item.zkRate = zhes;
-                    item.amount = Number(jies.parents("td").prev().prev().prev().prev().prev().children().children().children("input").val() * (Number(zhes))).toFixed(2);
-                }
-            })
-        })
+        // //折扣率
+        // $(".wuliaos>#discount").blur(function() {
+        //     var zhes = $(this).val();
+        //     $(this).parents("td").prev().prev().children().children().children("input").val(Number($(this).parents("td").prev().prev().prev().prev().prev().children().children().children("input").val() * (Number(zhes))).toFixed(2));
+        //     var jies = $(this);
+        //     $.each(layui.table.cache.demoss, function(v, item) {
+        //         if (jies.parents("td").prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children().text() === item.num) {
+        //             item.zkRate = zhes;
+        //             item.amount = Number(jies.parents("td").prev().prev().prev().prev().prev().children().children().children("input").val() * (Number(zhes))).toFixed(2);
+        //         }
+        //     })
+        // })
 
 
         //交货仓库
@@ -1813,18 +1817,18 @@
                 alerts("请选择时间")
                 return
             }
-            if ($("#appTime").val() == "") {
-                alerts("请输入审批时间")
-                return
-            }
-            if ($(".approveManName").val() == "") {
-                alerts("请输入审批人名称")
-                return
-            }
-            if ($(".approveRemark").val() == "") {
-                alerts("请输入审批批注")
-                return
-            }
+            // if ($("#appTime").val() == "") {
+            //     alerts("请输入审批时间")
+            //     return
+            // }
+            // if ($(".approveManName").val() == "") {
+            //     alerts("请输入审批人名称")
+            //     return
+            // }
+            // if ($(".approveRemark").val() == "") {
+            //     alerts("请输入审批批注")
+            //     return
+            // }
             if ($(".contactMan").val() == "") {
                 alerts("请输入联系人")
                 return
@@ -1881,22 +1885,22 @@
 
 
             obj.createTime = $("#tesss").val() + " " + "00:00:00";
-            obj.appTime = $(".appTime").val() + " " + "00:00:00";
-            obj.approveMan = $(".approveMan").val();
-            obj.approveManName = $(".approveManName").val();
-            obj.approveRemark = $(".approveRemark").val();
-            obj.approved = $(".approved ").val();
-            obj.closed = $('#closed  input[type="radio"]:checked').val();
+            // obj.appTime = $(".appTime").val() + " " + "00:00:00";
+            // obj.approveMan = $(".approveMan").val();
+            // obj.approveManName = $(".approveManName").val();
+            // obj.approveRemark = $(".approveRemark").val();
+            // obj.approved = $(".approved ").val();
+            // obj.closed = $('#closed  input[type="radio"]:checked').val();
             obj.contactMan = $(".contactMan").val();
             obj.customerVendorName = $(".customerVendorName").val();
             obj.customerVendorId = $(".customerVendorId").val();
             obj.estShipDate = $("#estShipDate").val() + " " + "00:00:00";
-            obj.isLoan = $(".isLoan").val();
+            // obj.isLoan = $(".isLoan").val();
             obj.recMan = $(".recMan").val();
             obj.mobNo = $(".mobNo").val();
             obj.recAddr = $(".recAddr").val();
             obj.remark = $(".remark").val();
-            obj.repaymentStatus = $(".repaymentStatus").val();
+            // obj.repaymentStatus = $(".repaymentStatus").val();
             obj.shipToId = $(".shipToId").val();
             obj.saveMan = $(".saveMan").val();
             obj.transDate = $("#transDate").val() + " " + "00:00:00";
@@ -1921,6 +1925,7 @@
                 obj.editTime = $("#tesss1").val() + " " + "00:00:00";
                 obj = JSON.stringify(obj);
                 handleAjax("coa/updateOrder", obj, "POST", "utf-8").done(function(resp) {
+                    console.log(resp)
                     layer.msg('操作成功', {
                         icon: 1,
                         time: 1000

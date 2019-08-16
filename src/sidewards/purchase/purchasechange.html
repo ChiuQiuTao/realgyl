@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>采购订单</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>出库单</title>
     <link rel="stylesheet" href="../../../public/dist/css/layui.css">
-    <link rel="stylesheet" href="../../../css/purchasechange.css">
+    <link rel="stylesheet" href="../../../css/purchaseorder.css">
     <link rel="stylesheet" href="../../../public/font/iconfont.css">
 </head>
 
@@ -15,135 +15,98 @@
     <!-- 查询 -->
     <div class="select">
         <div class="select-left">
-
             <div class="select-item">
                 <div class="select-item-text">
-                    订单单号:
+                    订单单号
                 </div>
-                <input type="text" class="layui-input select-item-input" id="a" style="width: 200px;">
+                <input type="text" class="layui-input select-item-input" id="a">
             </div>
-
-            <!-- <div class="select-item">
-                <div class="select-item-text">
-                    订单类型
-                </div>
-                <select name="" id="b" class="select-item-select2">
-                    <option value="采购订单">采购订单</option>
-                    <option value="销售订单">销售订单</option>
-                </select>
-            </div> -->
-
         </div>
 
         <div class="select-right">
-            <div class="select-btn">
+            <div class="select-btn   search" lay-event="search">
                 查询
             </div>
-            <div class="select-btn">
+            <div class="select-btn    reset" lay-event="reset">
                 清除
             </div>
         </div>
     </div>
 
-
-    <!-- 表单 -->
-    <div class="table">
-        <div class="table-hand">
-            <div class="tab">
-                <div class="tab-item tab-item-this">全部</div>
-                <div class="tab-item">未批</div>
-                <div class="tab-item">已批</div>
-                <div class="tab-item">退回</div>
-                <div class="tab-item tab-item-right">作废</div>
-            </div>
-
-        </div>
-
-        <div class="table-content">
-            <table class="layui-hide" id="gylMaterialmaintain" lay-filter="gylMaterialmaintain"></table>
-        </div>
-
+    <div class="common-padding">
+        <table class="layui-hide" id="testdome" lay-filter="testdome"></table>
     </div>
 </body>
 <script src="../../../public/dist/layui.js" charset="utf-8"></script>
-<script src="../../../js/purchasechange.js" charset="utf-8"></script>
 <script src="../../../js/common/jquery.min.js"></script>
 <script src="../../../js/common/api.js"></script>
 
 </html>
 
-
 <!-- 头部 -->
 <script type="text/html" id="toolbarinter">
-    <div class="layui-btn-container ">
-        <button class="layui-btn  layui-btn-sm colors layui-bg-black" lay-event="add"><i class="layui-icon"></i></i>添加</button>
-        <button class="layui-btn  layui-btn-sm colors  layui-bg-black" lay-event="update"><i class="layui-icon"></i>编辑</button>
-        <button class="layui-btn  layui-btn-sm colors  layui-bg-black" lay-event="delete"><i class="layui-icon"></i>删除</button>
-    </div>
+<div class="layui-btn-container ">
+    <button class="layui-btn  layui-btn-sm colors layui-bg-black" lay-event="add"><i class="layui-icon"></i></i>确认收货</button>
+    <button class="layui-btn  layui-btn-sm colors layui-bg-black" lay-event="back"><i class="layui-icon"></i></i>申请退货</button>
+</div>
 </script>
 
 
+<!-- <script type="text/html" id="barDemo">
+<a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+</script> -->
+
+
 <script>
-    layui.use(["table", "laydate", "util"], function() {
+    layui.use(["table", "laydate", "layer", "util"], function () {
         var $ = layui.jquery,
             util = layui.util,
             laydate = layui.laydate,
+            layer = layui.layer,
             table = layui.table;
 
 
+
         //监听头部监听
-        table.on('toolbar(gylMaterialmaintain)', function(obj) {
+        table.on('toolbar(testdome)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id),
                 data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
-                    window.location.href = "./dialog/addMaterialmaintain.html";
-                    break;
-                case 'update':
-                    if (data.length === 0) {
-                        layer.msg('请选择一行');
-                    } else if (data.length > 1) {
-                        layer.msg('只能同时编辑一个');
+                    var list = data[0];
+                    if (list.transStatus == '50') {
+                        var obj = {};
+                        console.log(list)
+                        obj.id = list.id;
+                        console.log(obj)
+                        handleAjax("coa/procurementOrderReceiving", obj, "POST").done(function (res) {
+                            console.log(res)
+                        })
+                        layer.msg('操作成功')
                     } else {
-                        window.location.href = "./dialog/addMaterialmaintain.html?id=" + data[0].id;
+                        layer.msg('操作失败')
                     }
                     break;
-                case 'delete':
-                    if (data.length === 0) {
-                        layer.msg('请选择一行');
-                    } else {
-
-                        noAjax("coa/delProduct", {
-                            id: data[0].id
-                        }, "POST").done(function(resp) {
-                            layer.msg('操作成功', {
-                                icon: 1,
-                                time: 1000
-                            });
-                            setTimeout(function() {
-                                tableIns.reload({
-                                    where: {},
-                                    page: {
-                                        curr: 1, //重新从第 1 页开始
-                                        layout: ['prev', 'page', 'next', 'skip', 'count']
-                                    },
-                                })
-                            }, 1500)
-                            return
-                        }).fail(function(err) {
-                            console.log(err)
-                        });
+                case 'back':
+                var list = data[0];
+                    if (list.transStatus == '50'){
+                        list.transStatus = '70';
+                        list.transType = '销售订单';
+                        obj = list;
+                        obj =  JSON.stringify(obj);
+                        handleAjax("coa/updateOrder", obj, "POST", 'utf-8')
                     }
-                    break;
+                    break
             };
         });
 
 
         var tableIns = table.render({
-            elem: "#gylMaterialmaintain",
-            url: base + "coa/getProductList",
+            elem: "#testdome",
+            url: base + "coa/getOrderList",
             method: "GET",
             where: {
+                transStatus: '50',
                 transType: "采购订单"
             },
             headers: {
@@ -155,14 +118,14 @@
             },
             toolbar: "#toolbarinter",
             limits: [10, 20],
-            parseData: function(res) {
+            parseData: function (res) {
                 //res 即为原始返回的数据
                 console.log(res);
                 return {
                     code: res.code, //解析接口状态
                     msg: res.message, //解析提示文本
-                    totalNum: res.ipage.total, //解析数据长度
-                    lists: res.ipage.records //解析数据列表
+                    totalNum: res.pageBean.totalNum, //解析数据长度
+                    lists: res.pageBean.lists //解析数据列表
                 };
             },
             response: {
@@ -188,106 +151,196 @@
             // height: 'full-20',//满高
             cols: [
                 [{
-                        type: 'checkbox',
-                        fixed: "left"
-                    }, {
-                        field: "createTime",
-                        title: "创建时间",
-                        minWidth: 120,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.createTime == "" || d.createTime == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.createTime = layui.util.toDateString(
-                                    d.createTime,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
+                    type: 'checkbox',
+                    fixed: "left",
+                }, {
+                    field: "createTime",
+                    title: "创建时间",
+                    minWidth: 120,
+                    sort: true,
+                    align: "center",
+                    templet: function (d) {
+                        var numv = null;
+                        if (d.createTime == "" || d.createTime == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.createTime = layui.util.toDateString(
+                                d.createTime,
+                                "yyyy-MM-dd"
+                            );
                         }
-                    }, {
-                        field: "artId",
-                        title: "物料代号",
-                        minWidth: 110,
-                        align: "center"
-                    }, {
-                        field: "description",
-                        title: "名称",
-                        minWidth: 140,
-                        align: "center"
-                    }, {
-                        field: "specification",
-                        title: "规格",
-                        minWidth: 110,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "productCodeName",
-                        title: "类别",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "locationName",
-                        title: "仓库",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    },
-                    // {
-                    //     field: "qtyOnHand",
-                    //     title: "库存",
-                    //     minWidth: 100,
-                    //     sort: true,
-                    //     align: "center"
-                    // },
-                    {
-                        field: "vendorName",
-                        title: "来源",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "unitBuyCost",
-                        title: "参考进价",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "unitSaleCost",
-                        title: "参考售价",
-                        minWidth: 100,
-                        sort: true,
-                        align: "center"
-                    }, {
-                        field: "editTime",
-                        title: "修改时间",
-                        minWidth: 130,
-                        sort: true,
-                        align: "center",
-                        templet: function(d) {
-                            var numv = null;
-                            if (d.editTime == "" || d.editTime == null) {
-                                numv = " ";
-                            } else {
-                                numv = d.editTime = layui.util.toDateString(
-                                    d.editTime,
-                                    "yyyy-MM-dd"
-                                );
-                            }
-                            return numv;
-                        }
+                        return numv;
                     }
+                }, {
+                    field: "transNo",
+                    title: "订单单号",
+                    minWidth: 110,
+                    align: "center"
+                }, {
+                    field: "transDate",
+                    title: "订单日期",
+                    minWidth: 120,
+                    sort: true,
+                    align: "center",
+                    templet: function (d) {
+                        var numv = null;
+                        if (d.transDate == "" || d.transDate == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.transDate = layui.util.toDateString(
+                                d.transDate,
+                                "yyyy-MM-dd"
+                            );
+                        }
+                        return numv;
+                    }
+                }, {
+                    field: "isLoan",
+                    title: "收款方式",
+                    minWidth: 140,
+                    align: "center"
+                }, {
+                    field: "transStatus",
+                    title: "收款状态",
+                    minWidth: 110,
+                    sort: true,
+                    align: "center",
+                    templet: function (d) {
+                        var numv = null;
+                        if (d.transStatus == "10") {
+                            numv = "采购订单提交待审核";
+                        }
+                        else if (d.transStatus == "20") {
+                            numv = "采购订单审核通过";
+                        }
+                        else if (d.transStatus == "15") {
+                            numv = "采购订单审核不通过";
+                        }
+                        else if (d.transStatus == "30") {
+                            numv = "采购订单待付款";
+                        }
+                        else if (d.transStatus == "35") {
+                            numv = "销售订单审核不通过";
+                        }
+                        else if (d.transStatus == "40") {
+                            numv = "采购订单付款完成";
+                        }
+                        else if (d.transStatus == "50") {
+                            numv = "采购订单待收货";
+                        }
+                        else if (d.transStatus == "60") {
+                            numv = "采购订单收货";
+                        }
+                        else if (d.transStatus == "70") {
+                            numv = "采购订单申请退货";
+                        }
+                        else if (d.transStatus == "80") {
+                            numv = "采购方待退货";
+                        }
+                        else if (d.transStatus == "85") {
+                            numv = "销售方不同意退货";
+                        }
+                        else if (d.transStatus == "90") {
+                            numv = "采购退货";
+                        }
+                        else if (d.transStatus == "100") {
+                            numv = "销售收获并退款";
+                        }
+                        return numv;
+                    }
+                }, {
+                    field: "customerVendorName",
+                    title: "客户简称",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "salesman",
+                    title: "销售员名称",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "approved",
+                    title: "批准",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "closed",
+                    title: "关闭",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "estShipDate	",
+                    title: "预交日",
+                    minWidth: 120,
+                    sort: true,
+                    align: "center",
+                    templet: function (d) {
+                        var numv = null;
+                        if (d.estShipDate == "" || d.estShipDate == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.estShipDate = layui.util.toDateString(
+                                d.estShipDate,
+                                "yyyy-MM-dd"
+                            );
+                        }
+                        return numv;
+                    }
+                },
+
+                {
+                    field: "shipToId",
+                    title: "发货地址",
+                    minWidth: 100,
+                    sort: true,
+                    align: "center"
+                }, {
+                    field: "remark",
+                    title: "备注",
+                    minWidth: 100,
+                    align: "center"
+                }, {
+                    field: "userName",
+                    title: "制表人名称",
+                    minWidth: 100,
+                    align: "center"
+                }, {
+                    field: "editTime",
+                    title: "单身数据",
+                    minWidth: 80,
+                    align: "center",
+                    toolbar: '#barDemo'
+                }, {
+                    field: "editTime",
+                    title: "修改时间",
+                    minWidth: 130,
+                    sort: true,
+                    align: "center",
+                    fixed: 'right',
+                    templet: function (d) {
+                        var numv = null;
+                        if (d.editTime == "" || d.editTime == null) {
+                            numv = " ";
+                        } else {
+                            numv = d.editTime = layui.util.toDateString(
+                                d.editTime,
+                                "yyyy-MM-dd"
+                            );
+                        }
+                        return numv;
+                    }
+                },
                 ]
             ]
         });
 
         /*查询*/
-        $(".search").click(function() {
-            if ($("#a").val() == "" && $("#b").val() == "") {
+        $(".search").click(function () {
+            if ($("#a").val() == "") {
                 layer.msg("请输入查询条件！", {
                     time: 1000,
                     offset: "t"
@@ -296,8 +349,8 @@
             }
 
             var datelist = {
-                artId: $("#a").val(),
-                description: $("#b").val()
+                transNo: $("#a").val(),
+                transType: "销售订单"
             };
 
             tableIns.reload({
@@ -314,16 +367,21 @@
         });
 
         /*重置*/
-        $(".reset").click(function() {
+        $(".reset").click(function () {
             $("#a").val("");
-            $("#b").val("");
             tableIns.reload({
-                where: {},
+                where: {
+                    transType: "销售订单"
+                },
                 page: {
                     curr: 1, //重新从第 1 页开始
                     layout: ["prev", "page", "next", "skip", "count"]
                 }
             });
         });
+
+
+
+
     });
 </script>

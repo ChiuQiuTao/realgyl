@@ -189,10 +189,9 @@
                                 <img src="" alt="" id="fardden">
                                 <div class="upload-btns">
                                     <div class="upload-btn" style="cursor: pointer;margin-left: 25px;" id="faren">上传</div>
-                                    <div class="upload-btn" style="cursor: pointer;">删除</div>
                                 </div>
                                 <div class="upload-txt" style="width: 110px;">法人身份证(正面)</div>
-                            </div>-->
+                            </div> -->
 
                             </div>
                         </div>
@@ -363,10 +362,10 @@
 
 
         //区
-        form.on('select(qus)', function(data) {
-            obj.district = $(this)[0].innerText
-            return
-        })
+        // form.on('select(qus)', function(data) {
+        //     obj.district = $(this)[0].innerText
+        //     return
+        // })
 
 
         //上传图片营业
@@ -385,54 +384,48 @@
                 $("#ok2").text("已录入");
                 $("#ok4").text("已录入");
                 $("#ok5").attr("src", ss);
-                obj.ying = ss;
             },
             error: function(res) {
                 layer.msg(res.message);
             }
         });
+       
 
         //上传图片|法人
-        var uploadInst = upload.render({
-            elem: '#faren',
-            url: base + "common/upload",
-            accept: 'file',
-            field: "file",
-            headers: {Authorization: 'Bearer'+' '+sessions},
-            done: function(res) {
-                console.log(res);
-                var ss = res.list[0];
-                layer.msg(res.message);
-                $("#fardden").attr("src", ss);
-                $("#ok2").text("已录入");
-                obj.faren = ss;
-            },
-            error: function(res) {
-                layer.msg(res.message);
-            }
-        });
+        // var uploadInst = upload.render({
+        //     elem: '#faren',
+        //     url: base + "common/upload",
+        //     accept: 'file',
+        //     field: "file",
+        //     headers: {Authorization: 'Bearer'+' '+sessions},
+        //     done: function(res) {
+        //         console.log(res);
+        //         var ss = res.list[0];
+        //         layer.msg(res.message);
+        //         $("#fardden").attr("src", ss);
+        //         $("#ok2").text("已录入");
+        //         obj.faren = ss;
+        //     },
+        //     error: function(res) {
+        //         layer.msg(res.message);
+        //     }
+        // });
 
 
-        Theoldcuiway('dictionaries/query', {
+        Theoldcuiway('coa/addCoBusinessInfo', {
             type: "fsfsfssfuieinxhbe",
             keyword: "objniukey"
         }, "GET").done(function(resp) {
             console.log(resp)
-                // resp = JSON.parse(resp.data.content)
-            // if (resp.length <= 0) {
+                resp = JSON.parse(resp.data.content)
+            if (resp.length <= 0) {
 
-            //     $("#rerererre").css("display", "block");
-            // } else {
-            //     $("#rerererre").css("display", "none");
-            //     $("#ok3").text("已录入");
-            //     $("#ok1").text("已录入");
-            //     $("#ok2").text("已录入");
-            //     $("#bao").css("display", "none");
-            //     $("#shang").css("display", "none");
-            //     $("#faren").css("display", "none");
-            //     $("#ok4").css("display", "none");
-
-            // }
+                $("#rerererre").css("display", "block");
+            } else {
+                $("#ok3").text("已录入");
+                $("#ok1").text("已录入");
+                $("#ok2").text("已录入");
+            }
             resp = resp.data.content[0].context;
             resp = JSON.parse(resp)
             console.log(resp)
@@ -477,14 +470,15 @@
                 return
             }
 
-            if (!obj.idCardImage) {
+            if ($('#ingss').val() == null) {
                 layer.msg("请上传营业执照");
                 return
             }
+            obj = JSON.stringify(this.obj)
+            console.log(obj)
 
-            obj = JSON.stringify(obj)
-
-
+           
+        
 
             Theoldcuiway('coa/addCoBusinessInfo', {
                 type: "fsfsfssfuieinxhbe",
