@@ -747,11 +747,8 @@ var menudata = [{
                 title: "供应商信息",
                 type: "5"
             }, {
-<<<<<<< HEAD
                 url: "../vertical/Sfarming/basis/customer.html",
-=======
                 url: "../vertical/Sfood/Jbasis/customer.html",
->>>>>>> 923f53772bc28147132b975e802ab90d5264197e
                 title: "客户信息",
                 type: "5"
             },

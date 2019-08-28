@@ -23,10 +23,11 @@
     margin: 10px;
 }
 .foreign{
-    font-size: 28px;
+    font-size: 24px;
     margin-right: 5px;
+    line-height: 50px;
 }
-.china{
+/* .china{
     margin-top: -2px;
 }
 .china .top{
@@ -35,7 +36,7 @@
 .china .bottom{
     font-size: 8px;
     
-}
+} */
 .exit{
     cursor: pointer;
 }
@@ -48,6 +49,17 @@
     line-height: 40px;
     padding: 0 20px;
     display: none;
+}
+/* 修改竖直导航条 */
+.layui-nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 50px 0;
+}
+/* 修改竖直导航条遮挡 */
+.layui-tab-all{
+    margin-left: 200px;
 }
 .layui-tab-item-back{
     background-color:#e9e9e9 !important; 
@@ -235,7 +247,7 @@ iframe{
     margin-left:20px; 
     font-weight: bold;
 }
-.tzvertical{
+/* .tzvertical{
     position: fixed;
     right: 30px;
     top: 30%;
@@ -247,7 +259,18 @@ iframe{
     background-color: #2F4056;
     color: #fff;
     cursor: pointer;
-}
+} */
 .layui-table-tool{
     z-index: 0 !important;
+}
+.layui-footer{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background-color: #2F4056;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
 }

@@ -1,4 +1,4 @@
-var base = "http://47.112.109.141:9191/";
+var base = "http://139.159.147.90:10080/api-v1/";
 // var baseaip = "http://47.112.109.141:9527/api/";
 var baseaip = "http://47.112.109.141:9196/api/";//JIANG
 
@@ -21,6 +21,12 @@ function ajax(url, param, type, contentType) {
             contentType: "application/json;charset=utf-8",
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer" + " " + sessions);
+            },
+            success(result) {
+                db = result;
+            },
+            error(err) {
+                console.log(err);
             }
         });
     } else {

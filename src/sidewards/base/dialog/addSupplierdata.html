@@ -377,11 +377,12 @@
             obj.vendorCode = $(".daihao").val();
             obj.principal = $(".fu").val();
 
+			console.log(obj)
 
             if (urls != "") {
                 obj.id = urls;
                 handleAjax("coa/updateSuppliers", obj, "POST").done(function(resp) {
-                    layer.msg('操作成功', {
+                    layer.msg('操作成功',{
                         icon: 1,
                         time: 1000
                     });

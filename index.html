@@ -10,17 +10,52 @@
     <link rel="stylesheet" href="./public/dist/css/layui.css">
     <link rel="stylesheet" href="./css/index.css">
     <link rel="icon" href="./public/favicon.ico">
-
+    <script>
+    
+            console.log(getExploreName());
+        
+            function getExploreName() {
+                var userAgent = navigator.userAgent;
+                if (userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1) {
+                    return 'Opera';
+                } else if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1) {
+                    window.location.href = "./src/upload.html";
+                    return 'IE';
+                } else if (userAgent.indexOf("Edge") > -1) {
+                    return 'Edge';
+                } else if (userAgent.indexOf("Firefox") > -1) {
+                    return 'Firefox';
+                } else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") == -1) {
+                    return 'Safari';
+                } else if (userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Safari") > -1) {
+                    return 'Chrome';
+                } else if (!!window.ActiveXObject || "ActiveXObject" in window) {
+                    return 'IE>=11';
+                } else {
+                    return 'Unkonwn';
+                }
+            }
+        </script>
+        <script src="./public/dist/layui.js" charset="utf-8"></script>
+        <script src="./js/common/jquery.min.js"></script>
+        <script src="./js/common/api.js"></script>
+        <script src="./js/index.js"></script>
+        
+        <script>
+         if (sessions == "" || sessions == null) {
+                    window.location.href = "./src/login.html";
+                }
+        </script>
 </head>
 
 <body>
     <div class="login">
         <div class="logo">
-            <div class="foreign">JLFZFDA</div>
-            <div class="china">
+            <div class="foreign">供应链协同管理平台</div>
+            <!-- <div class="china">
                 <div class="top">吉林(中国-新加坡)食品区食品药品监督管理局</div>
                 <div class="bottom">供应链协同管理平台</div>
-            </div>
+            </div> -->
 
         </div>
         <div class="login-hand">
@@ -30,7 +65,8 @@
             <div class="people">
                 <i class="layui-icon layui-icon-username" style="font-size: 24px;cursor: pointer;"></i>
                 <div class="">
-                    <i class="layui-icon layui-icon-down" style="font-size: 12px;margin: 10px;cursor: pointer;" id='more'></i>
+                    <i class="layui-icon layui-icon-down" style="font-size: 12px;margin: 10px;cursor: pointer;"
+                        id='more'></i>
                 </div>
                 <div class="username">暂未登录</div>
             </div>
@@ -42,39 +78,72 @@
     <div class="logininfo">
         上次登录时间:2018-01-01
     </div>
-    <ul class="layui-nav layui-bg-cyan" lay-filter="header_nav">
+    <!-- 添加class 改为竖直导航栏-->
+    <ul class="layui-nav layui-nav-tree layui-nav-side layui-bg-cyan" lay-filter="header_nav">
         <li class="layui-nav-item layui-this"><a href="">首页</a></li>
         <li class="layui-nav-item">
             <a href="javascript:;">采购</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="1" data-title="采购订单" href="javascript:;" data-options="{url:'./src/sidewards/purchase/purchaseorder.html',title:'采购订单'}">采购订单</a></dd>
-                <dd><a data-url="" data-id="2" data-title="销售订单发放采购单" href="javascript:;" data-options="{url:'./src/sidewards/purchase/purchasesales.html',title:'销售订单发放采购单'}">销售订单发放采购单</a></dd>
-                <dd><a data-url="" data-id="3" data-title="采购变更单" href="javascript:;" data-options="{url:'./src/sidewards/purchase/purchasechange.html',title:'采购变更单'}">采购变更单</a></dd>
-                <dd><a data-url="" data-id="4" data-title="采购收购" href="javascript:;" data-options="{url:'./src/sidewards/purchase/purchasegoods.html',title:'采购收购'}">采购收购</a></dd>
-                <dd><a data-url="" data-id="5" data-title="采购退货" href="javascript:;" data-options="{url:'./src/sidewards/purchase/purchaserefund.html',title:'采购退货'}">采购退货</a></dd>
-                <dd><a data-url="" data-id="6" data-title="采购发票单" href="javascript:;" data-options="{url:'./src/sidewards/purchase/purchaseinvoice.html',title:'采购发票单'}">采购发票单</a></dd>
-                <dd><a data-url="" data-id="7" data-title="采购订单指定关闭" href="javascript:;" data-options="{url:'./src/sidewards/purchase/purchaseclose.html',title:'采购订单指定关闭'}">采购订单指定关闭</a></dd>
+                <dd><a data-url="" data-id="1" data-title="采购订单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/purchase/purchaseorder.html',title:'采购订单'}">采购订单</a></dd>
+                <dd><a data-url="" data-id="2" data-title="销售订单发放采购单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/purchase/purchasesales.html',title:'销售订单发放采购单'}">销售订单发放采购单</a>
+                </dd>
+                <dd><a data-url="" data-id="3" data-title="采购变更单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/purchase/purchasechange.html',title:'采购待收货'}">采购待收货</a></dd>
+                <dd><a data-url="" data-id="4" data-title="采购收购" href="javascript:;"
+                        data-options="{url:'./src/sidewards/purchase/purchasegoods.html',title:'采购收货'}">采购收货</a></dd>
+                <dd><a data-url="" data-id="5" data-title="采购退货" href="javascript:;"
+                        data-options="{url:'./src/sidewards/purchase/purchaserefund.html',title:'采购退货'}">采购退货</a></dd>
+                <dd><a data-url="" data-id="6" data-title="采购发票单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/purchase/purchaseinvoice.html',title:'采购发票单'}">采购发票单</a>
+                </dd>
+                <dd><a data-url="" data-id="7" data-title="采购订单指定关闭" href="javascript:;"
+                        data-options="{url:'./src/sidewards/purchase/purchaseclose.html',title:'采购订单指定关闭'}">采购订单指定关闭</a>
+                </dd>
             </dl>
         </li>
         <li class="layui-nav-item">
             <a href="javascript:;">销售</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="8" data-title="销售订单" href="javascript:;" data-options="{url:'./src/sidewards/sales/salesorder.html',title:'销售订单'}">销售订单</a></dd>
-                <dd><a data-url="" data-id="9" data-title="销售发货" href="javascript:;" data-options="{url:'./src/sidewards/sales/salesgoods.html',title:'销售发货'}">销售发货</a></dd>
-                <dd><a data-url="" data-id="10" data-title="销售退货" href="javascript:;" data-options="{url:'./src/sidewards/sales/salesrefund.html',title:'销售退货'}">销售退货</a></dd>
-                <dd><a data-url="" data-id="11" data-title="销售发票单" href="javascript:;" data-options="{url:'./src/sidewards/sales/salesinvoice.html',title:'销售发票单'}">销售发票单</a></dd>
-                <dd><a data-url="" data-id="12" data-title="销售订单指定关闭" href="javascript:;" data-options="{url:'./src/sidewards/sales/salesclose.html',title:'销售订单指定关闭'}">销售订单指定关闭</a></dd>
+                <dd><a data-url="" data-id="8" data-title="销售订单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/sales/salesorder.html',title:'销售订单'}">销售订单</a></dd>
+                <dd><a data-url="" data-id="9" data-title="销售发货" href="javascript:;"
+                        data-options="{url:'./src/sidewards/sales/salesgoods.html',title:'销售发货'}">销售发货</a></dd>
+                <dd><a data-url="" data-id="10" data-title="销售退货" href="javascript:;"
+                        data-options="{url:'./src/sidewards/sales/salesrefund.html',title:'销售退货'}">销售退货</a></dd>
+                <dd><a data-url="" data-id="11" data-title="销售发票单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/sales/salesinvoice.html',title:'销售发票单'}">销售发票单</a></dd>
+                <dd><a data-url="" data-id="12" data-title="销售订单指定关闭" href="javascript:;"
+                        data-options="{url:'./src/sidewards/sales/salesclose.html',title:'销售订单指定关闭'}">销售订单指定关闭</a></dd>
             </dl>
         </li>
+
 
 
         <li class="layui-nav-item">
             <a href="javascript:;">应收应付</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="104" data-title="应付账单" href="javascript:;" data-options="{url:'./src/sidewards/accrued/bills.html',title:'应付账单'}">应付账单</a></dd>
-                <dd><a data-url="" data-id="105" data-title="付款单" href="javascript:;" data-options="{url:'./src/sidewards/accrued/Payment.html',title:'付款单'}">付款单</a></dd>
-                <dd><a data-url="" data-id="108" data-title="应收账单" href="javascript:;" data-options="{url:'./src/sidewards/accrued/receivable.html',title:'应收账单'}">应收账单</a></dd>
-                <dd><a data-url="" data-id="109" data-title="收款单" href="javascript:;" data-options="{url:'./src/sidewards/accrued/voucher.html',title:'收款单'}">收款单</a></dd>
+                <dd><a data-url="" data-id="104" data-title="应付账单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/accrued/bills.html',title:'应付账单'}">应付账单</a></dd>
+                <dd><a data-url="" data-id="105" data-title="付款单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/accrued/Payment.html',title:'付款单'}">付款单</a></dd>
+                <dd><a data-url="" data-id="108" data-title="应收账单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/accrued/receivable.html',title:'应收账单'}">应收账单</a></dd>
+                <dd><a data-url="" data-id="109" data-title="收款单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/accrued/voucher.html',title:'收款单'}">收款单</a></dd>
+            </dl>
+        </li>
+        <!-- 库存 -->
+        <li class="layui-nav-item">
+            <a href="javascript:;">库存</a>
+            <dl class="layui-nav-child">
+                <dd><a data-url="" data-id="200" data-title="入库单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/stock/StockIn.html',title:'入库单'}">入库单</a></dd>
+                <dd><a data-url="" data-id="201" data-title="出库单" href="javascript:;"
+                        data-options="{url:'./src/sidewards/stock/StockOut.html',title:'出库单'}">出库单</a></dd>
+                        <dd><a data-url="" data-id="202" data-title="库存列表" href="javascript:;"
+                            data-options="{url:'./src/sidewards/stock/StockList.html',title:'库存列表'}">库存列表</a></dd>
             </dl>
         </li>
 
@@ -131,10 +200,15 @@
         <li class="layui-nav-item">
             <a href="javascript:;">运营分析</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="39" data-title="商品分析" href="javascript:;" data-options="{url:'./src/sidewards/operation/productanalysis.html',title:'商品分析'}">商品分析</a></dd>
-                <dd><a data-url="" data-id="40" data-title="销售报表" href="javascript:;" data-options="{url:'./src/sidewards/operation/salesreport.html',title:'销售报表'}">销售报表</a></dd>
-                <dd><a data-url="" data-id="41" data-title="销售分析" href="javascript:;" data-options="{url:'./src/sidewards/operation/salesformanalysis.html',title:'销售分析'}">销售分析</a></dd>
-                <dd><a data-url="" data-id="42" data-title="财务基础报表" href="javascript:;" data-options="{url:'./src/sidewards/operation/financeform.html',title:'财务基础报表'}">财务基础报表</a></dd>
+                <dd><a data-url="" data-id="39" data-title="商品分析" href="javascript:;"
+                        data-options="{url:'./src/sidewards/operation/productanalysis.html',title:'商品分析'}">商品分析</a></dd>
+                <dd><a data-url="" data-id="40" data-title="销售报表" href="javascript:;"
+                        data-options="{url:'./src/sidewards/operation/salesreport.html',title:'销售报表'}">销售报表</a></dd>
+                <dd><a data-url="" data-id="41" data-title="销售分析" href="javascript:;"
+                        data-options="{url:'./src/sidewards/operation/salesformanalysis.html',title:'销售分析'}">销售分析</a>
+                </dd>
+                <dd><a data-url="" data-id="42" data-title="财务基础报表" href="javascript:;"
+                        data-options="{url:'./src/sidewards/operation/financeform.html',title:'财务基础报表'}">财务基础报表</a></dd>
             </dl>
         </li>
 
@@ -143,7 +217,9 @@
         <li class="layui-nav-item">
             <a href="javascript:;">风控管理</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="96" data-title="风控管理中心" href="javascript:;" data-options="{url:'./src/vertical/Scommon/Ccontrol/control2.html',title:'风控管理中心'}">风控管理中心</a></dd>
+                <dd><a data-url="" data-id="96" data-title="风控管理中心" href="javascript:;"
+                        data-options="{url:'./src/vertical/Scommon/Ccontrol/control2.html',title:'风控管理中心'}">风控管理中心</a>
+                </dd>
             </dl>
         </li>
 
@@ -151,15 +227,18 @@
         <li class="layui-nav-item">
             <a href="javascript:;">统计分析</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="97" data-title="统计分析" href="javascript:;" data-options="{url:'./src/sidewards/statistical/statistical.html',title:'统计分析'}">统计分析</a></dd>
+                <dd><a data-url="" data-id="97" data-title="统计分析" href="javascript:;"
+                        data-options="{url:'./src/sidewards/statistical/statistical.html',title:'统计分析'}">统计分析</a></dd>
 
             </dl>
         </li>
         <li class="layui-nav-item">
             <a href="javascript:;">平台管理</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="98" data-title="单据中心" href="javascript:;" data-options="{url:'./src/sidewards/platform/voucher.html',title:'单据中心'}">单据中心</a></dd>
-                <dd><a data-url="" data-id="99" data-title="在线客服" href="javascript:;" data-options="{url:'./src/sidewards/platform/service.html',title:'在线客服'}">在线客服</a></dd>
+                <dd><a data-url="" data-id="98" data-title="单据中心" href="javascript:;"
+                        data-options="{url:'./src/sidewards/platform/voucher.html',title:'单据中心'}">单据中心</a></dd>
+                <dd><a data-url="" data-id="99" data-title="在线客服" href="javascript:;"
+                        data-options="{url:'./src/sidewards/platform/service.html',title:'在线客服'}">在线客服</a></dd>
 
             </dl>
         </li>
@@ -167,19 +246,32 @@
         <li class="layui-nav-item">
             <a href="javascript:;">基础数据</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="43" data-title="部门资料" href="javascript:;" data-options="{url:'./src/sidewards/base/departmentbase.html',title:'部门资料'}">部门资料</a></dd>
-                <dd><a data-url="" data-id="44" data-title="员工资料" href="javascript:;" data-options="{url:'./src/sidewards/base/employeesdata.html',title:'员工资料'}">员工资料</a></dd>
-                <dd><a data-url="" data-id="45" data-title="供应商类别" href="javascript:;" data-options="{url:'./src/sidewards/base/suppliercategory.html',title:'供应商类别'}">供应商类别</a></dd>
-                <dd><a data-url="" data-id="46" data-title="供应商资料" href="javascript:;" data-options="{url:'./src/sidewards/base/supplierdata.html',title:'供应商资料'}">供应商资料</a></dd>
-                <dd><a data-url="" data-id="47" data-title="客户类别" href="javascript:;" data-options="{url:'./src/sidewards/base/customercategory.html',title:'客户类别'}">客户类别</a></dd>
-                <dd><a data-url="" data-id="48" data-title="客户资料" href="javascript:;" data-options="{url:'./src/sidewards/base/customerdata.html',title:'客户资料'}">客户资料</a></dd>
-                <dd><a data-url="" data-id="49" data-title="物料仓库" href="javascript:;" data-options="{url:'./src/sidewards/base/materialwarehouse.html',title:'物料仓库'}">物料仓库</a></dd>
-                <dd><a data-url="" data-id="50" data-title="物料类别" href="javascript:;" data-options="{url:'./src/sidewards/base/materialcategory.html',title:'物料类别'}">物料类别</a></dd>
-                <dd><a data-url="" data-id="51" data-title="物料维护" href="javascript:;" data-options="{url:'./src/sidewards/base/materialmaintain.html',title:'物料维护'}">物料维护</a></dd>
-                <dd><a data-url="" data-id="511" data-title="物料单位" href="javascript:;" data-options="{url:'./src/sidewards/base/materialunit.html',title:'物料单位'}">物料单位</a></dd>
-                <dd><a data-url="" data-id="523" data-title="商品类别" href="javascript:;" data-options="{url:'./src/sidewards/base/goodscategory.html',title:'商品类别'}">商品类别</a></dd>
-                <dd><a data-url="" data-id="524" data-title="上架商品" href="javascript:;" data-options="{url:'./src/sidewards/base/goodsshelves.html',title:'上架商品'}">上架商品</a></dd>
-                <dd><a data-url="" data-id="524" data-title="收货地址" href="javascript:;" data-options="{url:'./src/sidewards/base/Shippingaddress.html',title:'收货地址'}">收货地址</a></dd>
+                <dd><a data-url="" data-id="43" data-title="部门资料" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/departmentbase.html',title:'部门资料'}">部门资料</a></dd>
+                <dd><a data-url="" data-id="44" data-title="员工资料" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/employeesdata.html',title:'员工资料'}">员工资料</a></dd>
+                <dd><a data-url="" data-id="45" data-title="供应商类别" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/suppliercategory.html',title:'供应商类别'}">供应商类别</a></dd>
+                <dd><a data-url="" data-id="46" data-title="供应商资料" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/supplierdata.html',title:'供应商资料'}">供应商资料</a></dd>
+                <dd><a data-url="" data-id="47" data-title="客户类别" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/customercategory.html',title:'客户类别'}">客户类别</a></dd>
+                <dd><a data-url="" data-id="48" data-title="客户资料" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/customerdata.html',title:'客户资料'}">客户资料</a></dd>
+                <dd><a data-url="" data-id="49" data-title="物料仓库" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/materialwarehouse.html',title:'物料仓库'}">物料仓库</a></dd>
+                <dd><a data-url="" data-id="50" data-title="物料类别" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/materialcategory.html',title:'物料类别'}">物料类别</a></dd>
+                <dd><a data-url="" data-id="51" data-title="物料维护" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/materialmaintain.html',title:'物料维护'}">物料维护</a></dd>
+                <dd><a data-url="" data-id="511" data-title="物料单位" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/materialunit.html',title:'物料单位'}">物料单位</a></dd>
+                <dd><a data-url="" data-id="523" data-title="商品类别" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/goodscategory.html',title:'商品类别'}">商品类别</a></dd>
+                <dd><a data-url="" data-id="524" data-title="上架商品" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/goodsshelves.html',title:'上架商品'}">上架商品</a></dd>
+                <dd><a data-url="" data-id="524" data-title="收货地址" href="javascript:;"
+                        data-options="{url:'./src/sidewards/base/Shippingaddress.html',title:'收货地址'}">收货地址</a></dd>
                 <!-- <dd><a data-url="" data-id="52" data-title="货币类型" href="javascript:;" data-options="{url:'./src/sidewards/base/currencycategory.html',title:'货币类型'}">货币类型</a></dd>
                 <dd><a data-url="" data-id="53" data-title="收付款账户" href="javascript:;" data-options="{url:'./src/sidewards/base/accountno.html',title:'收付款账户'}">收付款账户</a></dd>
                 <dd><a data-url="" data-id="54" data-title="税目明细" href="javascript:;" data-options="{url:'./src/sidewards/base/taxdetail.html',title:'税目明细'}">税目明细</a></dd>
@@ -190,11 +282,21 @@
         <li class="layui-nav-item">
             <a href="javascript:;">系统管理</a>
             <dl class="layui-nav-child">
-                <dd><a data-url="" data-id="55" data-title="企业资料" href="javascript:;" data-options="{url:'./src/sidewards/systemmanagement/enterprisedata.html',title:'企业资料'}">企业资料</a></dd>
-                <dd><a data-url="" data-id="56" data-title="企业认证" href="javascript:;" data-options="{url:'./src/sidewards/systemmanagement/enterprisecertification.html',title:'企业认证'}">企业认证</a></dd>
-                <dd><a data-url="" data-id="57" data-title="单据设置" href="javascript:;" data-options="{url:'./src/sidewards/systemmanagement/documentsset.html',title:'单据设置'}">单据设置</a></dd>
-                <dd><a data-url="" data-id="58" data-title="角色管理" href="javascript:;" data-options="{url:'./src/sidewards/systemmanagement/rolemanagement.html',title:'角色管理'}">角色管理</a></dd>
-                <dd><a data-url="" data-id="59" data-title="角色分配" href="javascript:;" data-options="{url:'./src/sidewards/systemmanagement/roleassignment.html',title:'角色分配'}">角色分配</a></dd>
+                <dd><a data-url="" data-id="55" data-title="企业资料" href="javascript:;"
+                        data-options="{url:'./src/sidewards/systemmanagement/enterprisedata.html',title:'企业资料'}">企业资料</a>
+                </dd>
+                <dd><a data-url="" data-id="56" data-title="企业认证" href="javascript:;"
+                        data-options="{url:'./src/sidewards/systemmanagement/enterprisecertification.html',title:'企业认证'}">企业认证</a>
+                </dd>
+                <dd><a data-url="" data-id="57" data-title="单据设置" href="javascript:;"
+                        data-options="{url:'./src/sidewards/systemmanagement/documentsset.html',title:'单据设置'}">单据设置</a>
+                </dd>
+                <dd><a data-url="" data-id="58" data-title="角色管理" href="javascript:;"
+                        data-options="{url:'./src/sidewards/systemmanagement/rolemanagement.html',title:'角色管理'}">角色管理</a>
+                </dd>
+                <dd><a data-url="" data-id="59" data-title="角色分配" href="javascript:;"
+                        data-options="{url:'./src/sidewards/systemmanagement/roleassignment.html',title:'角色分配'}">角色分配</a>
+                </dd>
 
             </dl>
         </li>
@@ -209,7 +311,7 @@
         </li>
     </ul>
 
-    <div class="layui-tab" lay-allowclose="true" lay-filter="demodemo">
+    <div class="layui-tab layui-tab-all" lay-allowclose="true" lay-filter="demodemo">
         <ul class="layui-tab-title">
             <li class="layui-this" lay-id="0">首页</li>
         </ul>
@@ -422,7 +524,8 @@
                             <div class="input-item">
                                 <div class="date-title">单号:</div>
                                 <div class="date-select">
-                                    <input type="text" class="layui-input" name="s1" search-type="s1" id='s1' placeholder="请输入详细单号">
+                                    <input type="text" class="layui-input" name="s1" search-type="s1" id='s1'
+                                        placeholder="请输入详细单号">
                                 </div>
                             </div>
                             <div class="layui-form-item" style="display: none">
@@ -434,8 +537,8 @@
                             </div>
 
                             <div class="input-item">
-                                <div class="btn" lay-event="search">查询</div>
-                                <div class="btn" lay-event="reset">清除</div>
+                                <div class="btn search" lay-event="search">查询</div>
+                                <div class="btn reset" lay-event="reset">清除</div>
                             </div>
                         </div>
                         <div class="common-padding">
@@ -447,54 +550,28 @@
             </div>
         </div>
     </div>
-
-    <div class="tzvertical">安全追溯平台导航</div>
+    <!-- 底部固定区域 -->
+    <div class="layui-footer">
+        © layui.com - 底部固定区域
+        © layui.com - 底部固定区域
+        © layui.com - 底部固定区域
+        © layui.com - 底部固定区域
+    </div>
+    <!-- <div class="tzvertical">安全追溯平台导航</div> -->
 </body>
-<script>
-    console.log(getExploreName());
 
-    function getExploreName() {
-        var userAgent = navigator.userAgent;
-        if (userAgent.indexOf("Opera") > -1 || userAgent.indexOf("OPR") > -1) {
-            return 'Opera';
-        } else if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1) {
-            window.location.href = "./src/upload.html";
-            return 'IE';
-        } else if (userAgent.indexOf("Edge") > -1) {
-            return 'Edge';
-        } else if (userAgent.indexOf("Firefox") > -1) {
-            return 'Firefox';
-        } else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") == -1) {
-            return 'Safari';
-        } else if (userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Safari") > -1) {
-            return 'Chrome';
-        } else if (!!window.ActiveXObject || "ActiveXObject" in window) {
-            return 'IE>=11';
-        } else {
-            return 'Unkonwn';
-        }
-    }
-</script>
-<script src="./public/dist/layui.js" charset="utf-8"></script>
-<script src="./js/common/jquery.min.js"></script>
-<script src="./js/common/api.js"></script>
-<script src="./js/index.js"></script>
-<script>
-    if (sessions == "" || sessions == null) {
-        window.location.href = "./src/login.html";
-    }
-</script>
 
 <script>
     // 获取用户信息
     getUser();
+    console.log(sessions)
 
     function getUser(e) {
-        handleAjax('user/getUser', {}, "GET").done(function(resp) {
+        handleAjax('user/getUser', {}, "GET").done(function (resp) {
             var names = document.querySelector('.username');
             console.log(resp);
             return
-        }).fail(function(err) {
+        }).fail(function (err) {
             var names = document.querySelector('.username');
             console.log(err);
             if (err.realName || err.username) {
@@ -503,7 +580,7 @@
             return
         });
     }
-    document.querySelector('.exit').addEventListener('click', function() {
+    document.querySelector('.exit').addEventListener('click', function () {
         window.location.href = "./src/login.html";
     })
     getClientHeight();
@@ -520,7 +597,7 @@
         return clientHeight;
     }
 
-    layui.use(['element', "laydate"], function() {
+    layui.use(['element', "laydate"], function () {
         var $ = layui.jquery,
             laydate = layui.laydate,
             self = this;
@@ -531,12 +608,12 @@
         var url = '1'
 
         //监听导航点击
-        element.on('nav(header_nav)', function(elem) {
+        element.on('nav(header_nav)', function (elem) {
             console.log(elem, 'header_nav');
             console.log(elem[0].dataset.title)
-                // title = elem.context.dataset.title;
+            // title = elem.context.dataset.title;
             title = elem[0].dataset.title
-                // id = elem.context.dataset.id;
+            // id = elem.context.dataset.id;
             id = elem[0].dataset.id
             console.log(id, '121');
             var obj = eval('(' + elem[0].dataset.options + ')');
@@ -545,14 +622,17 @@
                 element.tabDelete('demodemo', id);
                 element.tabAdd('demodemo', {
                     title: title,
-                    content: '<iframe data-frameid="' + id + '" frameborder="0" name="content" scrolling="true" width="100%" height="100%" src="' + obj.url + '"></iframe>' //支持传入html
-                        ,
+                    content: '<iframe data-frameid="' + id + '" frameborder="0" name="content" scrolling="true" width="100%" height="100%" src="' + obj.url + '"></iframe>',//支持传入html
                     id: id
                 });
                 //切换到指定Tab项
                 element.tabChange('demodemo', id); //切换到：用户管理
                 $("iframe[data-frameid='" + id + "']").attr("src", $("iframe[data-frameid='" + id + "']").attr("src")) //切换后刷新框架
+            } else {
+                element.tabChange('demodemo', id); //切换到：用户管理
+                $("iframe[data-frameid='" + id + "']").attr("src", $("iframe[data-frameid='" + id + "']").attr("src")) //切换后刷新框架
             }
+
         });
 
 
@@ -565,7 +645,7 @@
         });
 
         /*退出登录*/
-        $(".exit").click(function() {
+        $(".exit").click(function () {
             window.location.href = "./src/login.html";
         })
 
@@ -577,23 +657,23 @@
     //   var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
     // });
 </script>
-<script>
+<!-- <script>
     document.querySelector('.tzvertical').addEventListener('click', function() {
         window.location.href = "./src/vertical/twoindex.html";
     })
-</script>
+</script> -->
 
 <script>
     layui.config({
         base: './js/module/'
-    }).use(['Services', 'jquery'], function() {
+    }).use(['Services', 'jquery'], function () {
         var $ = layui.jquery;
         var seeType = '';
         var dataType = 'myman';
         var typeItem = document.querySelectorAll('.select-type-item');
         for (var i = 0; i < typeItem.length; i++) {
-            (function(i) {
-                typeItem[i].addEventListener('click', function() {
+            (function (i) {
+                typeItem[i].addEventListener('click', function () {
                     document.querySelector('.select-type-show').classList.remove('select-type-show');
                     typeItem[i].classList.add('select-type-show');
                     if (i == 0) {
@@ -614,7 +694,7 @@
         function getServices() {
 
             var services = new layui.Services({
-                baseURL: baseaip,
+                baseURL: base,
                 tableId: "testdome",
                 toolbar: "#toolbarinter",
                 serachUrl: "dictionaries/query",
@@ -636,7 +716,7 @@
                         field: 's1',
                         sort: true,
                         title: '单号',
-                        templet: function(data) {
+                        templet: function (data) {
 
                             return (JSON.parse(data.context)).s1
                         }
@@ -644,7 +724,7 @@
                         field: 's2',
                         sort: true,
                         title: '简称',
-                        templet: function(data) {
+                        templet: function (data) {
 
                             return (JSON.parse(data.context)).s2
                         }
@@ -652,7 +732,7 @@
                         field: 's4',
                         sort: true,
                         title: '平台账号',
-                        templet: function(data) {
+                        templet: function (data) {
 
                             return (JSON.parse(data.context)).s4
                         }
@@ -660,7 +740,7 @@
                         field: 's2',
                         sort: true,
                         title: '单据信息',
-                        templet: function(data) {
+                        templet: function (data) {
 
                             return (JSON.parse(data.context)).s2
                         }
@@ -668,7 +748,7 @@
                         field: 's6',
                         sort: true,
                         title: '时间',
-                        templet: function(data) {
+                        templet: function (data) {
 
                             return (JSON.parse(data.context)).s6
                         }
@@ -676,7 +756,7 @@
                         field: 's3',
                         sort: true,
                         title: '状态',
-                        templet: function(data) {
+                        templet: function (data) {
                             var ret = ''
                             if ((JSON.parse(data.context)).s3 == 1) {
                                 ret = '未查看'
@@ -693,7 +773,7 @@
 
                             return ret
                         }
-                    }, ]
+                    },]
                 ],
             });
         }

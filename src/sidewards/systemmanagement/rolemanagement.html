@@ -41,6 +41,8 @@
 <script src="../../../js/common/jquery.min.js"></script>
 <script src="../../../js/common/api.js"></script>
 
+
+
 </html>
 
 <!-- 头部 -->
@@ -53,16 +55,33 @@
     </div>
 </script>
 
+
 <script>
-    layui.use(["table", "laydate", "util"], function() {
+    layui.use(["table", "laydate", "util"], function () {
         var $ = layui.jquery,
             util = layui.util,
             laydate = layui.laydate,
             table = layui.table;
 
+        var d = $.ajax({
+            url: base + 'user/getUser',
+            data: {},
+            type: "GET",
+            async: false,
+            contentType: "application/json;charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer" + " " + sessions);
+            }
+        });
+        console.log(d)
+        var name = d.responseJSON.username;
+        console.log(name)
+
+
+
 
         //监听头部监听
-        table.on('toolbar(xtRolemanagement)', function(obj) {
+        table.on('toolbar(xtRolemanagement)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id),
                 data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
@@ -92,12 +111,12 @@
 
                         noAjax("coa/delDept", {
                             id: data[0].id
-                        }, "POST").done(function(resp) {
+                        }, "POST").done(function (resp) {
                             layer.msg('操作成功', {
                                 icon: 1,
                                 time: 1000
                             });
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 tableIns.reload({
                                     where: {},
                                     page: {
@@ -107,13 +126,16 @@
                                 })
                             }, 1500)
                             return
-                        }).fail(function(err) {
+                        }).fail(function (err) {
                             console.log(err)
                         });
                     }
                     break;
             };
         });
+
+
+
 
         //发送邀请号
         function Inviteno() {
@@ -126,7 +148,7 @@
                 scrollbar: false, //窗口外滚动条是否出现
                 area: ['450px', '250px'], //宽高
                 content: '<div id="sssd"  style="margin:20px;"></div>',
-                success: function(layero, index) {
+                success: function (layero, index) {
                     var str = '<div  style="display: flex;align-items: center;justify-content: center;">' +
                         '<label>用户类型</label>' +
                         ' <select  class="select-item-select2" id="y">' +
@@ -145,7 +167,7 @@
                     $("#sssd").html(str);
 
                     //确定
-                    $(".invita").click(function() {
+                    $(".invita").click(function () {
                         if ($("#j").val() == "") {
                             layer.msg('请输入手机号', {
                                 offset: '100px',
@@ -161,29 +183,34 @@
                             $("#j").val("");
                             return false;
                         }
+                       
                         noAjax("coRegisterInvi/sendInviCode", {
                             businessType: $("#y").val(),
-                            phone: $("#j").val()
-                        }, "post").done(function(resp) {
+                            phone: $("#j").val(),
+                            webId: name
+                        }, "post").done(function (resp) {
+                            console.log(resp)
                             var ss = null;
                             if (resp.code == 10006) {
                                 ss = 1
+                                window.setTimeout(layer.closeAll(), 70000);
                             } else {
                                 ss = 2
                             }
                             layer.msg(resp.message, {
                                 icon: ss,
-                                time: 1000
+                                time: 2000
                             });
+                           
                             console.log(resp)
                             return
-                        }).fail(function(err) {
+                        }).fail(function (err) {
                             console.log(err)
                         });
                     })
 
                     //取消
-                    $(".noinvitat").click(function() {
+                    $(".noinvitat").click(function () {
                         layer.closeAll();
                     })
                 }
@@ -207,7 +234,7 @@
             },
             toolbar: "#toolbarinter",
             limits: [10, 20],
-            parseData: function(res) {
+            parseData: function (res) {
                 //res 即为原始返回的数据
                 console.log(res);
                 return {
@@ -299,7 +326,7 @@
         });
 
         /*查询*/
-        $(".search").click(function() {
+        $(".search").click(function () {
             if ($("#a").val() == "" && $("#b").val() == "") {
                 layer.msg("请输入查询条件！", {
                     time: 1000,
@@ -327,7 +354,7 @@
         });
 
         /*重置*/
-        $(".reset").click(function() {
+        $(".reset").click(function () {
             $("#a").val("");
             $("#b").val("");
             tableIns.reload({

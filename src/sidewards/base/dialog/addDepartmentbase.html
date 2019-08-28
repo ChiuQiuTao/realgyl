@@ -174,10 +174,13 @@
         var urls = window.location.search;
         urls = urls.substring(4);
         console.log(urls)
-        noAjax("coa/getLocationList", {
+        console.log(1)
+        handleAjax("coa/getDeptList", {
             id: urls
         }, "get").done(function(resp) {
-            console.log(resp.ipage.records)
+            console.log(333)
+            console.log(resp.ipage.records) 
+            console.log(2)
             if (urls != "") {
                 var ss = resp.ipage.records[0].createTime;
                 resp.ipage.records[0].createTime = ss.substring(0, 10);
